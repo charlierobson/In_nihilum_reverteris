@@ -1743,6 +1743,4 @@ time. Perhaps, indeed, the time has come to pay back the loan. We think
 that we *are*, yet, in truth, we’re merely after-images, the effect of
 the universe’s inertia. If that’s the case, then we won’t even know when
 our universe ceases to exist... And that could happen at any
-momen<span id="anchor"></span>
-
-*    *
+momen
