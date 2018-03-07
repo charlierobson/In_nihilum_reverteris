@@ -8,6 +8,7 @@
   * en-dash, left single quote, right single quote, left double quote, right double quote
 * remove utf-8 streams using:
   * cat converted.md | iconv -t ASCII//TRANSLIT > rawtext.md
+* Upload de-utf'd text for review to [@TEXT-no-utf](https://github.com/charlierobson/textgame/wiki/@Text-no-utf).
 * Run de-utf'd text through a parser - take the text and generates a file per chapter block
   * exmeta.py 
 * Compile images, music, text sections into WAD
