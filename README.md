@@ -1,9 +1,9 @@
 # Yerzmyey - In nihilum reverteris
 
-* Convert original .ODT file into github-flavoured markdown using [PANDOC](https://pandoc.org/).
-  * pandoc -f odt -t gfm [original text].odt --wrap=none > y2.md
+* Convert original .ODT file into github-flavoured markdown using [PANDOC](https://pandoc.org/)
+  * pandoc -f odt -t gfm \[original text\].odt --wrap=none > y2.md
 * Correct minor conversion niggles such as the asterisk ellipses and anchor span at the end of the document.
-* Upload converted text for review to [@TEXT](https://github.com/charlierobson/textgame/wiki/@-Text) page.
+* [Check the converted text]()
 * Run converted text through the parser - take the text and generates a file per chapter block
   * exmeta.py converted.md
 * UTF-8 characters found are dumped so that suitable font entries and conversion code can be made. See table 1.
