@@ -1,7 +1,7 @@
 # Yerzmyey - In nihilum reverteris
 
 * Convert original .ODT file into github-flavoured markdown using [PANDOC](https://pandoc.org/)
-  * pandoc -f odt -t gfm \[original text\].odt --wrap=none > y2.md
+  * pandoc -f odt -t gfm \[original text\].odt --wrap=none > converted.md
 * Correct minor conversion niggles such as the asterisk ellipses and anchor span at the end of the document.
 * Commit in the converted text.
 * [Check the converted text](https://github.com/charlierobson/textgame/blob/master/converted.md)
