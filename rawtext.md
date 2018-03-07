@@ -166,7 +166,7 @@ Karl had known him for years and was well aware of the fact that it was sometime
 
 Einarsson smiled to himself.
 
-"The reflections can often be imprecise," he remarked. "They can contain defects. Anyway, it's always fascinated me how suspiciously close the ancient thinkers were to modern science... and sometimes even to the truth in itself. Let's take... Democritus of Andera, who developed his atomic theory of the world before Christ was ever born... Anaximander, who admitted the existence of numerous worlds emerging in parallel in the *apeiron*... in a manner disturbingly close to modern research into the laws of quantum physics, which indicate that they not only exist in parallel to our universe, but exert a mutual influence on each other, as well. I sometimes have the impression that they weren't pioneers, but actually reality is slowly adapting itself to our imaginations and expectations... that we're laboriously carving it out with our own minds... Maybe Earth really was flat thousands of years ago...?"
+"The reflections can often be imprecise," he remarked. "They can contain defects. Anyway, it's always fascinated me how suspiciously close the ancient thinkers were to modern science... and sometimes even to the truth in itself. Let's take... Democritus of Andera, who developed his atomic theory of the world before Christ was ever born... Anaximander, who admitted the existence of numerous worlds emerging in parallel in the *apeiron*... in a manner disturbingly close to modern research into the laws of quantum physics, which indicate that they not only exist in parallel to our universe, but exert a mutual influence on each other, as well. I sometimes have the impression that they weren't pioneers, but rather reality was slowly adapting itself to our imaginations and expectations... that we're laboriously carving it out with our own minds... Maybe Earth really was flat thousands of years ago...?"
 
 He broke off and rummaged noisily around the room in the ensuing pause before finally succeeded in his quest to light a small, blackened pipe. When he continued, his face was almost entirely veiled in smoke.
 
@@ -228,7 +228,7 @@ He thought of his parents with growing frequency, particularly of his father. We
 
 And that's when we're lucky. Because sometimes we don't even recall our deceased nearest and dearest as they were in life at all. For if it so happens that we're there at their death, then that crushing sight will stay with us for ever and it overpowers, conquers and smothers the earlier, good and happy memories.
 
-They say that the warriors of yore would rather die on the field of battle than of old age in their beds. This is ascribed to the categories of heroism and courage. Karl didn't believe it had anything to do with either the one or the other. On the contrary. They'd simply known all too well which was the more dreadful... to die, infirm and decrepit, of old age or suddenly, in battle. So this had by no means been heroism, but a *de facto* escape.
+They say that the warriors of yore would rather die on the field of battle than of old age in their beds. This is ascribed to the categories of heroism and courage. Karl didn't believe it had anything to do with either the one or the other. On the contrary. They'd simply known all too well which was the more dreadful... to die, infirm and decrepit, of old age or suddenly, in battle. So this had by no means been heroism, but a *de facto *escape.
 
 He'd always wondered whether, if he were to meet a sudden death, in an accident, for instance, he'd die with a cry of 'Oh, God\!' or of 'Fucking hell\!' However, once he'd finally decided that he was going to go out on his own terms and avail himself of the 9 mm Luger P08 that had been in their family for generations... it turned out that \[1he went without a single word\].
 
@@ -270,7 +270,7 @@ Anton laughed, though a touch nervously.
 
 A
 
-They made their way slowly through the town and Karl was dismayed as he assessed the extent of the decline in the structure of reality. There was almost no traffic. Pedestrians were a rarity. The buildings which still remained were intermittent. The district looked like the jaw of a man who'd been smacked hard in the face with an iron and lost every other tooth.
+They made their way slowly through the town and Karl was dismayed as he assessed the extent of the decline in the structure of reality. There was almost no traffic. Pedestrians were a rarity. The buildings which still remained were intermittent. The district looked like the jaw of a man who'd been smacked hard in the face with an iron and lost every other tooth.* *
 
 In order to distract himself and stop thinking about this, if only for a moment, Karl tackled a different topic.
 
@@ -668,6 +668,6 @@ He suddenly felt an extraordinary sense of peace. He was finally done with fight
 
 In the meantime, Benedikt was continuing his cogitations.
 
-"It's not inconceivable that we're living in a mirror image as the light is dying. In what might have been... yet didn't happen. *In* borrowed time. Perhaps, indeed, the time has come to pay back the loan. We think that we *are*, yet, in truth, we're merely after-images, the effect of the universe's inertia. If that's the case, then we won't even know when our universe ceases to exist... And that could happen at any momen
+"It's not inconceivable that we're living in a mirror image as the light is dying. In what might have been... yet didn't happen. *In* borrowed time. Perhaps, indeed, the time has come to pay back the loan. We think that we *are*, yet, in truth, we're merely after-images, the effect of the universe's inertia. If that's the case, then we won't even know when our universe ceases to exist... And that could happen at any momen<span id="anchor"></span>
 
-\* \* \*
+*    *

@@ -37,6 +37,6 @@ He suddenly felt an extraordinary sense of peace. He was finally done with fight
 
 In the meantime, Benedikt was continuing his cogitations.
 
-"It's not inconceivable that we're living in a mirror image as the light is dying. In what might have been... yet didn't happen. *In* borrowed time. Perhaps, indeed, the time has come to pay back the loan. We think that we *are*, yet, in truth, we're merely after-images, the effect of the universe's inertia. If that's the case, then we won't even know when our universe ceases to exist... And that could happen at any momen
+"It's not inconceivable that we're living in a mirror image as the light is dying. In what might have been... yet didn't happen. *In* borrowed time. Perhaps, indeed, the time has come to pay back the loan. We think that we *are*, yet, in truth, we're merely after-images, the effect of the universe's inertia. If that's the case, then we won't even know when our universe ceases to exist... And that could happen at any momen<span id="anchor"></span>
 
-\* \* \*
+*    *

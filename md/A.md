@@ -1,5 +1,5 @@
 
-They made their way slowly through the town and Karl was dismayed as he assessed the extent of the decline in the structure of reality. There was almost no traffic. Pedestrians were a rarity. The buildings which still remained were intermittent. The district looked like the jaw of a man who'd been smacked hard in the face with an iron and lost every other tooth.
+They made their way slowly through the town and Karl was dismayed as he assessed the extent of the decline in the structure of reality. There was almost no traffic. Pedestrians were a rarity. The buildings which still remained were intermittent. The district looked like the jaw of a man who'd been smacked hard in the face with an iron and lost every other tooth.* *
 
 In order to distract himself and stop thinking about this, if only for a moment, Karl tackled a different topic.
 
