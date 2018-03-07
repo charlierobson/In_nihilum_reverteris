@@ -3,10 +3,15 @@
 * Convert original .ODT file into github-flavoured markdown using [PANDOC](https://pandoc.org/)
   * pandoc -f odt -t gfm \[original text\].odt --wrap=none > y2.md
 * Correct minor conversion niggles such as the asterisk ellipses and anchor span at the end of the document.
-* [Check the converted text]()
+* Commit in the converted text.
+* [Check the converted text](https://github.com/charlierobson/textgame/blob/master/converted.md)
 * Run converted text through the parser - take the text and generates a file per chapter block
   * exmeta.py converted.md
-* UTF-8 characters found are dumped so that suitable font entries and conversion code can be made. See table 1.
+* Commit the text blocks.
+* UTF-8 characters found are dumped so that suitable font entries and conversion code can be made.
+  * Compare list to Table 1. Update table if required.
+
+Todo:  
 * Compile images, music, text sections into WAD
 * Just write a player
   
