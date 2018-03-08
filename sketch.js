@@ -1,30 +1,54 @@
 var img;
+var fontBitmap;
+var chapter;
 var font;
-var glyphs = [];
+var worder;
 
 function preload() {
-  img = loadImage('./bmp/0START.bmp');
-  font = loadImage('textgame.bmp')
+  fontBitmap = loadImage('textgame.bmp');
+
+  img = loadImage('bmp/0START.bmp');
+  chapter = loadStrings('md/0.md');
 }
 
 function setup() {
   createCanvas(256,192);
-  for (var y = 1; y < 8; ++y) {
-    for (var x = 0; x < 32; ++x) {
-      let i = createImage(6,11);
-      i.copy(font, x * 6, y * 11, 6, 11, 0, 0, 6, 11);
-      glyphs.push(i);
+
+  font = new Font(fontBitmap, 6, 11);
+  font.createGlyphs();
+
+  worder = new Slicer(chapter.join('\n'));
+
+  var x = 0;
+  var y = 0;
+
+  var word = worder.peekWord();
+  while(word != '' && y < height - 11) {
+    var w = font.wordWidth(word);
+    var spaceLeft = (width - x) >= w;
+    if (w != 0) {
+      if (!spaceLeft) {
+        x = 0;
+        y += 11;
+        if (word[0] == ' ') {
+          word = word.substring(1);
+        }
+      }
+      if(y < height - 11) for(i in word) {
+        image(font.glyph(word.charCodeAt(i)), x, y);
+        print(x, font.glyphWidth(word.charCodeAt(i)));
+        x += font.glyphWidth(word.charCodeAt(i));
+      }
     }
+    else if (word == '\n') {
+      x = 0;
+      y += 11;
+    }
+
+    worder.popWord();
+    word = worder.peekWord();
   }
 }
 
 function draw() {
-  let x = 8;
-  let s = "HELLO WORLD! Now this is quite something!";
-  for (var i = 0; i < s.length; i++) {
-    let c = s.charCodeAt(i) - 32;
-    image(glyphs[c], x, 0);
-    x = x + 6;
-  }
-  image(img, 0, 16);
 }
