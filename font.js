@@ -38,11 +38,8 @@ function Font(bitmap, gw, gh) {
   
     this.sanitise = function(code) {
         if (code > 255) {
-            if (code == 8217) { 
-                return 0xa5;
-            }
-            print(code);
-            return 0;
+            code = -byte(code)
+            code += 128
         }
         return code;
     }
