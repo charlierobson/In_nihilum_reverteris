@@ -1,6 +1,28 @@
 import re
 import sys
 
+twobyte   = {0xa0: 0x86, 0xa1: 0x87, 0xa2: 0x88, 0xa8: 0x89, 0xa9: 0x8a, 0xaa: 0x8b, 0xb6: 0x85}
+threebyte = {0x93: 0x84, 0x98: 0x82, 0x99: 0x83, 0x9c: 0x80, 0x9d: 0x81}
+
+def sanitise(s):
+    b = bytearray()
+    b.extend(s)
+    bb = 0
+    outS = ''
+    while bb < len(b):
+        bo = b[bb]
+        if bo > 0x7f:
+            if (bo & 0xf0) == 0xc0: # 2 byte
+                bo = twobyte[b[bb+1]]
+                bb += 1
+            if (bo & 0xf0) == 0xe0: # 3 byte
+                bo = threebyte[b[bb+2]]
+                bb += 2
+        if bo != 0:
+            outS += chr(bo)
+        bb += 1
+    return outS
+
 def showUTF(s, m):
     b = bytearray()
     b.extend(s)
@@ -23,7 +45,6 @@ def showUTF(s, m):
                 m.add(str(b[bb:bb+3]))
                 bb = bb + 2
         bb = bb + 1
-    return
 
 
 if len(sys.argv) < 2:
@@ -55,8 +76,8 @@ for s in content:
         keyName = s.strip()
     else:
         # accumulate some text
-        textData.append(s)
         showUTF(s, m)
+        textData.append(sanitise(s))
 
     # snaffle up the last block
     blocks[keyName] = textData

@@ -1,61 +1,61 @@
 
 They made their way slowly toward the restaurant where Anton had arranged for them to meet his acquaintance, Anna Koenig, who was a doctor of theology and, at one and the same time, a militant creationist.
 
-â€œIâ€™m really not convinced that this is the right track,â€ Karl muttered as they walked along. â€œYou know what they say about all religious fanatics... to them, truth, understood as a description of an actual state, constitutes a personal affront.â€
+€Iƒm really not convinced that this is the right track, Karl muttered as they walked along. €You know what they say about all religious fanatics... to them, truth, understood as a description of an actual state, constitutes a personal affront.
 
-â€œIt was you who said â€˜since rational solutions have failed usâ€™...â€
+€It was you who said ‚since rational solutions have failed usƒ...
 
-â€œYes, yes, I know. Very well, then.â€
+€Yes, yes, I know. Very well, then.
 
 They walked on in silence for a minute. Karl was trying to assess just how many elements of reality had now been subject to dematerialisation. The town was noticeably less densely built-up than it had been only the previous day. The traffic was practically indiscernible.
 
 Finally, Karl turned to a new topic of conversation, chiefly in order to take his mind off his growing sense of fear for a moment.
 
-â€œDo you know her personally? Can you go into any detail? How does she behave? What does she look like? Sheâ€™s bound to take us for lunatics.â€
+€Do you know her personally? Can you go into any detail? How does she behave? What does she look like? Sheƒs bound to take us for lunatics.
 
-â€œAh, well, a tall, gorgeous redhead...â€
+€Ah, well, a tall, gorgeous redhead...
 
 Karl gave his brother a suspicious glance.
 
-â€œNot so long ago, your basic criterion for judging female beauty was â€˜What a looker\! Like something out of a porn flick\!â€™...â€
+€Not so long ago, your basic criterion for judging female beauty was ‚What a looker\! Like something out of a porn flick\!ƒ...
 
-â€œOf course. It still is. Thereâ€™s no reason to go changing an efficient system of evaluation.â€
+€Of course. It still is. Thereƒs no reason to go changing an efficient system of evaluation.
 
-â€œAnd youâ€™re surprised youâ€™re still single.â€
+€And youƒre surprised youƒre still single.
 
 Anton shrugged.
 
-â€œIâ€™m not surprised at all. Iâ€™m not a child. I know very well that life can never compare to good cinema.â€
+€Iƒm not surprised at all. Iƒm not a child. I know very well that life can never compare to good cinema.
 
-It turned out that Anna was already waiting for them and it became clear that Antonâ€™s description of her had been spot on, at any rate. It could even be said to have hovered on the borders of understatement.
+It turned out that Anna was already waiting for them and it became clear that Antonƒs description of her had been spot on, at any rate. It could even be said to have hovered on the borders of understatement.
 
-Contrary to Karlâ€™s fears, she heard them out with genuine interest.
+Contrary to Karlƒs fears, she heard them out with genuine interest.
 
-â€œI donâ€™t think that whatâ€™s happened to you is at all impossible or even unbelievable,â€ she said once theyâ€™d finished. â€œBut then... what Iâ€™m involved in is whatâ€™s known as Young Earth Creationism. We build our theory on the basis of a biblical interpretation whereby it is evident that our planet is less than six thousand years old... or nine, at the most. Earth, humankind and all life on Earth was created by God in six days. It was then that He made the basic forms of living organisms... the â€˜baraminsâ€™ or â€˜created kindsâ€™. They donâ€™t originate from a common ancestor at all, as ridiculous evolutionary theory has it. More specifically... those baramins, those independently created *fauna *and *flora*, can change slightly under the impact of stimuli flowing from the environment, for instance, or as a result of various mutations, but only within a highly limited scope. And so I can assure you that monkeys and humans donâ€™t have a common ancestor... not at all.â€ She smiled with such charm that, if Karl had been standing, his knees would have almost given way beneath him.
+€I donƒt think that whatƒs happened to you is at all impossible or even unbelievable, she said once theyƒd finished. €But then... what Iƒm involved in is whatƒs known as Young Earth Creationism. We build our theory on the basis of a biblical interpretation whereby it is evident that our planet is less than six thousand years old... or nine, at the most. Earth, humankind and all life on Earth was created by God in six days. It was then that He made the basic forms of living organisms... the ‚baraminsƒ or ‚created kindsƒ. They donƒt originate from a common ancestor at all, as ridiculous evolutionary theory has it. More specifically... those baramins, those independently created *fauna *and *flora*, can change slightly under the impact of stimuli flowing from the environment, for instance, or as a result of various mutations, but only within a highly limited scope. And so I can assure you that monkeys and humans donƒt have a common ancestor... not at all. She smiled with such charm that, if Karl had been standing, his knees would have almost given way beneath him.
 
-â€œIn that case, how do you explain species dying out?â€ Anton asked. â€œLetâ€™s take the classic example of the dinosaurs.â€
+€In that case, how do you explain species dying out? Anton asked. €Letƒs take the classic example of the dinosaurs.
 
-â€œItâ€™s easy to explain by global catastrophes like the biblical Flood... and similar,â€ Anna replied like a shot, brushing a curly lock of auburn hair away from her face with a subtle gesture which had Karl thanking his lucky stars that he was firmly seated on his chair.
+€Itƒs easy to explain by global catastrophes like the biblical Flood... and similar, Anna replied like a shot, brushing a curly lock of auburn hair away from her face with a subtle gesture which had Karl thanking his lucky stars that he was firmly seated on his chair.
 
-â€œHowever,â€ she continued, â€œfirst and foremost, we maintain that the universe was created by God from nothing, in accordance with the principle of *creatio ex nihilo*. So itâ€™s not inconceivable that, at the end of the world, the universe could return to that *nihil*. Moreover, since it was created gradually, it might also cease to exist in the same way.â€
+€However, she continued, €first and foremost, we maintain that the universe was created by God from nothing, in accordance with the principle of *creatio ex nihilo*. So itƒs not inconceivable that, at the end of the world, the universe could return to that *nihil*. Moreover, since it was created gradually, it might also cease to exist in the same way.
 
 Karl and Anton immediately pricked up their ears.
 
-â€œIn that case, whyâ€™s the phenomenon only being perceived by one person?\!â€ Anton enquired.
+€In that case, whyƒs the phenomenon only being perceived by one person?\! Anton enquired.
 
-â€œGod is merciful. He could be shielding the fact that the Apocalypse is beginning from our eyes,â€ Anna responded. Then, in an unusually calm and gentle tone, she added, â€œSince itâ€™s only your brother who can see the end approaching, heâ€™s undoubtedly Godâ€™s Prophet.â€
+€God is merciful. He could be shielding the fact that the Apocalypse is beginning from our eyes, Anna responded. Then, in an unusually calm and gentle tone, she added, €Since itƒs only your brother who can see the end approaching, heƒs undoubtedly Godƒs Prophet.
 
 Karl experienced a sudden rush of heat. He felt that he had to get away from the table without further ado. He wanted to be alone for a minute, to gather himself together.
 
-â€œExcuse me for a moment,â€ he said. â€œI must just go and powder my nose.â€
+€Excuse me for a moment, he said. €I must just go and powder my nose.
 
-He walked into the toilet, turned on the tap and immersed his hands and face in cold water. The world was spinning in front of his eyes. â€˜Prophet? What fucking prophet?\!â€™ he thought feverishly. â€˜What apocalypse?\! Itâ€™s sheer madness\!â€™
+He walked into the toilet, turned on the tap and immersed his hands and face in cold water. The world was spinning in front of his eyes. ‚Prophet? What fucking prophet?\!ƒ he thought feverishly. ‚What apocalypse?\! Itƒs sheer madness\!ƒ
 
 When he returned to the table some ten or so minutes later, Anton was sitting there alone.
 
-â€œWhereâ€™s Anna? Has she left? That quickly?â€ Karl asked.
+€Whereƒs Anna? Has she left? That quickly? Karl asked.
 
-â€œAnna? What Anna?â€ Anton looked genuinely alarmed. â€œAre you feeling all right? You walked off so suddenly. I mean, we arranged to meet here to decide how to proceed. Weâ€™re going to go into the Mandela effect and the cyberpunk sect in depth. Donâ€™t you remember?â€
+€Anna? What Anna? Anton looked genuinely alarmed. €Are you feeling all right? You walked off so suddenly. I mean, we arranged to meet here to decide how to proceed. Weƒre going to go into the Mandela effect and the cyberpunk sect in depth. Donƒt you remember?
 
 Without so much as a word, Karl dashed out of the restaurant and \[Dfled for home as fast as his legs would carry him\].
 

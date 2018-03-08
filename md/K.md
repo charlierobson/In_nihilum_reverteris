@@ -1,42 +1,42 @@
 
 It has to be admitted that Karl felt an overwhelming desire to go home and drink himself to death... or, at any rate, to try with all his might to do so. However, it turned out that there was now no possibility of heading that way on account of an enormous black hole in reality. The dark chasm was approximately the size of a sports stadium. There were more and more of them opening up at random. Willing or not, Karl set off to meet the professor.
 
-When he arrived, he saw that an entire group of buildings had so far survived in this part of the town... and that Professor Benediktâ€™s was one of them. The scientist didnâ€™t answer the door, so after repeatedly ringing the bell and knocking, Karl pressed down on the handle. The door yielded with a dismal creak. 
+When he arrived, he saw that an entire group of buildings had so far survived in this part of the town... and that Professor Benediktƒs was one of them. The scientist didnƒt answer the door, so after repeatedly ringing the bell and knocking, Karl pressed down on the handle. The door yielded with a dismal creak. 
 
 Inside, darkness reigned. The interior was cold. The power station had undoubtedly vanished by now, while the Sun was evidently slowly coming to the end of its life. The ancient scholar was sitting, motionless, in a rocking chair, a blanket covering him. He was staring at the television screen. The television was turned off. Karl went over to the old man and touched his shoulder.
 
-â€œProfessor...?â€
+€Professor...?
 
-The scientist twitched. It was clear that he hadnâ€™t even noticed his visitor until now. He seemed utterly distracted.
+The scientist twitched. It was clear that he hadnƒt even noticed his visitor until now. He seemed utterly distracted.
 
-â€œIâ€™ve been wondering...â€ he said, still staring at the television screen, â€œ...what that item of furniture could be for. I have the feeling that its function is ornamental, but... I canâ€™t call the details to mind... Oh, well, old age is probably setting in.â€
+€Iƒve been wondering... he said, still staring at the television screen, €...what that item of furniture could be for. I have the feeling that its function is ornamental, but... I canƒt call the details to mind... Oh, well, old age is probably setting in.
 
 Karl had to devote a good fifteen or so minutes to getting Benedikt to return to his senses. He did everything he possibly could to haul his mind back to reality. As he was talking about the events of recent weeks, he constantly cast nervous glances through the window... he had the impression that the house was now standing on a small island amidst a sea of absolute blackness.
 
-â€œDo you know the theory of the infinite number of worlds?â€ asked the Professor, who had finally managed to concentrate.
+€Do you know the theory of the infinite number of worlds? asked the Professor, who had finally managed to concentrate.
 
 Karl shook his head wordlessly.
 
-â€œY-e-e-e-s...â€ the old man muttered, half to himself. â€œIt was proposed, back in the day, by Hugh Everett III, in the context of the principles of quantum mechanics. Reality is multiplicity. Infinite multiplicity gives an infinite degree of complexity... From what youâ€™ve said... even one reality was put together in a way that was unimaginable to us, to say nothing of an infinity of them. And what if theyâ€™re purely potential in nature? Then thereâ€™d be only one point of the present and it would move obdurately forward in line with the passing of time. Choices are made, decisions are taken and events... are established, described, confirmed, as it were, by the decisions we make...â€ 
+€Y-e-e-e-s... the old man muttered, half to himself. €It was proposed, back in the day, by Hugh Everett III, in the context of the principles of quantum mechanics. Reality is multiplicity. Infinite multiplicity gives an infinite degree of complexity... From what youƒve said... even one reality was put together in a way that was unimaginable to us, to say nothing of an infinity of them. And what if theyƒre purely potential in nature? Then thereƒd be only one point of the present and it would move obdurately forward in line with the passing of time. Choices are made, decisions are taken and events... are established, described, confirmed, as it were, by the decisions we make... 
 
-â€œI donâ€™t quite understand what thatâ€™s got to do with...â€ Karl began, but the venerable physicist interrupted him with an impatient gesture.
+€I donƒt quite understand what thatƒs got to do with... Karl began, but the venerable physicist interrupted him with an impatient gesture.
 
-â€œConsider... what would go on with all those potential realities which have never come into being because such-and-such decisions or other such such-and-such decisions havenâ€™t been taken? What happens to stations... if youâ€™ll forgive an old man a paltry parable... which no â€˜train of the presentâ€™ has ever passed through or will ever pass through in the future?â€
+€Consider... what would go on with all those potential realities which have never come into being because such-and-such decisions or other such such-and-such decisions havenƒt been taken? What happens to stations... if youƒll forgive an old man a paltry parable... which no ‚train of the presentƒ has ever passed through or will ever pass through in the future?
 
-Karl was now starting to see where the conversation was going... and he didnâ€™t like it one bit. Benedikt must have spotted this, because he continued in a far livelier manner and with a kind of morbid satisfaction.
+Karl was now starting to see where the conversation was going... and he didnƒt like it one bit. Benedikt must have spotted this, because he continued in a far livelier manner and with a kind of morbid satisfaction.
 
-â€œIf whatâ€™s happened is as youâ€™ve described it, then it means that reality was a creation of well-nigh infinite complexity. It could be assumed that a system of such great complexity doesnâ€™t vanish all at once. Particularly when trillions of similar creations are vanishing right alongside. I think that, in this case, decay and disappearance would require time. And that is, perhaps, what you can see... youâ€™re observing, with a certain delay, the fact of the unbirth of our version of reality.
+€If whatƒs happened is as youƒve described it, then it means that reality was a creation of well-nigh infinite complexity. It could be assumed that a system of such great complexity doesnƒt vanish all at once. Particularly when trillions of similar creations are vanishing right alongside. I think that, in this case, decay and disappearance would require time. And that is, perhaps, what you can see... youƒre observing, with a certain delay, the fact of the unbirth of our version of reality.
 
-â€œBut...â€ Karl was barely able to choke out a single word, â€œ...in that case, why is it only me who can see the degradation of the universe?â€
+€But... Karl was barely able to choke out a single word, €...in that case, why is it only me who can see the degradation of the universe?
 
-â€œWho knows...?â€ The old man thought for a moment. â€œIt might have happened in that way because it was one of your decisions that led to the present heading along a different track from the one weâ€™re on.â€
+€Who knows...? The old man thought for a moment. €It might have happened in that way because it was one of your decisions that led to the present heading along a different track from the one weƒre on.
 
-Aghast, Karl thought back to the day when it had all begun. To the day when heâ€™d decided to give his relationship with Judith another chance. Now he could see what That Other Karl had decided. Heâ€™d walked out. Heâ€™d left her.
+Aghast, Karl thought back to the day when it had all begun. To the day when heƒd decided to give his relationship with Judith another chance. Now he could see what That Other Karl had decided. Heƒd walked out. Heƒd left her.
 
-He suddenly felt an extraordinary sense of peace. He was finally done with fighting, with running around in circles. He had long since realised that his world had no *raison dâ€™Ãªtre *without Judith. He knew that, even though The Otherâ€™s world existed, without her, it would be as empty and dark as the emptiness and darkness that would soon fall here. â€˜It could be said that, in a way, accounts have been settled,â€™ he thought, without a shadow of emotion. Well, who knows, perhaps emotions had ceased to exist, too? 
+He suddenly felt an extraordinary sense of peace. He was finally done with fighting, with running around in circles. He had long since realised that his world had no *raison dƒ‹tre *without Judith. He knew that, even though The Otherƒs world existed, without her, it would be as empty and dark as the emptiness and darkness that would soon fall here. ‚It could be said that, in a way, accounts have been settled,ƒ he thought, without a shadow of emotion. Well, who knows, perhaps emotions had ceased to exist, too? 
 
 In the meantime, Benedikt was continuing his cogitations.
 
-â€œItâ€™s not inconceivable that weâ€™re living in a mirror image as the light is dying. In what might have been... yet didnâ€™t happen. *In* borrowed time. Perhaps, indeed, the time has come to pay back the loan. We think that we *are*, yet, in truth, weâ€™re merely after-images, the effect of the universeâ€™s inertia. If thatâ€™s the case, then we wonâ€™t even know when our universe ceases to exist... And that could happen at any momen<span id="anchor"></span>
+€Itƒs not inconceivable that weƒre living in a mirror image as the light is dying. In what might have been... yet didnƒt happen. *In* borrowed time. Perhaps, indeed, the time has come to pay back the loan. We think that we *are*, yet, in truth, weƒre merely after-images, the effect of the universeƒs inertia. If thatƒs the case, then we wonƒt even know when our universe ceases to exist... And that could happen at any momen<span id="anchor"></span>
 
 *    *
