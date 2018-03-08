@@ -36,7 +36,6 @@ function setup() {
       }
       if(y < height - 11) for(i in word) {
         image(font.glyph(word.charCodeAt(i)), x, y);
-        print(x, font.glyphWidth(word.charCodeAt(i)));
         x += font.glyphWidth(word.charCodeAt(i));
       }
     }
