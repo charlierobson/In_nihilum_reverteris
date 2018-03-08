@@ -17,7 +17,7 @@ Along the way, Karl threw a few coins to a beggar standing by a shop. ÇHe'd bett
 
 ÄHow come?Å Anton gazed at him in astonishment.
 
-ÄIn the usual course of things. I left and it seemed courteous to say goodbye. A woman deserves respect. And anyway, a touch of good manners never killed anyone yet, you boor\!Å
+ÄIn the usual course of things. I left and it seemed courteous to say goodbye. A woman deserves respect. And anyway, a touch of good manners never killed anyone yet, you boor!Å
 
 They had now arrived at their destination. There wasnÉt so much as an inch of the building that wasnÉt covered in graffiti. Slogans leapt out at them from the walls; ÇYou are someoneÉs tamagotchiÉ, ÇLeaving the game is a deadly sinÉ and the like. With thoughts of sects in mind, Karl had been expecting figures gliding around in silence, clad in habits or gauzy robes at the very least. The sight that greeted them, though, was a gaudy, vociferous rabble encamped both outside the entrance and inside. People of both sexes rocking the cybergoth look were gaming, most often on handheld devices or on computers or home consoles in the various rooms. Some were enthusiastically taking drugs in various forms and some were having sex in public.
 
@@ -45,5 +45,5 @@ The abbot gave him a reproving look. ÄA non-player character, of course. Charact
 
 In the end, the abbot stated that KarlÉs problem was of absolutely no interest to him and that he wasnÉt going to devote any more time to non-existent people because he had to collect more game points. Concerned that this might mean they were about to become a way for him to acquire more frags, the brothers hurriedly left the building. 
 
-It was now so late that they arranged to continue their quest the next day. \[DKarl resignedly set off home\].
+It was now so late that they arranged to continue their quest the next day. [DKarl resignedly set off home].
 

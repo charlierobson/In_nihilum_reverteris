@@ -17,7 +17,13 @@ function Slicer(text) {
             word = '\n';
         }
         else {
-            word = sub.match(this.wordFinder)[0];
+            var match = sub.match(this.wordFinder);
+            if (match) {
+                word = match[0];
+            }
+            else {
+                word = '';
+            }
         }
 
         this.lastWord = word;

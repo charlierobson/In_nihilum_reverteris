@@ -42,6 +42,18 @@ function draw() {
 
   var word = worder.peekWord();
   while(word != '' && y < height - 11) {
+
+    if (word[1] == '[') {
+      let jump = word[2];
+      print("jump to " + jump);
+      word = ' ' + word.substr(3);
+    }
+
+    var iob = word.indexOf(']');
+    if (iob > -1) {
+      word = word.slice(0, iob) + word.substr(iob+1);
+    }
+
     let w = font.wordWidth(word);
     var spaceLeft = (width - x) >= w;
     if (word == '\n' || !spaceLeft) {

@@ -31,7 +31,7 @@ Karl cleared his throat and started to read, trying to convey the tone of his fe
 
 *He didnÉt say anything for a long moment. Finally, though, he spoke.*
 
-*ÄListen... I woke up this morning and... IÉve been walking around the town for several hours now... Looking around... And there isnÉt one... thereÉs not even one\! I donÉt know... Where have the trees in the clouds gone?*
+*ÄListen... I woke up this morning and... IÉve been walking around the town for several hours now... Looking around... And there isnÉt one... thereÉs not even one! I donÉt know... Where have the trees in the clouds gone?*
 
 Karl finished reading.
 
@@ -41,7 +41,7 @@ Judith wasnÉt there. He stared at the immaculately made, utterly empty bed. Then
 
 He had absolutely no idea what to do. He searched feverishly for his mobile phone and selected Anton's number from his speed dial. Ç*The number you have dialled does not exist*. *The number you have dialled does not exist.*É He disconnected. He didnÉt have a shadow of doubt about what that meant. There was no Anton now. He fell inertly onto the bed.
 
-\* \* \*
+* * *
 
 Almost two weeks had passed. He was drinking almost non-stop. He never went out. In fact, he barely even got out of bed. Mess and semi-darkness reigned in the house.
 
@@ -61,7 +61,7 @@ He struggled to his feet and, with difficulty, staggered to the toilet. The soun
 
 ÄCome round to my lab. I think IÉm on to something....Å But that was all there was. The words were followed by an explosion and a scream.
 
-Karl collapsed into an armchair with resignation and mused at length over whether he should \[Fhead over to VloshinÉs laboratory\] or finish the bottle and not take any action... whatever it might be... until the next day. Or in a weekÉs time. \[GOr whenever he acknowledged that it was of any consequence whatsoever\]. 
+Karl collapsed into an armchair with resignation and mused at length over whether he should [Fhead over to VloshinÉs laboratory] or finish the bottle and not take any action... whatever it might be... until the next day. Or in a weekÉs time. [GOr whenever he acknowledged that it was of any consequence whatsoever]. 
 
 Ä*...I want a nigger hidinÉ in a bowl of rice, ready to pop a cap in his ass...*Å
 

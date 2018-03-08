@@ -3,7 +3,7 @@ Only a few weeks earlier, the church had been part of an entire group of buildin
 
 The side chapel in the church was empty, dark and silent.
 
-ÄHello?\!Å Karl called. His own voice seemed spectral to him in the silence and a long, drawn-out echo drifted through the space, sending a chill up his spine. ÄIs there anybody here?Å
+ÄHello?!Å Karl called. His own voice seemed spectral to him in the silence and a long, drawn-out echo drifted through the space, sending a chill up his spine. ÄIs there anybody here?Å
 
 A distant sound drifted towards him and then, from behind a row of columns, a priest emerged in the side nave.
 
@@ -27,11 +27,11 @@ Karl wasnÉt an overly pious man. HeÉd read a large enough portion of the Bible t
 
 ÄIÉd be interested to know which one,Å Karl muttered. The priest stared at him in astonishment.
 
-ÄWhat do you mean, Çwhich oneÉ? Is this some kind of blasphemous joke?\! There is only *one *Testament\!Å
+ÄWhat do you mean, Çwhich oneÉ? Is this some kind of blasphemous joke?! There is only *one *Testament!Å
 
 Karl left the chapel without uttering a word.
 
-He stood outside the church for a moment and wondered what else he might, in fact, do. To be sure, \[KProfessor Benedikt, the last of the scientists Karl had consulted about his books\], was an eccentric old man... providing the venerable scholar still existed, that is..., but it looked as if all the other options had now been exhausted.
+He stood outside the church for a moment and wondered what else he might, in fact, do. To be sure, [KProfessor Benedikt, the last of the scientists Karl had consulted about his books], was an eccentric old man... providing the venerable scholar still existed, that is..., but it looked as if all the other options had now been exhausted.
 
-Before he walked off, Karl gazed once again at the bottomless blackness barely a few feet away. He'd heard that a person standing on a precipice sometimes has an incomprehensible urge to jump. Perhaps he should take the rope that hung from the bell in the church tower and try \[Lto investigate what lies beyond the end of the world\]... ? ÇLeap from Earth into outer space... this might be the only chance,É he mused. ÇSince the air isnÉt escaping from the terrestrial atmosphere over that extraordinary border, maybe thereÉs some kind of atmosphere on the other side...?É The idea was insane, but couldnÉt the same be said of everything that had happened in recent weeks?
+Before he walked off, Karl gazed once again at the bottomless blackness barely a few feet away. He'd heard that a person standing on a precipice sometimes has an incomprehensible urge to jump. Perhaps he should take the rope that hung from the bell in the church tower and try [Lto investigate what lies beyond the end of the world]... ? ÇLeap from Earth into outer space... this might be the only chance,É he mused. ÇSince the air isnÉt escaping from the terrestrial atmosphere over that extraordinary border, maybe thereÉs some kind of atmosphere on the other side...?É The idea was insane, but couldnÉt the same be said of everything that had happened in recent weeks?
 

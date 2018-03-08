@@ -18,7 +18,7 @@ def sanitise(s):
             if (bo & 0xf0) == 0xe0: # 3 byte
                 bo = threebyte[b[bb+2]]
                 bb += 2
-        if bo != 0:
+        if bo != 0 and bo != 0x5c:
             outS += chr(bo)
         bb += 1
     return outS

@@ -17,7 +17,7 @@ Finally, Karl turned to a new topic of conversation, chiefly in order to take hi
 
 Karl gave his brother a suspicious glance.
 
-ÄNot so long ago, your basic criterion for judging female beauty was ÇWhat a looker\! Like something out of a porn flick\!É...Å
+ÄNot so long ago, your basic criterion for judging female beauty was ÇWhat a looker! Like something out of a porn flick!É...Å
 
 ÄOf course. It still is. ThereÉs no reason to go changing an efficient system of evaluation.Å
 
@@ -41,7 +41,7 @@ Contrary to KarlÉs fears, she heard them out with genuine interest.
 
 Karl and Anton immediately pricked up their ears.
 
-ÄIn that case, whyÉs the phenomenon only being perceived by one person?\!Å Anton enquired.
+ÄIn that case, whyÉs the phenomenon only being perceived by one person?!Å Anton enquired.
 
 ÄGod is merciful. He could be shielding the fact that the Apocalypse is beginning from our eyes,Å Anna responded. Then, in an unusually calm and gentle tone, she added, ÄSince itÉs only your brother who can see the end approaching, heÉs undoubtedly GodÉs Prophet.Å
 
@@ -49,7 +49,7 @@ Karl experienced a sudden rush of heat. He felt that he had to get away from the
 
 ÄExcuse me for a moment,Å he said. ÄI must just go and powder my nose.Å
 
-He walked into the toilet, turned on the tap and immersed his hands and face in cold water. The world was spinning in front of his eyes. ÇProphet? What fucking prophet?\!É he thought feverishly. ÇWhat apocalypse?\! ItÉs sheer madness\!É
+He walked into the toilet, turned on the tap and immersed his hands and face in cold water. The world was spinning in front of his eyes. ÇProphet? What fucking prophet?!É he thought feverishly. ÇWhat apocalypse?! ItÉs sheer madness!É
 
 When he returned to the table some ten or so minutes later, Anton was sitting there alone.
 
@@ -57,5 +57,5 @@ When he returned to the table some ten or so minutes later, Anton was sitting th
 
 ÄAnna? What Anna?Å Anton looked genuinely alarmed. ÄAre you feeling all right? You walked off so suddenly. I mean, we arranged to meet here to decide how to proceed. WeÉre going to go into the Mandela effect and the cyberpunk sect in depth. DonÉt you remember?Å
 
-Without so much as a word, Karl dashed out of the restaurant and \[Dfled for home as fast as his legs would carry him\].
+Without so much as a word, Karl dashed out of the restaurant and [Dfled for home as fast as his legs would carry him].
 

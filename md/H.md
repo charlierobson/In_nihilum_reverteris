@@ -11,5 +11,5 @@ To begin with, Karl had still hoped that, paradoxically, infinity... despite the
 
 ÄOh, well,Å he muttered to himself, Äas the philosopher said, ÇI think, therefore I am a jokeÉ.Å
 
-He decided to try and evaluate the losses that had arisen thus far, to find out something beyond conversations with scientists... never mind whether they were devoted to the spirit or to the material... something beyond the results of observing the town or watching television. So he gave some thought as to whether heÉd \[Ihead for the nearest church\] or, perhaps \[Jmake his way to the Municipal Offices, the seat of the Town Council\].
+He decided to try and evaluate the losses that had arisen thus far, to find out something beyond conversations with scientists... never mind whether they were devoted to the spirit or to the material... something beyond the results of observing the town or watching television. So he gave some thought as to whether heÉd [Ihead for the nearest church] or, perhaps [Jmake his way to the Municipal Offices, the seat of the Town Council].
 
