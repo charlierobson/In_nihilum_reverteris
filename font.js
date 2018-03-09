@@ -15,7 +15,10 @@ function Font(bitmap, gw, gh) {
                 this.glyphWidths.push(w);
             }
         }
-        this.glyphWidths[32] = 4;  
+        this.glyphWidths[32] = 4; 
+        this.glyphWidths[140] -= 1;
+        this.glyphWidths[142] -= 1;
+        this.glyphWidths[144] -= 1;
     }
   
     this.calculateCharWidth = function(glyphImg) {
