@@ -12,7 +12,7 @@ Along the way, Karl threw a few coins to a beggar standing by a shop. ÇHe'd bett
 
 ÄWhatÉre you giving money to tramps for?Å Anton asked in surprise. ÄHeÉll only drink it. I donÉt know. ItÉs like you kissed a prostituteÉs hand or something of the kind.Å
 
-ÄMay you never have first-hand experience of the fact that beggars are human beings just like you, only things didnÉt work out so well for them,Å Karl growled in annoyance. ÄYou know how it goes... times of prosperity are when the criminals are living better than royalty and times of crisis are when the criminals are the only people living the good life. And by the way, if you must know, it so happens that I *have* kissed a prostituteÉs hand.Å 
+ÄMay you never have first-hand experience of the fact that beggars are human beings just like you, only things didnÉt work out so well for them,Å Karl growled in annoyance. ÄYou know how it goes... times of prosperity are when the criminals are living better than royalty and times of crisis are when the criminals are the only people living the good life. And by the way, if you must know, it so happens that I *have* kissed a prostituteÉs hand.Å
 
 ÄHow come?Å Anton gazed at him in astonishment.
 
@@ -40,8 +40,8 @@ The abbot gave him a reproving look. ÄA non-player character, of course. Charact
 
 ÄIn other words... itÉs a kind of... futuristic solipsism?Å asked Anton.
 
-ÄIÉd say itÉs the direct opposite. WeÉre not solipsists and weÉre not into materialistic agnosticism, either. Solipsism says that only the observing subject is real and that reality in its entirety is simply the set of his or her own, subjective impressions, while all the people and inanimate objects encountered are, so to say, parts of the mind of the individual experiencing them. Whereas we allow for a completely different possibility... who can vouch for the fact that you or I really exist, that, actually, weÉre players? Maybe we donÉt really exist at all? We might be stuck here in the form of NPCs, constituting nothing more than a background for some real person-player. From what I can see, youÉre both NPCs, too, your characters are so lousily put-together.Å 
+ÄIÉd say itÉs the direct opposite. WeÉre not solipsists and weÉre not into materialistic agnosticism, either. Solipsism says that only the observing subject is real and that reality in its entirety is simply the set of his or her own, subjective impressions, while all the people and inanimate objects encountered are, so to say, parts of the mind of the individual experiencing them. Whereas we allow for a completely different possibility... who can vouch for the fact that you or I really exist, that, actually, weÉre players? Maybe we donÉt really exist at all? We might be stuck here in the form of NPCs, constituting nothing more than a background for some real person-player. From what I can see, youÉre both NPCs, too, your characters are so lousily put-together.Å
 
-In the end, the abbot stated that KarlÉs problem was of absolutely no interest to him and that he wasnÉt going to devote any more time to non-existent people because he had to collect more game points. Concerned that this might mean they were about to become a way for him to acquire more frags, the brothers hurriedly left the building. 
+In the end, the abbot stated that KarlÉs problem was of absolutely no interest to him and that he wasnÉt going to devote any more time to non-existent people because he had to collect more game points. Concerned that this might mean they were about to become a way for him to acquire more frags, the brothers hurriedly left the building.
 
 It was now so late that they arranged to continue their quest the next day. [DKarl resignedly set off home].

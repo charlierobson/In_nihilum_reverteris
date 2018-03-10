@@ -83,6 +83,7 @@ for s in content:
         textData = []
         keyName = s.strip()
     else:
+        s = s.rstrip() + '\n'
         # accumulate some text
         showUTF(s, m)
         textData.append(sanitise(s))

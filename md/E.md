@@ -4,7 +4,7 @@ He was sitting in his desk chair, flanked by a small, sculpted lamp on one side 
 
 ÄHell, itÉs not coming, " he muttered, glaring at the sheet of paper.
 
-ÄWhat?Å Judith asked, tearing her attention away from the computer. ÄIÉm sorry. I didnÉt catch what you said.Å 
+ÄWhat?Å Judith asked, tearing her attention away from the computer. ÄIÉm sorry. I didnÉt catch what you said.Å
 
 ÄIÉm saying that itÉs stupid somehow. IÉm striving to digest a... recent event. IÉve called it *Trees on the Clouds*.Å
 
@@ -50,7 +50,7 @@ Karl never turned the television off.
 
 First the number of programmes and presenters had diminished. And for several days now, thereÉd been nothing showing but the same two films.
 
-Ä*...I want a nigger hidinÉ in a bowl of rice, ready to pop a cap in his ass...*Å 
+Ä*...I want a nigger hidinÉ in a bowl of rice, ready to pop a cap in his ass...*Å
 
 He opened another bottle, his movements unsteady, but he passed out after a few swigs. Several hours later, he woke up.
 
@@ -60,6 +60,6 @@ He struggled to his feet and, with difficulty, staggered to the toilet. The soun
 
 ÄCome round to my lab. I think IÉm on to something....Å But that was all there was. The words were followed by an explosion and a scream.
 
-Karl collapsed into an armchair with resignation and mused at length over whether he should [Fhead over to VloshinÉs laboratory] or finish the bottle and not take any action... whatever it might be... until the next day. Or in a weekÉs time. [GOr whenever he acknowledged that it was of any consequence whatsoever]. 
+Karl collapsed into an armchair with resignation and mused at length over whether he should [Fhead over to VloshinÉs laboratory] or finish the bottle and not take any action... whatever it might be... until the next day. Or in a weekÉs time. [GOr whenever he acknowledged that it was of any consequence whatsoever].
 
 Ä*...I want a nigger hidinÉ in a bowl of rice, ready to pop a cap in his ass...*Å
