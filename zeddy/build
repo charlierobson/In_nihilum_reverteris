@@ -1,0 +1,3 @@
+brass tg.asm tg.p
+cp tg.p ../../zedragon/ZXpand_SD_Card/menu.p
+cp tg.p.sym ../../zedragon/ZXpand_SD_Card/menu.p.sym

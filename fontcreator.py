@@ -16,7 +16,7 @@ verbose = None
 # Produces a binary font file, which is a raw dump of the bitmap
 # bits, padded to the nearest 8. There are [glyph height]+1 bytes
 # stored per glyph, where the +1 byte is the calculated width of
-# the glyph.
+# the glyph, also a 256 byte file containing the glyph widths alone.
 
 # Onwards.
 
@@ -26,6 +26,7 @@ with open(sys.argv[1]) as f:
 
 # open the destination, using the input with the extension changed
 fontfile = open(os.path.splitext(sys.argv[1])[0] + '.bin', 'wb')
+fontwidthfile = open(os.path.splitext(sys.argv[1])[0] + '-widths.bin', 'wb')
 
 i = 0
 height = 0
@@ -80,7 +81,12 @@ while i < len(content):
         # something for the user to see
         if verbose:
             print 'Char',idx, w
+
+        if (idx == 32): # space hack
+            w = 4
+
         fontfile.write(chr(w))
+        fontwidthfile.write(chr(w))
 
     i += 1
 
