@@ -1,4 +1,3 @@
-
 They made their way slowly through the town and Karl was dismayed as he assessed the extent of the decline in the structure of reality. There was almost no traffic. Pedestrians were a rarity. The buildings which still remained were intermittent. The district looked like the jaw of a man whoÉd been smacked hard in the face with an iron and lost every other tooth.* *
 
 In order to distract himself and stop thinking about this, if only for a moment, Karl tackled a different topic.
@@ -32,4 +31,3 @@ Once the talk was over and the audience was dispersing, the brothers managed to 
 ÄOh well, there we are. One way or another, it was worth giving it a try,Å said Anton as they were leaving the building. ÄAfter listening to all that twaddle, I really can see that theyÉre actually involved in something thatÉs completely different from what brought us here. TheyÉre two utterly different things. WeÉll think about what to do next tomorrow.Å
 
 It was, indeed, now late, so they went their separate ways after [Dagreeing to meet the following day].
-

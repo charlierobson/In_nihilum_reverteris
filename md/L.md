@@ -1,4 +1,3 @@
-
 The length of the bell rope was quite impressive. Karl bound one end round his waist and tied the other end firmly to a solitary tree growing nearby. He stood above the dark abyss. The few remaining stars twinkled at him encouragingly. With a violent movement, he thrust a hand into the abyss... and snatched it back just as rapidly. He hadnƒt felt a thing, no temperature difference at all. Still, he was hesitant. He realised that the world was ending, so it would be worth absorbing, in one last, despairing gulp, the unfathomable knowledge that his mind, for which time was most probably running out, thirsted for. He also knew that, in truth, the world had ended for him much, much earlier... when heƒd lost Judith. At that thought, he felt a painful wrench in his chest. Without reflection, he leapt from the edge of Earth and into space...
 
 ...... but he didnƒt fall downwards. Even though the prevailing temperature around him was bearable and it was also possible to breathe, Karl was floating in a weightless condition. ‚Ah, right,ƒ he thought. ‚Another law of physics has vanished, too. Bearing in mind the nature of whatƒs happened in recent weeks, I wonƒt be surprised if I bang my fucking head on the dome of the firmament.ƒ The woodcut in Flammarionƒs book had popped into his mind.
@@ -10,4 +9,3 @@ Then, suddenly, Karl noticed that more sections of land were beginning to recede
 Fear settled in his mind. He knew that, since he was neither suffocating nor freezing, what awaited him now were long days of dying in the midst of nothingness.
 
 Karl drifted away [1into the boundless darkness and boundless despair].
-

@@ -1,4 +1,3 @@
-
 Evening came. Judith still hadnÉt gone to sleep. She was looking at something on the computer, lying on the bed, barefoot, wearing fairly tight-fitting jeans and a loose shirt. Karl sometimes wondered whether she dressed like that because she knew just how much the style appealed to him or if she simply did it because she was comfortable like that. Or, perhaps, for both reasons.
 
 He was sitting in his desk chair, flanked by a small, sculpted lamp on one side and a glass and a half-empty bottle on the other. Bourbon was the only form of corn he would tolerate on the menu. He was trying to write something... anything at all... but, first and foremost, he was silently contemplating Judith. This wasnÉt only because, lying there in the pool of light cast by the night lamp amidst the dimness of the room, she was material for a painting or, at the very least, an excellent photo. It was also by way of the fact that she was the last anchor securing him in a state of relative mental equilibrium.
@@ -64,4 +63,3 @@ He struggled to his feet and, with difficulty, staggered to the toilet. The soun
 Karl collapsed into an armchair with resignation and mused at length over whether he should [Fhead over to VloshinÉs laboratory] or finish the bottle and not take any action... whatever it might be... until the next day. Or in a weekÉs time. [GOr whenever he acknowledged that it was of any consequence whatsoever]. 
 
 Ä*...I want a nigger hidinÉ in a bowl of rice, ready to pop a cap in his ass...*Å
-

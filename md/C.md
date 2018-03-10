@@ -1,4 +1,3 @@
-
 They made their way slowly toward the restaurant where Anton had arranged for them to meet his acquaintance, Anna Koenig, who was a doctor of theology and, at one and the same time, a militant creationist.
 
 ÄIÉm really not convinced that this is the right track,Å Karl muttered as they walked along. ÄYou know what they say about all religious fanatics... to them, truth, understood as a description of an actual state, constitutes a personal affront.Å
@@ -58,4 +57,3 @@ When he returned to the table some ten or so minutes later, Anton was sitting th
 ÄAnna? What Anna?Å Anton looked genuinely alarmed. ÄAre you feeling all right? You walked off so suddenly. I mean, we arranged to meet here to decide how to proceed. WeÉre going to go into the Mandela effect and the cyberpunk sect in depth. DonÉt you remember?Å
 
 Without so much as a word, Karl dashed out of the restaurant and [Dfled for home as fast as his legs would carry him].
-

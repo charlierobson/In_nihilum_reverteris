@@ -47,6 +47,13 @@ def showUTF(s, m):
         bb = bb + 1
 
 
+def storeBlock(textData):
+    textData[0] = textData[0].lstrip();
+    textData[len(textData) - 1] = textData[len(textData) - 1].rstrip();
+    blocks[keyName] = textData
+
+
+
 if len(sys.argv) < 2:
     print
     print "Usage: exmeta.py [text file]"
@@ -67,10 +74,11 @@ print
 
 for s in content:
     # if the line is a single character then we have a section name
-    if re.match('^(.)$', s) != None:
+    matc = re.match('^(.)$', s)
+    if matc != None:
         # add the previous section's accumulated text to the dictionary under the last key we found
         if keyName != '':
-            blocks[keyName] = textData
+            storeBlock(textData)
         # reset for the next block
         textData = []
         keyName = s.strip()
@@ -79,8 +87,8 @@ for s in content:
         showUTF(s, m)
         textData.append(sanitise(s))
 
-    # snaffle up the last block
-    blocks[keyName] = textData
+# snaffle up the last block
+storeBlock(textData)
 
 # we now have a dictionary that maps the section name to the text within it
 for key in blocks.keys():

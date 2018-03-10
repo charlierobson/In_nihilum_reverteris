@@ -1,4 +1,3 @@
-
 It has to be admitted that Karl felt an overwhelming desire to go home and drink himself to death... or, at any rate, to try with all his might to do so. However, it turned out that there was now no possibility of heading that way on account of an enormous black hole in reality. The dark chasm was approximately the size of a sports stadium. There were more and more of them opening up at random. Willing or not, Karl set off to meet the professor.
 
 When he arrived, he saw that an entire group of buildings had so far survived in this part of the town... and that Professor Benediktƒs was one of them. The scientist didnƒt answer the door, so after repeatedly ringing the bell and knocking, Karl pressed down on the handle. The door yielded with a dismal creak. 

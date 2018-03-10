@@ -1,4 +1,3 @@
-
 Just in case, he took his pistol with him, which was most probably an irrational measure and gave him nothing more than an illusory sense of safety.
 
 The land which had once been the town was now scarcely a built environment at all. It was almost completely deserted... Karl saw no more than three, perhaps four people along the way. Even though it was late morning, it wasnフ at all light. A great, dark hole gaped in the Sun and expanded with each day that passed. Maybe the Sun was too large to vanish all at once...? The Moon had ceased to exist several days before and Karl had been thinking about how this would generally be affecting the tides or the equilibrium of the Solar System. In the end, though, heヅ come to the conclusion that since elements of reality were dematerialising, it wasnフ inconceivable that the laws of physics were also vanishing one after another.
@@ -18,4 +17,3 @@ Karl slowly approached him.
 It was only after Karl had removed the blanket that it became clear that Doctor Vloshinピ experiment couldnフ be numbered amongst the successful... and that he offered no promise whatsoever of salvation. He wasnフ so much lying on the floor as inextricably integrated with it along the entire back half of his body. With his face turned upwards and his gaze utterly crazed, he was ceaselessly reciting his terrifying string of words in a voice growing steadily weaker.
 
 Karl shot him and [Hquickly left the lab].
-

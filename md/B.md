@@ -1,4 +1,3 @@
-
 The sect generally handed out copious quantities of leaflets in town, which is why the area where its headquarters were located was common knowledge. As they made their way there, Karl felt disheartened and frightened, because he knew just how many injuries reality had sustained. While it seemed to him that the streets were sunnier than usual, he quickly realised that the town was quite simply missing significant swathes of its buildings. Instead of the rush-hour crush, the pavements were almost deserted. The traffic on the roads had more or less died away completely.
 
 Anton was utterly unaware of this and strode along at a lively pace, talking about his erotic conquests.
@@ -46,4 +45,3 @@ The abbot gave him a reproving look. €A non-player character, of course. Charact
 In the end, the abbot stated that Karlƒs problem was of absolutely no interest to him and that he wasnƒt going to devote any more time to non-existent people because he had to collect more game points. Concerned that this might mean they were about to become a way for him to acquire more frags, the brothers hurriedly left the building. 
 
 It was now so late that they arranged to continue their quest the next day. [DKarl resignedly set off home].
-

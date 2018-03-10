@@ -76,7 +76,15 @@ mainloop:
         and     a
         jr      z,mainloop           ; done
 
-        call    getword
+-:      ld      a,(hl)
+        cp      10
+        jr      nz,{+}
+
+        call    newline
+        inc     hl
+        jr      {-}
+
++:      call    getword
         push    hl
 
         call    getwordlen              ; return with word length in BC
@@ -92,12 +100,8 @@ mainloop:
         ld      hl,wordbuf              ; get a word pointer ready in case it needs updating
 
         jr      nc,_spaceleft
-aaa:
-        xor     a                       ; newline
-        ld      (x),a
-        ld      a,(y)
-        inc     a
-        ld      (y),a
+
+        call    newline
 
         ld      a,(wordbuf)             ; remove whitespace from front of word if necessary
         cp      33
@@ -111,6 +115,16 @@ _spaceleft:
 
         jr      mainloop
 
+
+newline:
+        xor     a                       ; newline
+        ld      (x),a
+        ld      a,(y)
+        inc     a
+        ld      (y),a
+-:      cp      17
+        jr      z,{-}
+        ret
 
 ;-------------------------------------------------------------------------------
 ;
@@ -458,11 +472,7 @@ linestarts:
         .word   screen+16*bytesperline, screen+17*bytesperline
 
 message:
-        .byte   $80, $57, $68, $61, $74, $83, $72, $65, $20, $79, $6f, $75, $20, $72, $65
-        .byte   $61, $64, $69, $6e, $67, $3f, $81, $20, $4a, $75, $64, $69, $74, $68, $20, $61
-        .byte   $73, $6b, $65, $64, $2c, $20, $62, $75, $73, $74, $6c, $69, $6e, $67, $20, $61
-        .byte   $72, $6f, $75, $6e, $64, $20, $74, $68, $65, $20, $68, $6f, $75, $73, $65, $2e
-        .byte   0
+        .incbin ../md/1.md
 
 ;-------------------------------------------------------------------------------
 

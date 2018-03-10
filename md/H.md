@@ -1,4 +1,3 @@
-
 Karl stood, helpless, in the deserted street and wondered what to do next. Everything seemed to be pointing to the fact that no one was capable of halting the annihilation. And in that case... what would happen now, what would actually remain once everything had vanished? The question fascinated Karl in a ghastly sort of fashion.
 
 People are usually fascinated by the concept of infinity. They find it mind-boggling that anything at all could be infinite. However, infinity had recently seemed to Karl to be something safe, if not to say downright familiar. This thinking sprang from the fact that, to him, infinity stood in opposition to the concept of the oncoming nothingness he had been observing. Not nothingness in the sense of the cosmic void, though, because even in that, some particle or other might be encountered. For, after all... how could *absolutely nothing *exist?
@@ -12,4 +11,3 @@ To begin with, Karl had still hoped that, paradoxically, infinity... despite the
 ÄOh, well,Å he muttered to himself, Äas the philosopher said, ÇI think, therefore I am a jokeÉ.Å
 
 He decided to try and evaluate the losses that had arisen thus far, to find out something beyond conversations with scientists... never mind whether they were devoted to the spirit or to the material... something beyond the results of observing the town or watching television. So he gave some thought as to whether heÉd [Ihead for the nearest church] or, perhaps [Jmake his way to the Municipal Offices, the seat of the Town Council].
-
