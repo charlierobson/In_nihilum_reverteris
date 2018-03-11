@@ -3,7 +3,6 @@ basic_ret_app1  = 00292H
 basic_ret_app2  = 002A4H
 basic_if_break  = 00F46H
 
-pic1	        = $2000
 screen:	        = $2000
 PAUSE 	        = $0F35	;inBC=delay
 KSCAN	        = $02bb	;outHL=Key, L=ROWbit, H=KEYbit
@@ -51,7 +50,7 @@ pr_cc   .byte   188
 s_posn  .byte   33 
 s_psn1  .byte   24 
 cdflag  .byte   64 
-prbuff  .fill   32,0
+PRTBUF  .fill   32,0
 prbend  .byte   $76 
 membot  .fill   32,0
 
@@ -63,7 +62,12 @@ line1:  .byte   0,1
 
 PS: ; program start
 
-        ld      hl,intro
+        call    initwad
+
+        ld      hl,$16
+        call    wadLoad
+
+        ld      hl,$8032
         ld      de,screen
         ld      bc,32*192
         ldir
@@ -71,56 +75,81 @@ PS: ; program start
         ld      ix,hrg
 
 wait:   call   gamestep
-
         ld      a,(select)
-        ld      (screen),a
-        cp      3
+        cp      1
         jr      nz,wait
 
-        ; text
 
-        ld      hl,$0100                ; chapter 1, page 0
-        ld      (bookmark),hl
+        ld      d,1
+        call    getchapter
+        ld      (chapter),hl
+        xor     a
+        ld      (pagenum),a
+        ld      e,a
+        call    getpage
+        ld      (page),hl
+
 
 _updatepage:
         call    cls
-        ld      de,(bookmark)
         call    drawpage
 
 _tc:    call    gamestep
 
-_tu:    ld      a,(up)
+        ld      a,(up)
         cp      1
         jr      nz,_td
 
-        ld      a,(bmpage)
-        and     a
-        jr      z,_td
-
+        ld      a,(pagenum)
         dec     a
-        ld      (bmpage),a
-        jr      _updatepage
+        call    trysetpage
+        jr      nz,_updatepage
 
 _td:    ld      a,(down)
         cp      1
         jr      nz,_tc
 
-        ld      a,(bmpage)
-        inc     a               ; URKK! need to mark chapter end somehow
-        ld      (bmpage),a
-        jr      _updatepage
+        ld      a,(pagenum)
+        inc     a
+        call    trysetpage
+        jr      nz,_updatepage
+        jr      _tc
 
-bookmark:
+
+trysetpage:
+        ld      (tempage),a
+
+        cp      $ff             ; page of -1 no allowed
+        ret     z
+
+        ld      e,a             ; get page ptr
+        call    getpage
+        ld      a,$ff           ; end of chapter marked with ffff
+        cp      h
+        ret     z
+
+        ld      a,(tempage)
+        ld      (pagenum),a
+        ld      (page),hl
+        or      $ff             ; clear z flag to indicate success
+        ret
+
+chapter:
         .word   0
-bmchap = bookmark+1
-bmpage = bookmark+0
+page:
+        .word   0
+pagenum:
+        .byte   0
+tempage:
+        .byte   0
 
 ;-------------------------------------------------------------------------------
 ;
-.module dp
+.module ci
 ;
-drawpage:
-        ; d = chapter,  e = page
+getchapter:
+        ; d <- chapter number
+        ; hl -> pointer to start of chapter info block
 
         ld      a,d                     ; index into the chapter pointer table
         add     a,a
@@ -130,6 +159,13 @@ drawpage:
         inc     hl
         ld      h,(hl)
         ld      l,a                     ; hl points to start of chapter info block
+        ret
+
+getpage:
+        ; e <- chapter number
+        ; hl -> offset into page data
+
+        ld      hl,(chapter)
 
         ld      d,0                     ; each page info is 4 bytes
         sla     e
@@ -140,8 +176,17 @@ drawpage:
         inc     hl
         ld      h,(hl)
         ld      l,a
+        ret
 
-        ld      de,message              ; index into actual text
+;-------------------------------------------------------------------------------
+;
+.module dp
+;
+drawpage:
+        ; d = chapter,  e = page
+
+        ld      hl,(page)
+        ld      de,message
         add     hl,de
         ld      (wordp),hl
 
@@ -249,6 +294,63 @@ _advance:
         ld      a,(de)
         and     a
         jr      nz,_accum
+
+        ret
+
+;-------------------------------------------------------------------------------
+;
+.module wad
+;
+initwad:
+        ld      de,wadfile      ; send filename
+        call    $1ffa
+
+        ld      bc,$8007        ; open read
+        ld      a,$00
+        out     (c),a
+        jp      $1ff6           ; wait/get response
+
+
+wadLoad:
+        add     hl,hl
+        ld      de,wadptrs
+        add     hl,de
+        xor     a
+        ld      (PRTBUF),a
+        ld      (PRTBUF+3),a
+        ld      de,PRTBUF+1
+        ldi
+        ldi
+
+        ld      de,PRTBUF
+        ld      l,4             ; transfer seek position dword
+        ld      a,l
+        call    $1ffc
+
+        ld      bc,$8007        ; dword seek
+        ld      a,$d0
+        out     (c),a
+        call    $1ff6           ; wait/get response
+
+        ld      de,$8000        ; read 8k to $8000, nasty but oh well
+-:      push    de
+
+        ld      bc,$A007        ; file read, 256 bytes
+        xor     a
+        out     (c),a
+        call    $1ff6           ; wait/get response
+
+        pop     de              ; xfer
+        push    de
+        xor     a
+        ld      l,a
+        call    $1ffc
+
+        pop     de
+        inc     d
+        ld      a,$a0
+        cp      d
+        jr      nz,{-}
 
         ret
 
@@ -544,7 +646,8 @@ hrg_dummy:
         .byte   0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
         ret     nc
 
-pointer .word   pic1
+pointer:
+        .word   screen
 
 ;-------------------------------------------------------------------------------
 
@@ -618,10 +721,12 @@ chapterptrs:
 
         .include "chapterdat.asm"
 
-;-------------------------------------------------------------------------------
+        .align 256
+wadptrs:
+        .include "wad.asm"
 
-intro:
-        .incbin "../bmp/0START.pbm"
+wadfile:
+        .byte   $39,$2c,$1b,$3c,$26,$29+$80     ; TG.WAD
 
 ;-------------------------------------------------------------------------------
 

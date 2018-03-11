@@ -53,6 +53,7 @@ function processChapter(result) {
     chapt.push('\tPG\t' + pages[p]);
     chapt.push('\tJP\t' + jumps[p]);
   }
+  chapt.push('\tPG\t-1');
 
   cinfns++;
   if (cinfns < fns.length) {

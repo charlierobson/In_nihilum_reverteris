@@ -2,3 +2,5 @@
 *.p
 *.sym
 *.html
+*.exe
+*.bin

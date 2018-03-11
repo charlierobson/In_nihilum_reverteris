@@ -1,3 +1,5 @@
-brass tg.asm tg.p
+brass tg.asm tg.p -l tg.html
+
 cp tg.p ../../zedragon/ZXpand_SD_Card/menu.p
 cp tg.p.sym ../../zedragon/ZXpand_SD_Card/menu.p.sym
+cp ../wad.bin ../../zedragon/ZXpand_SD_Card/tg.wad

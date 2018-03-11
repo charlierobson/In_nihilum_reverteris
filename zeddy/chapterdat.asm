@@ -7,6 +7,7 @@ chp_0:
 	JP	-1,-1
 	PG	2113
 	JP	cp1,-1
+	PG	-1
 chp_1:
 	PG	0
 	JP	-1,-1
@@ -18,11 +19,13 @@ chp_1:
 	JP	-1,-1
 	PG	2708
 	JP	cp2,-1
+	PG	-1
 chp_2:
 	PG	0
 	JP	-1,-1
 	PG	679
 	JP	cp3,cp4
+	PG	-1
 chp_3:
 	PG	0
 	JP	-1,-1
@@ -32,6 +35,7 @@ chp_3:
 	JP	-1,-1
 	PG	1635
 	JP	cp5,-1
+	PG	-1
 chp_4:
 	PG	0
 	JP	-1,-1
@@ -43,6 +47,7 @@ chp_4:
 	JP	cp5,-1
 	PG	2519
 	JP	-1,-1
+	PG	-1
 chp_5:
 	PG	0
 	JP	-1,-1
@@ -56,6 +61,7 @@ chp_5:
 	JP	-1,-1
 	PG	3480
 	JP	cp6,cp7
+	PG	-1
 chp_6:
 	PG	0
 	JP	-1,-1
@@ -79,6 +85,7 @@ chp_6:
 	JP	cp8,-1
 	PG	6947
 	JP	-1,-1
+	PG	-1
 chp_7:
 	PG	0
 	JP	-1,-1
@@ -96,6 +103,7 @@ chp_7:
 	JP	-1,-1
 	PG	4809
 	JP	cp8,-1
+	PG	-1
 chp_8:
 	PG	0
 	JP	-1,-1
@@ -117,6 +125,7 @@ chp_8:
 	JP	cp9,-1
 	PG	6048
 	JP	cp0,-1
+	PG	-1
 chp_9:
 	PG	0
 	JP	-1,-1
@@ -130,6 +139,7 @@ chp_9:
 	JP	cpA,cpB
 	PG	3226
 	JP	cpC,-1
+	PG	-1
 chp_A:
 	PG	0
 	JP	-1,-1
@@ -147,6 +157,7 @@ chp_A:
 	JP	-1,-1
 	PG	4720
 	JP	cpD,-1
+	PG	-1
 chp_B:
 	PG	0
 	JP	-1,-1
@@ -166,6 +177,7 @@ chp_B:
 	JP	-1,-1
 	PG	5182
 	JP	cpD,-1
+	PG	-1
 chp_C:
 	PG	0
 	JP	-1,-1
@@ -185,6 +197,7 @@ chp_C:
 	JP	-1,-1
 	PG	4727
 	JP	cpD,-1
+	PG	-1
 chp_D:
 	PG	0
 	JP	-1,-1
@@ -192,6 +205,7 @@ chp_D:
 	JP	-1,-1
 	PG	1540
 	JP	cpE,-1
+	PG	-1
 chp_E:
 	PG	0
 	JP	-1,-1
@@ -215,6 +229,7 @@ chp_E:
 	JP	-1,-1
 	PG	6084
 	JP	cpF,cpG
+	PG	-1
 chp_F:
 	PG	0
 	JP	-1,-1
@@ -226,6 +241,7 @@ chp_F:
 	JP	-1,-1
 	PG	2692
 	JP	cpH,-1
+	PG	-1
 chp_G:
 	PG	0
 	JP	-1,-1
@@ -237,6 +253,7 @@ chp_G:
 	JP	cp1,-1
 	PG	2823
 	JP	cp1,-1
+	PG	-1
 chp_H:
 	PG	0
 	JP	-1,-1
@@ -246,6 +263,7 @@ chp_H:
 	JP	-1,-1
 	PG	2196
 	JP	cpI,cpJ
+	PG	-1
 chp_I:
 	PG	0
 	JP	-1,-1
@@ -263,6 +281,7 @@ chp_I:
 	JP	cpK,cpL
 	PG	4664
 	JP	-1,-1
+	PG	-1
 chp_J:
 	PG	0
 	JP	-1,-1
@@ -278,6 +297,7 @@ chp_J:
 	JP	-1,-1
 	PG	4214
 	JP	cpK,-1
+	PG	-1
 chp_K:
 	PG	0
 	JP	-1,-1
@@ -297,6 +317,7 @@ chp_K:
 	JP	-1,-1
 	PG	5278
 	JP	-1,-1
+	PG	-1
 chp_L:
 	PG	0
 	JP	-1,-1
@@ -306,3 +327,4 @@ chp_L:
 	JP	-1,-1
 	PG	2227
 	JP	cp1,-1
+	PG	-1
