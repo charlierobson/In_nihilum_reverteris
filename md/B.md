@@ -2,46 +2,46 @@ The sect generally handed out copious quantities of leaflets in town, which is w
 
 Anton was utterly unaware of this and strode along at a lively pace, talking about his erotic conquests.
 
-Ä... so, thatÉs what last week was like. And the day before yesterday I met this blonde. It took me quite some time to talk that one into sex, but I won in the end. I had her, right on her kitchen table."
+... so, thats what last week was like. And the day before yesterday I met this blonde. It took me quite some time to talk that one into sex, but I won in the end. I had her, right on her kitchen table."
 
-ÄOh. Did she have anything against it?Å
+Oh. Did she have anything against it?
 
-ÄYup. The washing machine. But don't worry, I moved that out of the way first.Å
+Yup. The washing machine. But don't worry, I moved that out of the way first.
 
-Along the way, Karl threw a few coins to a beggar standing by a shop. ÇHe'd better spend them quickly,É he thought anxiously. ÇHe mightnÉt have much time for it now.É
+Along the way, Karl threw a few coins to a beggar standing by a shop. He'd better spend them quickly, he thought anxiously. He mightnt have much time for it now.
 
-ÄWhatÉre you giving money to tramps for?Å Anton asked in surprise. ÄHeÉll only drink it. I donÉt know. ItÉs like you kissed a prostituteÉs hand or something of the kind.Å
+Whatre you giving money to tramps for? Anton asked in surprise. Hell only drink it. I dont know. Its like you kissed a prostitutes hand or something of the kind.
 
-ÄMay you never have first-hand experience of the fact that beggars are human beings just like you, only things didnÉt work out so well for them,Å Karl growled in annoyance. ÄYou know how it goes... times of prosperity are when the criminals are living better than royalty and times of crisis are when the criminals are the only people living the good life. And by the way, if you must know, it so happens that I *have* kissed a prostituteÉs hand.Å
+May you never have first-hand experience of the fact that beggars are human beings just like you, only things didnt work out so well for them, Karl growled in annoyance. You know how it goes... times of prosperity are when the criminals are living better than royalty and times of crisis are when the criminals are the only people living the good life. And by the way, if you must know, it so happens that I *have* kissed a prostitutes hand.
 
-ÄHow come?Å Anton gazed at him in astonishment.
+How come? Anton gazed at him in astonishment.
 
-ÄIn the usual course of things. I left and it seemed courteous to say goodbye. A woman deserves respect. And anyway, a touch of good manners never killed anyone yet, you boor!Å
+In the usual course of things. I left and it seemed courteous to say goodbye. A woman deserves respect. And anyway, a touch of good manners never killed anyone yet, you boor!
 
-They had now arrived at their destination. There wasnÉt so much as an inch of the building that wasnÉt covered in graffiti. Slogans leapt out at them from the walls; ÇYou are someoneÉs tamagotchiÉ, ÇLeaving the game is a deadly sinÉ and the like. With thoughts of sects in mind, Karl had been expecting figures gliding around in silence, clad in habits or gauzy robes at the very least. The sight that greeted them, though, was a gaudy, vociferous rabble encamped both outside the entrance and inside. People of both sexes rocking the cybergoth look were gaming, most often on handheld devices or on computers or home consoles in the various rooms. Some were enthusiastically taking drugs in various forms and some were having sex in public.
+They had now arrived at their destination. There wasnt so much as an inch of the building that wasnt covered in graffiti. Slogans leapt out at them from the walls; You are someones tamagotchi, Leaving the game is a deadly sin and the like. With thoughts of sects in mind, Karl had been expecting figures gliding around in silence, clad in habits or gauzy robes at the very least. The sight that greeted them, though, was a gaudy, vociferous rabble encamped both outside the entrance and inside. People of both sexes rocking the cybergoth look were gaming, most often on handheld devices or on computers or home consoles in the various rooms. Some were enthusiastically taking drugs in various forms and some were having sex in public.
 
-The groupÉs leader welcomed the newly-arrived brothers and ordered them to call him ÇabbotÉ.
+The groups leader welcomed the newly-arrived brothers and ordered them to call him abbot.
 
-Ä...though this colourful gang call me ÇCommander of the Teutonic OrderÉ for a laugh," he added in amusement.
+...though this colourful gang call me Commander of the Teutonic Order for a laugh," he added in amusement.
 
-He looked completely normal; he wasnÉt wearing make-up, coloured contact lenses or any kind of mask and his head wasnÉt crowned by a mohican. He didnÉt even have any body piercings or tattoos.... or not anywhere that was visible, at any rate.
+He looked completely normal; he wasnt wearing make-up, coloured contact lenses or any kind of mask and his head wasnt crowned by a mohican. He didnt even have any body piercings or tattoos.... or not anywhere that was visible, at any rate.
 
-ÄSure," he continued. ÄThe whole universe is just a computer game weÉre taking part in. Actually, the word ÇjustÉ just doesnÉt cut it. Really, I should use the phrase Çno less thanÉ. After all, you can do what you want in a computer game. Absolute freedom rules here, because we know that everything around us isnÉt real anyway.Å
+Sure," he continued. The whole universe is just a computer game were taking part in. Actually, the word just just doesnt cut it. Really, I should use the phrase no less than. After all, you can do what you want in a computer game. Absolute freedom rules here, because we know that everything around us isnt real anyway.
 
 Anton thought for a moment.
 
-ÄAbsolute freedom?Å he asked. ÄIncluding... murder?Å
+Absolute freedom? he asked. Including... murder?
 
-ÄOf course,Å said the abbot. ÄWe believe we get extra points for frags. Besides, if you get rid of another player from the game, they still have loads of lives and, ultimately, you can also start the game again from scratch. WhatÉs more, thereÉs a high likelihood that youÉll actually have got rid of an NPC. We do what we fancy... what itÉs about is the game giving as much pleasure as possible. After all, thatÉs why we play, isnÉt it?Å
+Of course, said the abbot. We believe we get extra points for frags. Besides, if you get rid of another player from the game, they still have loads of lives and, ultimately, you can also start the game again from scratch. Whats more, theres a high likelihood that youll actually have got rid of an NPC. We do what we fancy... what its about is the game giving as much pleasure as possible. After all, thats why we play, isnt it?
 
-ÄHang on,Å said Karl, who was rather confused. ÄWhatÉs an NPC?Å
+Hang on, said Karl, who was rather confused. Whats an NPC?
 
-The abbot gave him a reproving look. ÄA non-player character, of course. Characters generated by the computer and programmed to interact with the players so as to make the game more interesting.Å
+The abbot gave him a reproving look. A non-player character, of course. Characters generated by the computer and programmed to interact with the players so as to make the game more interesting.
 
-ÄIn other words... itÉs a kind of... futuristic solipsism?Å asked Anton.
+In other words... its a kind of... futuristic solipsism? asked Anton.
 
-ÄIÉd say itÉs the direct opposite. WeÉre not solipsists and weÉre not into materialistic agnosticism, either. Solipsism says that only the observing subject is real and that reality in its entirety is simply the set of his or her own, subjective impressions, while all the people and inanimate objects encountered are, so to say, parts of the mind of the individual experiencing them. Whereas we allow for a completely different possibility... who can vouch for the fact that you or I really exist, that, actually, weÉre players? Maybe we donÉt really exist at all? We might be stuck here in the form of NPCs, constituting nothing more than a background for some real person-player. From what I can see, youÉre both NPCs, too, your characters are so lousily put-together.Å
+Id say its the direct opposite. Were not solipsists and were not into materialistic agnosticism, either. Solipsism says that only the observing subject is real and that reality in its entirety is simply the set of his or her own, subjective impressions, while all the people and inanimate objects encountered are, so to say, parts of the mind of the individual experiencing them. Whereas we allow for a completely different possibility... who can vouch for the fact that you or I really exist, that, actually, were players? Maybe we dont really exist at all? We might be stuck here in the form of NPCs, constituting nothing more than a background for some real person-player. From what I can see, youre both NPCs, too, your characters are so lousily put-together.
 
-In the end, the abbot stated that KarlÉs problem was of absolutely no interest to him and that he wasnÉt going to devote any more time to non-existent people because he had to collect more game points. Concerned that this might mean they were about to become a way for him to acquire more frags, the brothers hurriedly left the building.
+In the end, the abbot stated that Karls problem was of absolutely no interest to him and that he wasnt going to devote any more time to non-existent people because he had to collect more game points. Concerned that this might mean they were about to become a way for him to acquire more frags, the brothers hurriedly left the building.
 
 It was now so late that they arranged to continue their quest the next day. [DKarl resignedly set off home].

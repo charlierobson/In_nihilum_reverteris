@@ -1,8 +1,9 @@
 import re
 import sys
+import json
 
-twobyte   = {0xa0: 0x86, 0xa1: 0x87, 0xa2: 0x88, 0xa8: 0x89, 0xa9: 0x8a, 0xaa: 0x8b, 0xb6: 0x85}
-threebyte = {0x93: 0x84, 0x98: 0x82, 0x99: 0x83, 0x9c: 0x80, 0x9d: 0x81}
+threebyte  = { 0x93: 0x2d, 0x98: 0x0f, 0x99: 0x10, 0x9c: 0x11, 0x9d: 0x12 }
+twobyte = { 0xa0: 0x13, 0xa1: 0x14, 0xa2: 0x15, 0xa8: 0x16, 0xa9: 0x17, 0xaa: 0x18, 0xb6: 0x19 }
 
 def sanitise(s):
     b = bytearray()
@@ -69,9 +70,6 @@ keyName = ''
 
 m = set()
 
-print "utf-8 characters found:"
-print
-
 for s in content:
     # if the line is a single character then we have a section name
     matc = re.match('^(.)$', s)
@@ -85,8 +83,8 @@ for s in content:
     else:
         s = s.rstrip() + '\n'
         # accumulate some text
-        showUTF(s, m)
-        textData.append(sanitise(s))
+        ###showUTF(s, m)
+        textData.append(sanitise(s).decode('ascii'))
 
 # snaffle up the last block
 storeBlock(textData)
@@ -97,6 +95,3 @@ for key in blocks.keys():
     for s in blocks[key]:
         out.write(s)
     out.close()
-
-print
-print "OK."

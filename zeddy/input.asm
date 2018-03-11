@@ -15,6 +15,9 @@
 ; $BF -  H, J, K, L, NL   6
 ; $7F -  B, N, M, ., SP   7
 ;
+
+; input state data:
+;
 ; joystick bit, or $ff/%11111111 for no joy
 ; key row offset 0-7,
 ; key mask, or $ff/%11111111 for no key
@@ -27,7 +30,7 @@ inputstates:
     .byte	%01000000,1,%00000001,0        ; down    (A)
     .byte	%00100000,7,%00001000,0        ; left    (N)
     .byte	%00010000,7,%00000100,0        ; right   (M)
-    .byte	%00001000,7,%00000001,0        ; fire    (SP)
+    .byte	%00001000,6,%00000001,0        ; select  (NL)
     .byte	%11111111,3,%00000001,0        ; advance (1)
     .byte	%11111111,4,%00000001,0        ; feature (0)
     .byte	%11111111,5,%00000001,0        ; pause   (P)
@@ -38,11 +41,13 @@ up      = inputstates + 3
 down    = inputstates + 7
 left    = inputstates + 11
 right   = inputstates + 15
-fire    = inputstates + 19
+select  = inputstates + 19
 advance = inputstates + 23
 feature = inputstates + 27
 pause   = inputstates + 31
 
+
+; kbin is filled by the display interrupt
 
     .align  8
 _kbin:
@@ -59,6 +64,15 @@ readinput:
 jsreadfn = $+1
     call    _nullstick
     ld      (_lastJ),a
+
+    ld      de,INPUT._kbin-1
+    ld      bc,$fefe
+    .repeat 8
+        in      a,(c)
+        rlc     b
+        inc     de
+        ld      (de),a
+    .loop
 
     ; point at first input state block
     ;

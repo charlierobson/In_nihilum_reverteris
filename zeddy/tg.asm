@@ -61,34 +61,105 @@ line1:  .byte   0,1
         .word   line1end-$-2
         .byte   $ea
 
-        ld	hl,screen
-	ld      de,screen+1
-	ld      bc,6144-1
-	ld      (hl),0
-	ldir
+PS: ; program start
+
+        ld      hl,intro
+        ld      de,screen
+        ld      bc,32*192
+        ldir
 
         ld      ix,hrg
 
-        ld      hl,message
+wait:   call   gamestep
 
-mainloop:
-        ld      a,(hl)
+        ld      a,(select)
+        ld      (screen),a
+        cp      3
+        jr      nz,wait
+
+        ; text
+
+        ld      hl,$0100                ; chapter 1, page 0
+        ld      (bookmark),hl
+
+_updatepage:
+        call    cls
+        ld      de,(bookmark)
+        call    drawpage
+
+_tc:    call    gamestep
+
+_tu:    ld      a,(up)
+        cp      1
+        jr      nz,_td
+
+        ld      a,(bmpage)
         and     a
-        jr      z,mainloop           ; done
+        jr      z,_td
 
-        ; perform a newline
-        ;
--:      ld      a,(hl)
+        dec     a
+        ld      (bmpage),a
+        jr      _updatepage
+
+_td:    ld      a,(down)
+        cp      1
+        jr      nz,_tc
+
+        ld      a,(bmpage)
+        inc     a               ; URKK! need to mark chapter end somehow
+        ld      (bmpage),a
+        jr      _updatepage
+
+bookmark:
+        .word   0
+bmchap = bookmark+1
+bmpage = bookmark+0
+
+;-------------------------------------------------------------------------------
+;
+.module dp
+;
+drawpage:
+        ; d = chapter,  e = page
+
+        ld      a,d                     ; index into the chapter pointer table
+        add     a,a
+        ld      l,a
+        ld      h,chapterptrs / 256
+        ld      a,(hl)
+        inc     hl
+        ld      h,(hl)
+        ld      l,a                     ; hl points to start of chapter info block
+
+        ld      d,0                     ; each page info is 4 bytes
+        sla     e
+        sla     e
+        add     hl,de
+
+        ld      a,(hl)                  ; get offset into page text
+        inc     hl
+        ld      h,(hl)
+        ld      l,a
+
+        ld      de,message              ; index into actual text
+        add     hl,de
+        ld      (wordp),hl
+
+        ; we have a pointer to the page text within the chapter
+
+_loop:
+        ld      hl,(wordp)
+        call    getword                 ; get the next word into the word buffer
+        ld      (wordp),hl
+
+        ld      a,(wordbuf)
         cp      10
         jr      nz,{+}
 
         call    newline
-        inc     hl
-        jr      {-}
+        ret     z
 
-+:      call    getword
-        push    hl
-
++:
         call    getwordlen              ; return with word length in BC
 
         ld      hl,256                  ; calculate remaining available pixels
@@ -103,20 +174,25 @@ mainloop:
 
         jr      nc,_spaceleft
 
-        call    newline
+        call    newline                 ; no space left, so advance a line
+        ret     z                       ; bail if we've hit the end of the screen
 
-        ld      a,(wordbuf)             ; remove whitespace from front of word if necessary
-        cp      33
-        jr      nc,_spaceleft
+        jr      _remspc
 
+_remlp:
         inc     hl
+_remspc:
+        ld      a,(hl)                  ; remove whitespace from front of word if necessary
+        cp      33
+        jr      c,_remlp
 
 _spaceleft:
-        call    textout
-        pop     hl
+        call    textout                 ; render the word
 
-        jr      mainloop
+        jr      _loop
 
+wordp:
+        .word   0
 
 newline:
         xor     a                       ; newline
@@ -124,8 +200,7 @@ newline:
         ld      a,(y)
         inc     a
         ld      (y),a
--:      cp      17
-        jr      z,{-}
+        cp      17
         ret
 
 ;-------------------------------------------------------------------------------
@@ -136,7 +211,12 @@ getword:
         ld      de,wordbuf
 
 _scrape:
+        ld      a,(hl)
         ldi
+        and     a
+        ret     z
+        cp      13
+        ret     z
 
         xor     a
         ld      (de),a
@@ -145,9 +225,7 @@ _scrape:
         cp      33
         ret     c
 
-        and     a
-        jr      nz,_scrape
-        ret
+        jr      _scrape
 
 wordbuf:
         .fill   64
@@ -160,7 +238,6 @@ getwordlen:
         jr      _advance
 
 _accum:
-        sub     ' '
         ld      l,a
         ld      a,(hl)
         add     a,c
@@ -217,8 +294,6 @@ w:      .byte   0
 charout:
         push    hl
  
-        sub     ' '
-
         ; get character width into c
         ;
         ld      l,a
@@ -396,25 +471,50 @@ updatex:
         ret
 
 ;-------------------------------------------------------------------------------
+;
+.module misc
+;
+cls:
+        ld	hl,screen
+	ld      de,screen+1
+	ld      bc,6144-1
+        xor     a
+	ld      (hl),a
+	ldir
+        ld      (x),a
+        ld      (y),a
+        ret
 
-        ;
-        .module hrg
-        ;
+ gamestep:
+        ld      hl,gameframe
+        ld      a,(hl)
+-:      cp      (hl)
+        jr      z,{-}
 
+        jp      readinput
+
+;-------------------------------------------------------------------------------
+
+PE: ; program end
+
+;-------------------------------------------------------------------------------
+;
+.module hrg
+;
 hrg:	; not sure any of this is needed other than for timing -------------------
         ;
         inc     hl
         inc     b
-        ld	bc,$e007
-	ld      a,$b0
-	out     (c),a
+        ld	bc,$e007 ;
+	ld      a,$b0    ; ?? whyyyy
+	out     (c),a    ;
         ld      hl,(pointer+0)
         nop
         ld      (pointer+0),hl
         ld      hl,(pointer+0)
         nop
         ld      (pointer+0),hl
-        or      e	        ; clear the Z flag ?????
+        or      e
         ;
         ;--------------------------------------------------------------------------
 
@@ -467,7 +567,7 @@ widths:
 
         ; needs to be here for alignment purposes
 linestarts:
-        .word   screen+ 0*bytesperline, screen+ 1*bytesperline, screen+ 2*bytesperline, screen+3*bytesperline
+        .word   screen+ 0*bytesperline, screen+ 1*bytesperline, screen+ 2*bytesperline, screen+ 3*bytesperline
         .word   screen+ 4*bytesperline, screen+ 5*bytesperline, screen+ 6*bytesperline, screen+ 7*bytesperline
         .word   screen+ 8*bytesperline, screen+ 9*bytesperline, screen+10*bytesperline, screen+11*bytesperline
         .word   screen+12*bytesperline, screen+13*bytesperline, screen+14*bytesperline, screen+15*bytesperline
@@ -480,6 +580,48 @@ message:
 
 gameframe
 	.byte	0
+
+;-------------------------------------------------------------------------------
+
+cp0 = 0
+cp1 = 1
+cp2 = 2
+cp3 = 3
+cp4 = 4
+cp5 = 5
+cp6 = 6
+cp7 = 7
+cp8 = 8
+cp9 = 9
+cpA = 10
+cpB = 11
+cpC = 12
+cpD = 13
+cpE = 14
+cpF = 15
+cpG = 16
+cpH = 17
+cpI = 18
+cpJ = 19
+cpK = 20
+cpL = 21
+        .define PG .word
+        .define JP .byte
+
+        .align 256
+
+chapterptrs:
+	.word	chp_0,chp_1,chp_2,chp_3,chp_4,chp_5
+	.word	chp_6,chp_7,chp_8,chp_9,chp_A,chp_B
+	.word	chp_C,chp_D,chp_E,chp_F,chp_G,chp_H
+	.word	chp_I,chp_J,chp_K,chp_L
+
+        .include "chapterdat.asm"
+
+;-------------------------------------------------------------------------------
+
+intro:
+        .incbin "../bmp/0START.pbm"
 
 ;-------------------------------------------------------------------------------
 

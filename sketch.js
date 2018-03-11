@@ -1,18 +1,21 @@
-
 var fontBitmap;
 var chapter;
 var font;
 var worder;
-var redrawRequired;
+let chapt = [];
 var pages = [];
+var jumps = [];
 var page;
 
 var input, button, greeting;
 
+var fns = '0123456789ABCDEFGHIJKL';
+var cinfns = 0;
+
+blobs = [];
+
 function preload() {
   fontBitmap = loadImage('textgamefont.bmp');
-
-  chapter = loadStrings('md/1.md');
 }
 
 
@@ -23,10 +26,6 @@ function setup() {
   font = new Font(fontBitmap, 6, 11);
   font.createGlyphs();
 
-  worder = new Slicer(chapter.join('\n\n'));
-  pages.push(worder.cursor);
-  page = 0;
-
   input = createInput();
   input.position(20, 220);
 
@@ -34,12 +33,38 @@ function setup() {
   button.position(input.x + input.width, input.y);
   button.mousePressed(loadText);
 
-  redrawRequired = true;
+  loadStrings('md/'+fns.charAt(cinfns)+'.md', processChapter);
 }
 
+function processChapter(result) {
+  worder = new Slicer(result.join('\n\n'));
+
+  page = 0;
+
+  pages = [];
+  jumps = [];
+
+  while (redrawx()) {
+    ++page;
+  }
+
+  chapt.push('chp_' + fns.charAt(cinfns) + ':');
+  for (p in pages) {
+    chapt.push('\tPG\t' + pages[p]);
+    chapt.push('\tJP\t' + jumps[p]);
+  }
+
+  cinfns++;
+  if (cinfns < fns.length) {
+    loadStrings('md/'+fns.charAt(cinfns)+'.md', processChapter);
+  }
+  else {
+    saveStrings(chapt, 'chapterdat.asm');
+  }
+}
+
+
 function draw() {
-  if (!redrawRequired) return;
-  redrawx();
 }
 
 function loadText() {
@@ -52,7 +77,6 @@ function reloaded(result) {
   pages = [0];
   page = 0;
 
-  redrawRequired = true;
   redrawx();
 }
 
@@ -83,13 +107,9 @@ function renderWord(word, pos) {
 }
 
 function redrawx() {
-  redrawRequired = false;
-
-  worder.cursor = pages[page];
-
   background(255);
 
-  jumps = [];
+  let localjumps = [];
 
   let pos = new pospair();
   pos.x = 0;
@@ -97,15 +117,17 @@ function redrawx() {
 
   let word = worder.peekWord();
   while (word == '\n') { worder.popWord(); word = worder.peekWord(); }
+  if (word == '') return false;
 
+  let pagestart = worder.cursor;
   while(word != '' && pos.y < height - 11) {
 
     let linkFinder = /(\s*)(\[\S)(\S+)/
     let match = word.match(linkFinder);
     if (match != null) {
-      jumps.push(match[2][1]);
+      localjumps.push('cp'+match[2][1]);
       word = word.replace(linkFinder, '$1$3');
-      let base = 2 * jumps.length + 138;
+      let base = 2 * localjumps.length + 26;
       renderWord(' ' + (char)(base) + (char)(base+1), pos);
     }
     else {
@@ -123,23 +145,25 @@ function redrawx() {
     word = worder.peekWord();
   }
 
-  if (pages.length < page + 2 && word != '') {
-    pages.push(worder.cursor);
+  pages.push(pagestart);
+  while (localjumps.length < 2) {
+    localjumps.push(-1);
   }
+  jumps.push(localjumps);
 
-  print(jumps);
+  return true;
 }
 
 function keyPressed() {
   if (keyCode === LEFT_ARROW) {
     if (page > 0) {
       --page;
-      redrawRequired = true;
+      redrawx();
     }
   } else if (keyCode === RIGHT_ARROW) {
     if (page < pages.length - 1) {
       ++page;
-      redrawRequired = true;
+      redrawx();
     }
   }
 
