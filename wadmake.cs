@@ -32,6 +32,6 @@ public class WadMaker
             ++idx;
         }
 
-        File.WriteAllBytes("wad.bin", wad);
+        File.WriteAllBytes(args[1], wad);
     }
 }

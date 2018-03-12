@@ -64,7 +64,7 @@ PS: ; program start
 
         call    initwad
 
-        ld      hl,$16
+        ld      hl,0
         call    wadLoad
 
         ld      hl,$8032
@@ -607,7 +607,7 @@ hrg:	; not sure any of this is needed other than for timing -------------------
         ;
         inc     hl
         inc     b
-        ld	bc,$e007 ;
+        ld	bc,$e0ff ;
 	ld      a,$b0    ; ?? whyyyy
 	out     (c),a    ;
         ld      hl,(pointer+0)
@@ -660,11 +660,11 @@ vsync2: cp      (hl)
 ;-------------------------------------------------------------------------------
 
 font:
-        .incbin ../textgamefont.bin
+        .incbin textgamefont.bin
 
         .align 256
 widths:
-        .incbin ../textgamefont-widths.bin
+        .incbin textgamefont-widths.bin
 
         bytesperline = 32 * 11
 
@@ -677,7 +677,7 @@ linestarts:
         .word   screen+16*bytesperline, screen+17*bytesperline
 
 message:
-        .incbin ../md/1.md
+        .incbin md/1.md
 
 ;-------------------------------------------------------------------------------
 
