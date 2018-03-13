@@ -1,10 +1,6 @@
-mono wadmake.exe script.txt tg.wad > wad.asm
-brass tg.asm tg.p -l tg.html
+mono munger.exe
+mono brass.exe tg.asm tg.p -l tg.html
 
-cp tg.p ../zedragon/ZXpand_SD_Card/menu.p
-cp tg.p.sym ../zedragon/ZXpand_SD_Card/menu.p.sym
-cp tg.wad ../zedragon/ZXpand_SD_Card/
-
-cp tg.p ~/Desktop/TG/
-cp tg.p.sym ~/Desktop/TG/
-cp tg.wad ~/Desktop/TG/
+cp tg.p ZXpand_SD_Card/menu.p
+cp tg.p.sym ZXpand_SD_Card/menu.p.sym
+cp tg.wad ZXpand_SD_Card/

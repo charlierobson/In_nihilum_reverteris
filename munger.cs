@@ -193,6 +193,21 @@ namespace testapp1
             while (cursor != str.Length && b != 10 && str[cursor] != 32 && str[cursor] != 10);
 
             return word.ToArray();
+/*
+getword:
+    ld      a,(hl)
+-:  ldi
+    and     a
+    ret     z
+    cp      10
+    ret     z
+    ld      a,(hl)
+    cp      32
+    ret     z
+    cp      10
+    jr      nz,{-}
+    ret
+*/
         }
 
         public void MakeWAD()

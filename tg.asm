@@ -64,7 +64,7 @@ PS: ; program start
 
         call    initwad
 
-        ld      hl,0
+        ld      hl,$16          ; 0START
         call    wadLoad
 
         ld      hl,$8032
@@ -79,7 +79,6 @@ wait:   call   gamestep
         cp      1
         jr      nz,wait
 
-
         ld      d,1
         call    getchapter
         ld      (chapter),hl
@@ -88,7 +87,6 @@ wait:   call   gamestep
         ld      e,a
         call    getpage
         ld      (page),hl
-
 
 _updatepage:
         call    cls
@@ -159,6 +157,11 @@ getchapter:
         inc     hl
         ld      h,(hl)
         ld      l,a                     ; hl points to start of chapter info block
+ 
+        ld      a,(hl)                  ; snaffle out the bmp index, if there is one
+        ld      (chapterbmp),a
+
+        inc     hl
         ret
 
 getpage:
@@ -254,26 +257,25 @@ newline:
 ;
 getword:
         ld      de,wordbuf
+        ld      a,(hl)
 
 _scrape:
-        ld      a,(hl)
         ldi
         and     a
         ret     z
-        cp      13
+        cp      10
         ret     z
-
-        xor     a
-        ld      (de),a
-
         ld      a,(hl)
-        cp      33
-        ret     c
+        cp      32
+        ret     z
+        cp      10
+        jr      nz,_scrape
+        ret
 
         jr      _scrape
 
 wordbuf:
-        .fill   64
+        .fill   32
 
 
 getwordlen:
