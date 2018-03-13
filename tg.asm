@@ -60,6 +60,9 @@ line1:  .byte   0,1
         .word   line1end-$-2
         .byte   $ea
 
+;
+.module main
+;
 PS: ; program start
 
         call    initwad
@@ -74,14 +77,16 @@ PS: ; program start
 
         ld      ix,hrg
 
-wait:   call   gamestep
+_wait:
+        call   gamestep
         ld      a,(select)
         cp      1
-        jr      nz,wait
+        jr      nz,_wait
 
         ld      d,1
         call    getchapter
         ld      (chapter),hl
+
         xor     a
         ld      (pagenum),a
         ld      e,a
@@ -98,7 +103,7 @@ _tc:    call    gamestep
         cp      1
         jr      nz,_td
 
-        ld      a,(pagenum)
+_tcdi:  ld      a,(pagenum)
         dec     a
         call    trysetpage
         jr      nz,_updatepage
@@ -107,7 +112,7 @@ _td:    ld      a,(down)
         cp      1
         jr      nz,_tc
 
-        ld      a,(pagenum)
+_tddi:  ld      a,(pagenum)
         inc     a
         call    trysetpage
         jr      nz,_updatepage
@@ -162,8 +167,14 @@ getchapter:
  
         ld      a,(hl)                  ; snaffle out the bmp index, if there is one
         ld      (chapterbmp),a
-
         inc     hl
+
+        push    hl                      ; load chapter
+        ld      l,d
+        ld      h,0
+        call    wadLoad
+        pop     hl
+
         ret
 
 getpage:
@@ -172,7 +183,8 @@ getpage:
 
         ld      hl,(chapter)
 
-        ld      d,0                     ; each page info is 4 bytes
+        ld      d,0                     ; each page info is 5 bytes
+        add     hl,de
         sla     e
         sla     e
         add     hl,de
@@ -188,10 +200,8 @@ getpage:
 .module dp
 ;
 drawpage:
-        ; d = chapter,  e = page
-
         ld      hl,(page)
-        ld      de,message
+        ld      de,$8000
         add     hl,de
         ld      (wordp),hl
 
@@ -212,22 +222,23 @@ _loop:
 +:
         call    getwordlen              ; return with word length in BC
 
-        ld      hl,256                  ; calculate remaining available pixels
-        ld      a,(x)
-        ld      e,a
-        ld      d,0
-        sbc     hl,de
-
-        sbc     hl,bc                   ; see if word can fit in remaining pixels
+        ld      a,(x)                   ; will x + word len fit?
+        add     a,c
 
         ld      hl,wordbuf              ; get a word pointer ready in case it needs updating
 
-        jr      nc,_spaceleft
+        call    c,_newlineorbust
 
+        call    textout                 ; render the word
+        jr      _loop
+
+
+_newlineorbust:
         call    newline                 ; no space left, so advance a line
-        ret     z                       ; bail if we've hit the end of the screen
+        jr      nz,_remspc              ; continue if there are lines left
 
-        jr      _remspc
+        pop     hl                      ; don't return to drawing, but to caller
+        ret
 
 _remlp:
         inc     hl
@@ -235,14 +246,8 @@ _remspc:
         ld      a,(hl)                  ; remove whitespace from front of word if necessary
         cp      33
         jr      c,_remlp
+        ret
 
-_spaceleft:
-        call    textout                 ; render the word
-
-        jr      _loop
-
-wordp:
-        .word   0
 
 newline:
         xor     a                       ; newline
@@ -253,11 +258,23 @@ newline:
         cp      17
         ret
 
+
+wordp:
+        .word   0
+
+
 ;-------------------------------------------------------------------------------
 ;
 .module words
 ;
 getword:
+        call    _gwi
+        ex      de,hl
+        ld      (hl),0
+        ex      de,hl
+        ret
+
+_gwi:
         ld      de,wordbuf
         ld      a,(hl)
 
@@ -679,9 +696,6 @@ linestarts:
         .word   screen+ 8*bytesperline, screen+ 9*bytesperline, screen+10*bytesperline, screen+11*bytesperline
         .word   screen+12*bytesperline, screen+13*bytesperline, screen+14*bytesperline, screen+15*bytesperline
         .word   screen+16*bytesperline, screen+17*bytesperline
-
-message:
-        .incbin md/1.md
 
 ;-------------------------------------------------------------------------------
 

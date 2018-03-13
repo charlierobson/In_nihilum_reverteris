@@ -176,7 +176,7 @@ namespace testapp1
             }
 
             Console.WriteLine("Writing chapterdat.asm");
-            File.WriteAllLines("chapterdat.asm", chapterdat);
+            File.WriteAllLines("codegen/chapterdat.asm", chapterdat);
         }
 
         public byte[] getWord(byte[] str, ref int cursor)
@@ -241,7 +241,7 @@ getword:
             File.WriteAllBytes("tg.wad", wad);
 
             Console.WriteLine("Writing wad.asm");
-            File.WriteAllLines("wad.asm", waddat);
+            File.WriteAllLines("codegen/wad.asm", waddat);
         }
     }
 }
