@@ -134,6 +134,8 @@ trysetpage:
 
 chapter:
         .word   0
+chapterbmp:
+        .byte   0
 page:
         .word   0
 pagenum:
@@ -722,11 +724,11 @@ chapterptrs:
 	.word	chp_12, chp_13, chp_14, chp_15, chp_16, chp_17
 	.word	chp_18, chp_19, chp_20, chp_21
 
-        .include "chapterdat.asm"
+        .include "codegen/chapterdat.asm"
 
         .align 256
 wadptrs:
-        .include "wad.asm"
+        .include "codegen/wad.asm"
 
 wadfile:
         .byte   $39,$2c,$1b,$3c,$26,$29+$80     ; TG.WAD
