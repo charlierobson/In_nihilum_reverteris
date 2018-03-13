@@ -26,8 +26,8 @@ Once the talk was over and the audience was dispersing, the brothers managed to 
 
 Just look whos talking, Karl thought, but he kept it to himself.
 
-Im sorry, but I cant help you, the beanpole continued. I dont believe your theory. I dont see any of the manifestations. Everythings vanishing? Come on! Everythings just the same as always. N-o-o-o. What interests us are changes... geographical, factual, anatomical. Changes in nomenclature, in design, in film dialogues. Even if one recognises that a vanishing object also constitutes a kind of change... well, if it was a manifestation of the Mandela Effect, an entire group of people would unquestionably have noticed. Thats the crux of the matter.
+Im sorry, but I cant help you, the beanpole continued. I dont believe your theory. I dont see any of the manifestations. Everythings vanishing? Come on\! Everythings just the same as always. N-o-o-o. What interests us are changes... geographical, factual, anatomical. Changes in nomenclature, in design, in film dialogues. Even if one recognises that a vanishing object also constitutes a kind of change... well, if it was a manifestation of the Mandela Effect, an entire group of people would unquestionably have noticed. Thats the crux of the matter.
 
 Oh well, there we are. One way or another, it was worth giving it a try, said Anton as they were leaving the building. After listening to all that twaddle, I really can see that theyre actually involved in something thats completely different from what brought us here. Theyre two utterly different things. Well think about what to do next tomorrow.
 
-It was, indeed, now late, so they went their separate ways after [Dagreeing to meet the following day].
+It was, indeed, now late, so they went their separate ways after  agreeing to meet the following day.

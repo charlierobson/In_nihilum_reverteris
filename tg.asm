@@ -710,14 +710,15 @@ cpK = 20
 cpL = 21
         .define PG .word
         .define JP .byte
+        .define BM .byte
 
         .align 256
 
 chapterptrs:
-	.word	chp_0,chp_1,chp_2,chp_3,chp_4,chp_5
-	.word	chp_6,chp_7,chp_8,chp_9,chp_A,chp_B
-	.word	chp_C,chp_D,chp_E,chp_F,chp_G,chp_H
-	.word	chp_I,chp_J,chp_K,chp_L
+	.word	chp_0,  chp_1,  chp_2,  chp_3,  chp_4,  chp_5
+	.word	chp_6,  chp_7,  chp_8,  chp_9,  chp_10, chp_11
+	.word	chp_12, chp_13, chp_14, chp_15, chp_16, chp_17
+	.word	chp_18, chp_19, chp_20, chp_21
 
         .include "chapterdat.asm"
 

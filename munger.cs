@@ -13,7 +13,7 @@ namespace testapp1
         {
             var program = new WadMaker();
             program.SplitMD();
-            //program.MakeWAD(args);
+            program.MakeWAD();
         }
     }
 
@@ -21,21 +21,13 @@ namespace testapp1
     {
         private int _jumpIdx;
 
-        private void ConsoleWriteLine(string s)
-        {
-            //Console.WriteLine(s);
-        }
-
-        private void ConsoleWrite(string s)
-        {
-            //Console.Write(s);
-        }
-
         public void SplitMD()
         {
             var chapters = new Dictionary<string, string>();
-            var rawMD = File.ReadAllLines("/Users/charlierobson/Documents/GH/textgame/converted.md");
-            var charWidths = File.ReadAllBytes("/Users/charlierobson/Documents/GH/textgame/textgamefont-widths.bin");
+            var jumps = new Dictionary<String, int[]>();
+
+            var rawMD = File.ReadAllLines("converted.md");
+            var charWidths = File.ReadAllBytes("textgamefont-widths.bin");
 
             var line = 0;
             var chapterMatcher = new Regex(@"^(\S)$");
@@ -57,7 +49,10 @@ namespace testapp1
                 ++line;
             }
 
+            chapters[currentChapterName] = accumulatedText.ToString().Trim();
+
             var chapterIDs = new List<string>(chapters.Keys);
+            chapterIDs.Sort();
             foreach (var chapterName in chapterIDs)
             {
                 chapters[chapterName] = chapters[chapterName].Replace('–', (char)(0x2d));
@@ -75,6 +70,19 @@ namespace testapp1
                 chapters[chapterName] = chapters[chapterName].Replace('ê', (char)(0x18));
                 chapters[chapterName] = chapters[chapterName].Replace('ö', (char)(0x19));
 
+                var jumpData = new List<int>();
+
+                var matches = new Regex(@"\\\[(?<cid>\S)").Matches(chapters[chapterName]);
+                foreach (Match match in matches)
+                {
+                    var cn2idx = "0123456789ABCDEFGHIJKL";
+                    var target = match.Groups["cid"].Value;
+                    var intidx = cn2idx.IndexOf(target);
+                    jumpData.Add(intidx);
+                }
+
+                jumps[chapterName] = jumpData.ToArray();
+
                 chapters[chapterName] = Regex.Replace(chapters[chapterName], @"\\\]", "");
 
                 _jumpIdx = 0;
@@ -90,19 +98,28 @@ namespace testapp1
                     return q + " ";
                 });
 
-                File.WriteAllText("/Users/charlierobson/Documents/gh/textgame/" + chapterName + ".mdx", chapters[chapterName]);
+                Console.WriteLine("Writing " + chapterName + ".md");
+                File.WriteAllText("md/" + chapterName + ".md", chapters[chapterName]);
             }
+
+            var chapterdat = new List<string>();
 
             foreach (var chapterName in chapterIDs)
             {
-                var textBytes = File.ReadAllBytes("/Users/charlierobson/Documents/gh/textgame/" + chapterName + ".mdx");
+                var textBytes = File.ReadAllBytes("md/" + chapterName + ".md");
 
                 const int numLines = 192 / 11;
 
                 var curstash = 0;
                 var cursor = curstash;
 
-                Console.WriteLine($"chp_{chapterName}:");
+                var cn2idx = "0123456789ABCDEFGHIJKL";
+                var intidx = cn2idx.IndexOf(chapterName);
+                chapterdat.Add($"chp_{intidx}:  ;  {chapterName}");
+
+                var bm2idx = "01589DEFHK";
+                intidx = bm2idx.IndexOf(chapterName);
+                chapterdat.Add($"\tBM\t{File.Exists($"bmp/{chapterName}.pbm") ? intidx : -1}");
 
                 while (cursor < textBytes.Length)
                 {
@@ -115,21 +132,19 @@ namespace testapp1
                     }
                     bool jumpAFound = false;
                     bool jumpBFound = false;
+                    bool jumpCFound = false;
 
-                    Console.WriteLine($"\tPG\t${cursor:x4}");
+                    chapterdat.Add($"\tPG\t${cursor:x4}");
 
-                    ConsoleWriteLine($"\nCursor @ {cursor}");
                     while (cursor < textBytes.Length && y < numLines)
                     {
                         curstash = cursor;
                         var word = getWord(textBytes, ref cursor);
-                        var dbgWord = Encoding.Default.GetString(word);
 
                         if (word[0] == 10)
                         {
                             x = 0;
                             ++y;
-                            ConsoleWriteLine("");
                             continue;
                         }
 
@@ -139,7 +154,6 @@ namespace testapp1
                         {
                             x = 0;
                             ++y;
-                            ConsoleWriteLine("");
                             if (y >= numLines)
                             {
                                 continue;
@@ -152,15 +166,17 @@ namespace testapp1
                         }
 
                         x += len;
-                        ConsoleWrite(Encoding.Default.GetString(word));
                         jumpAFound |= Array.Exists(word, element => element == 0x1a);
                         jumpBFound |= Array.Exists(word, element => element == 0x1c);
-
+                        jumpCFound |= Array.Exists(word, element => element == 0x1e);
                     }
-                    ConsoleWriteLine("");
-                    Console.WriteLine($"\tJT\t{jumpAFound} {jumpBFound}");
+                    chapterdat.Add($"\tJP\t{jumpAFound?jumps[chapterName][0]:-1},{jumpBFound?jumps[chapterName][1]:-1},{jumpCFound?jumps[chapterName][2]:-1}");
                 }
+                chapterdat.Add("\tPG\t-1");
             }
+
+            Console.WriteLine("Writing chapterdat.asm");
+            File.WriteAllLines("chapterdat.asm", chapterdat);
         }
 
         public byte[] getWord(byte[] str, ref int cursor)
@@ -179,11 +195,11 @@ namespace testapp1
             return word.ToArray();
         }
 
-        public void MakeWAD(string[] args)
+        public void MakeWAD()
         {
             var totesSize = 0L;
 
-            var script = File.ReadAllLines(args[0]);
+            var script = File.ReadAllLines("script.txt");
             foreach (var file in script)
             {
                 var length = new FileInfo(file).Length;
@@ -194,17 +210,23 @@ namespace testapp1
             var idx = 0;
             var offset = 0L;
 
+            var waddat = new List<string>();
+
             var wad = new byte[totesSize];
             foreach (var file in script)
             {
                 var bytes = File.ReadAllBytes(file);
                 bytes.CopyTo(wad, offset);
-                Console.WriteLine($"\t.word\t${offset / 256:x4}\t\t; {idx:x2}  {file}");
+                waddat.Add($"\t.word\t${offset / 256:x4}\t\t; {idx:x2}  {file}");
                 offset += ((bytes.Length + 255) / 256) * 256;
                 ++idx;
             }
 
-            File.WriteAllBytes(args[1], wad);
+            Console.WriteLine("Writing tg.wad");
+            File.WriteAllBytes("tg.wad", wad);
+
+            Console.WriteLine("Writing wad.asm");
+            File.WriteAllLines("wad.asm", waddat);
         }
     }
 }

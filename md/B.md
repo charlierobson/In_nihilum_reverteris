@@ -12,11 +12,11 @@ Along the way, Karl threw a few coins to a beggar standing by a shop. He'd bett
 
 Whatre you giving money to tramps for? Anton asked in surprise. Hell only drink it. I dont know. Its like you kissed a prostitutes hand or something of the kind.
 
-May you never have first-hand experience of the fact that beggars are human beings just like you, only things didnt work out so well for them, Karl growled in annoyance. You know how it goes... times of prosperity are when the criminals are living better than royalty and times of crisis are when the criminals are the only people living the good life. And by the way, if you must know, it so happens that I *have* kissed a prostitutes hand.
+May you never have first-hand experience of the fact that beggars are human beings just like you, only things didnt work out so well for them, Karl growled in annoyance. You know how it goes... times of prosperity are when the criminals are living better than royalty and times of crisis are when the criminals are the only people living the good life. And by the way, if you must know, it so happens that I *have* kissed a prostitutes hand. 
 
 How come? Anton gazed at him in astonishment.
 
-In the usual course of things. I left and it seemed courteous to say goodbye. A woman deserves respect. And anyway, a touch of good manners never killed anyone yet, you boor!
+In the usual course of things. I left and it seemed courteous to say goodbye. A woman deserves respect. And anyway, a touch of good manners never killed anyone yet, you boor\!
 
 They had now arrived at their destination. There wasnt so much as an inch of the building that wasnt covered in graffiti. Slogans leapt out at them from the walls; You are someones tamagotchi, Leaving the game is a deadly sin and the like. With thoughts of sects in mind, Karl had been expecting figures gliding around in silence, clad in habits or gauzy robes at the very least. The sight that greeted them, though, was a gaudy, vociferous rabble encamped both outside the entrance and inside. People of both sexes rocking the cybergoth look were gaming, most often on handheld devices or on computers or home consoles in the various rooms. Some were enthusiastically taking drugs in various forms and some were having sex in public.
 
@@ -40,8 +40,8 @@ The abbot gave him a reproving look. A non-player character, of course. Charact
 
 In other words... its a kind of... futuristic solipsism? asked Anton.
 
-Id say its the direct opposite. Were not solipsists and were not into materialistic agnosticism, either. Solipsism says that only the observing subject is real and that reality in its entirety is simply the set of his or her own, subjective impressions, while all the people and inanimate objects encountered are, so to say, parts of the mind of the individual experiencing them. Whereas we allow for a completely different possibility... who can vouch for the fact that you or I really exist, that, actually, were players? Maybe we dont really exist at all? We might be stuck here in the form of NPCs, constituting nothing more than a background for some real person-player. From what I can see, youre both NPCs, too, your characters are so lousily put-together.
+Id say its the direct opposite. Were not solipsists and were not into materialistic agnosticism, either. Solipsism says that only the observing subject is real and that reality in its entirety is simply the set of his or her own, subjective impressions, while all the people and inanimate objects encountered are, so to say, parts of the mind of the individual experiencing them. Whereas we allow for a completely different possibility... who can vouch for the fact that you or I really exist, that, actually, were players? Maybe we dont really exist at all? We might be stuck here in the form of NPCs, constituting nothing more than a background for some real person-player. From what I can see, youre both NPCs, too, your characters are so lousily put-together. 
 
-In the end, the abbot stated that Karls problem was of absolutely no interest to him and that he wasnt going to devote any more time to non-existent people because he had to collect more game points. Concerned that this might mean they were about to become a way for him to acquire more frags, the brothers hurriedly left the building.
+In the end, the abbot stated that Karls problem was of absolutely no interest to him and that he wasnt going to devote any more time to non-existent people because he had to collect more game points. Concerned that this might mean they were about to become a way for him to acquire more frags, the brothers hurriedly left the building. 
 
-It was now so late that they arranged to continue their quest the next day. [DKarl resignedly set off home].
+It was now so late that they arranged to continue their quest the next day.  Karl resignedly set off home.

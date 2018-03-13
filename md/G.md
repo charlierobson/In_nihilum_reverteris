@@ -12,4 +12,4 @@ Karl took a healthy pull from the bottle... healthy enough to set his head spinn
 
 Well, you know, said Anton, with a chuckle, when you buy a new bed at our age, its not inconceivable that itll last you to the end of your life.
 
-Karl gazed at the pistol in his hand and then [1made his bed his Deathbed].
+Karl gazed at the pistol in his hand and then  made his bed his Deathbed.

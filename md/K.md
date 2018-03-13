@@ -1,6 +1,6 @@
 It has to be admitted that Karl felt an overwhelming desire to go home and drink himself to death... or, at any rate, to try with all his might to do so. However, it turned out that there was now no possibility of heading that way on account of an enormous black hole in reality. The dark chasm was approximately the size of a sports stadium. There were more and more of them opening up at random. Willing or not, Karl set off to meet the professor.
 
-When he arrived, he saw that an entire group of buildings had so far survived in this part of the town... and that Professor Benedikts was one of them. The scientist didnt answer the door, so after repeatedly ringing the bell and knocking, Karl pressed down on the handle. The door yielded with a dismal creak.
+When he arrived, he saw that an entire group of buildings had so far survived in this part of the town... and that Professor Benedikts was one of them. The scientist didnt answer the door, so after repeatedly ringing the bell and knocking, Karl pressed down on the handle. The door yielded with a dismal creak. 
 
 Inside, darkness reigned. The interior was cold. The power station had undoubtedly vanished by now, while the Sun was evidently slowly coming to the end of its life. The ancient scholar was sitting, motionless, in a rocking chair, a blanket covering him. He was staring at the television screen. The television was turned off. Karl went over to the old man and touched his shoulder.
 
@@ -16,7 +16,7 @@ Karl had to devote a good fifteen or so minutes to getting Benedikt to return to
 
 Karl shook his head wordlessly.
 
-Y-e-e-e-s... the old man muttered, half to himself. It was proposed, back in the day, by Hugh Everett III, in the context of the principles of quantum mechanics. Reality is multiplicity. Infinite multiplicity gives an infinite degree of complexity... From what youve said... even one reality was put together in a way that was unimaginable to us, to say nothing of an infinity of them. And what if theyre purely potential in nature? Then thered be only one point of the present and it would move obdurately forward in line with the passing of time. Choices are made, decisions are taken and events... are established, described, confirmed, as it were, by the decisions we make...
+Y-e-e-e-s... the old man muttered, half to himself. It was proposed, back in the day, by Hugh Everett III, in the context of the principles of quantum mechanics. Reality is multiplicity. Infinite multiplicity gives an infinite degree of complexity... From what youve said... even one reality was put together in a way that was unimaginable to us, to say nothing of an infinity of them. And what if theyre purely potential in nature? Then thered be only one point of the present and it would move obdurately forward in line with the passing of time. Choices are made, decisions are taken and events... are established, described, confirmed, as it were, by the decisions we make... 
 
 I dont quite understand what thats got to do with... Karl began, but the venerable physicist interrupted him with an impatient gesture.
 
@@ -32,7 +32,7 @@ Karl was now starting to see where the conversation was going... and he didnt l
 
 Aghast, Karl thought back to the day when it had all begun. To the day when hed decided to give his relationship with Judith another chance. Now he could see what That Other Karl had decided. Hed walked out. Hed left her.
 
-He suddenly felt an extraordinary sense of peace. He was finally done with fighting, with running around in circles. He had long since realised that his world had no *raison dtre *without Judith. He knew that, even though The Others world existed, without her, it would be as empty and dark as the emptiness and darkness that would soon fall here. It could be said that, in a way, accounts have been settled, he thought, without a shadow of emotion. Well, who knows, perhaps emotions had ceased to exist, too?
+He suddenly felt an extraordinary sense of peace. He was finally done with fighting, with running around in circles. He had long since realised that his world had no *raison dtre *without Judith. He knew that, even though The Others world existed, without her, it would be as empty and dark as the emptiness and darkness that would soon fall here. It could be said that, in a way, accounts have been settled, he thought, without a shadow of emotion. Well, who knows, perhaps emotions had ceased to exist, too? 
 
 In the meantime, Benedikt was continuing his cogitations.
 

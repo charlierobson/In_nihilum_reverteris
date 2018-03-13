@@ -10,4 +10,4 @@ To begin with, Karl had still hoped that, paradoxically, infinity... despite the
 
 Oh, well, he muttered to himself, as the philosopher said, I think, therefore I am a joke.
 
-He decided to try and evaluate the losses that had arisen thus far, to find out something beyond conversations with scientists... never mind whether they were devoted to the spirit or to the material... something beyond the results of observing the town or watching television. So he gave some thought as to whether hed [Ihead for the nearest church] or, perhaps [Jmake his way to the Municipal Offices, the seat of the Town Council].
+He decided to try and evaluate the losses that had arisen thus far, to find out something beyond conversations with scientists... never mind whether they were devoted to the spirit or to the material... something beyond the results of observing the town or watching television. So he gave some thought as to whether hed  head for the nearest church or, perhaps  make his way to the Municipal Offices, the seat of the Town Council.

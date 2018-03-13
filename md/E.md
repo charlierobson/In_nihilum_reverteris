@@ -4,7 +4,7 @@ He was sitting in his desk chair, flanked by a small, sculpted lamp on one side 
 
 Hell, its not coming, " he muttered, glaring at the sheet of paper.
 
-What? Judith asked, tearing her attention away from the computer. Im sorry. I didnt catch what you said.
+What? Judith asked, tearing her attention away from the computer. Im sorry. I didnt catch what you said. 
 
 Im saying that its stupid somehow. Im striving to digest a... recent event. Ive called it *Trees on the Clouds*.
 
@@ -30,7 +30,7 @@ Karl cleared his throat and started to read, trying to convey the tone of his fe
 
 *He didnt say anything for a long moment. Finally, though, he spoke.*
 
-*Listen... I woke up this morning and... Ive been walking around the town for several hours now... Looking around... And there isnt one... theres not even one! I dont know... Where have the trees in the clouds gone?*
+*Listen... I woke up this morning and... Ive been walking around the town for several hours now... Looking around... And there isnt one... theres not even one\! I dont know... Where have the trees in the clouds gone?*
 
 Karl finished reading.
 
@@ -40,7 +40,7 @@ Judith wasnt there. He stared at the immaculately made, utterly empty bed. Then
 
 He had absolutely no idea what to do. He searched feverishly for his mobile phone and selected Anton's number from his speed dial. *The number you have dialled does not exist*. *The number you have dialled does not exist.* He disconnected. He didnt have a shadow of doubt about what that meant. There was no Anton now. He fell inertly onto the bed.
 
-* * *
+\* \* \*
 
 Almost two weeks had passed. He was drinking almost non-stop. He never went out. In fact, he barely even got out of bed. Mess and semi-darkness reigned in the house.
 
@@ -50,7 +50,7 @@ Karl never turned the television off.
 
 First the number of programmes and presenters had diminished. And for several days now, thered been nothing showing but the same two films.
 
-*...I want a nigger hidin in a bowl of rice, ready to pop a cap in his ass...*
+*...I want a nigger hidin in a bowl of rice, ready to pop a cap in his ass...* 
 
 He opened another bottle, his movements unsteady, but he passed out after a few swigs. Several hours later, he woke up.
 
@@ -60,6 +60,6 @@ He struggled to his feet and, with difficulty, staggered to the toilet. The soun
 
 Come round to my lab. I think Im on to something.... But that was all there was. The words were followed by an explosion and a scream.
 
-Karl collapsed into an armchair with resignation and mused at length over whether he should [Fhead over to Vloshins laboratory] or finish the bottle and not take any action... whatever it might be... until the next day. Or in a weeks time. [GOr whenever he acknowledged that it was of any consequence whatsoever].
+Karl collapsed into an armchair with resignation and mused at length over whether he should  head over to Vloshins laboratory or finish the bottle and not take any action... whatever it might be... until the next day. Or in a weeks time.  Or whenever he acknowledged that it was of any consequence whatsoever. 
 
 *...I want a nigger hidin in a bowl of rice, ready to pop a cap in his ass...*

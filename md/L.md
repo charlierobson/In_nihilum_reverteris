@@ -8,4 +8,4 @@ Then, suddenly, Karl noticed that more sections of land were beginning to recede
 
 Fear settled in his mind. He knew that, since he was neither suffocating nor freezing, what awaited him now were long days of dying in the midst of nothingness.
 
-Karl drifted away [1into the boundless darkness and boundless despair].
+Karl drifted away  into the boundless darkness and boundless despair.

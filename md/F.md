@@ -16,4 +16,4 @@ Karl slowly approached him.
 
 It was only after Karl had removed the blanket that it became clear that Doctor Vloshins experiment couldnt be numbered amongst the successful... and that he offered no promise whatsoever of salvation. He wasnt so much lying on the floor as inextricably integrated with it along the entire back half of his body. With his face turned upwards and his gaze utterly crazed, he was ceaselessly reciting his terrifying string of words in a voice growing steadily weaker.
 
-Karl shot him and [Hquickly left the lab].
+Karl shot him and  quickly left the lab.
