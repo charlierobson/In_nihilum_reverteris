@@ -26,14 +26,14 @@
 
 
 inputstates:
-    .byte	%10000000,2,%00000001,0        ; up      (Q)
-    .byte	%01000000,1,%00000001,0        ; down    (A)
+    .byte	%10000000,4,%00001000,0        ; up      (7)
+    .byte	%01000000,4,%00010000,0        ; down    (6)
     .byte	%00100000,7,%00001000,0        ; left    (N)
     .byte	%00010000,7,%00000100,0        ; right   (M)
     .byte	%00001000,6,%00000001,0        ; select  (NL)
-    .byte	%11111111,3,%00000001,0        ; advance (1)
-    .byte	%11111111,4,%00000001,0        ; feature (0)
-    .byte	%11111111,5,%00000001,0        ; pause   (P)
+    .byte	%11111111,1,%00000001,0        ; A
+    .byte	%11111111,7,%00010000,0        ; B
+    .byte	%11111111,0,%00001000,0        ; C
 
 
 ; calculate actual input impulse addresses
@@ -42,10 +42,9 @@ down    = inputstates + 7
 left    = inputstates + 11
 right   = inputstates + 15
 select  = inputstates + 19
-advance = inputstates + 23
-feature = inputstates + 27
-pause   = inputstates + 31
-
+btnA    = inputstates + 23
+btnB    = inputstates + 27
+btnC    = inputstates + 31
 
 ; kbin is filled by the display interrupt
 

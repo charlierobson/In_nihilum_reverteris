@@ -15,11 +15,11 @@ chp_1:  ;  1
 	JP	-1,-1,-1
 	PG	$01dd
 	JP	-1,-1,-1
-	PG	$046c
+	PG	$04a2
 	JP	-1,-1,-1
-	PG	$0747
+	PG	$0777
 	JP	-1,-1,-1
-	PG	$0a50
+	PG	$0a98
 	JP	2,-1,-1
 	PG	-1
 chp_2:  ;  2
@@ -33,39 +33,39 @@ chp_3:  ;  3
 	BM	-1
 	PG	$0000
 	JP	-1,-1,-1
-	PG	$0293
+	PG	$029c
 	JP	-1,-1,-1
-	PG	$049a
+	PG	$0498
 	JP	-1,-1,-1
-	PG	$0665
+	PG	$0663
 	JP	5,-1,-1
 	PG	-1
 chp_4:  ;  4
 	BM	-1
 	PG	$0000
 	JP	-1,-1,-1
-	PG	$01f1
+	PG	$0225
 	JP	-1,-1,-1
-	PG	$0438
+	PG	$0479
 	JP	-1,-1,-1
-	PG	$06ea
-	JP	-1,-1,-1
-	PG	$097e
+	PG	$0727
 	JP	5,-1,-1
+	PG	$09db
+	JP	-1,-1,-1
 	PG	-1
 chp_5:  ;  5
 	BM	2
 	PG	$0000
 	JP	-1,-1,-1
-	PG	$031e
+	PG	$032f
 	JP	-1,-1,-1
-	PG	$0595
+	PG	$05d3
 	JP	-1,-1,-1
-	PG	$080f
+	PG	$089a
 	JP	-1,-1,-1
-	PG	$0ad1
+	PG	$0b47
 	JP	-1,-1,-1
-	PG	$0d11
+	PG	$0d99
 	JP	6,7,-1
 	PG	-1
 chp_6:  ;  6
@@ -78,19 +78,19 @@ chp_6:  ;  6
 	JP	-1,-1,-1
 	PG	$0888
 	JP	-1,-1,-1
-	PG	$0a9a
+	PG	$0ad6
 	JP	-1,-1,-1
-	PG	$0dad
+	PG	$0de6
 	JP	-1,-1,-1
-	PG	$1044
+	PG	$1083
 	JP	-1,-1,-1
-	PG	$1365
+	PG	$13a1
 	JP	-1,-1,-1
-	PG	$15b2
+	PG	$160a
 	JP	-1,-1,-1
-	PG	$1890
+	PG	$18e9
 	JP	-1,-1,-1
-	PG	$1ad6
+	PG	$1af4
 	JP	8,-1,-1
 	PG	-1
 chp_7:  ;  7
@@ -105,49 +105,49 @@ chp_7:  ;  7
 	JP	-1,-1,-1
 	PG	$0a76
 	JP	-1,-1,-1
-	PG	$0d0f
+	PG	$0d0e
 	JP	-1,-1,-1
-	PG	$1018
+	PG	$1032
 	JP	-1,-1,-1
-	PG	$12b4
+	PG	$12bc
 	JP	8,-1,-1
 	PG	-1
 chp_8:  ;  8
 	BM	3
 	PG	$0000
 	JP	-1,-1,-1
-	PG	$02ce
+	PG	$02d5
 	JP	-1,-1,-1
-	PG	$04b6
+	PG	$04e4
 	JP	-1,-1,-1
-	PG	$072a
+	PG	$0736
 	JP	-1,-1,-1
-	PG	$099a
+	PG	$0a23
 	JP	-1,-1,-1
-	PG	$0c3a
+	PG	$0cbd
 	JP	-1,-1,-1
-	PG	$0f1f
+	PG	$0fbf
 	JP	-1,-1,-1
-	PG	$11c4
+	PG	$123b
 	JP	-1,-1,-1
-	PG	$1437
+	PG	$14bc
 	JP	-1,-1,-1
-	PG	$16d7
+	PG	$179b
 	JP	9,0,-1
 	PG	-1
 chp_9:  ;  9
 	BM	4
 	PG	$0000
 	JP	-1,-1,-1
-	PG	$024f
+	PG	$024c
 	JP	-1,-1,-1
 	PG	$04b9
 	JP	-1,-1,-1
-	PG	$074c
+	PG	$077b
 	JP	-1,-1,-1
-	PG	$09bb
+	PG	$0a15
 	JP	10,11,-1
-	PG	$0c40
+	PG	$0c9d
 	JP	-1,-1,12
 	PG	-1
 chp_10:  ;  A
@@ -156,20 +156,18 @@ chp_10:  ;  A
 	JP	-1,-1,-1
 	PG	$027c
 	JP	-1,-1,-1
-	PG	$04f0
+	PG	$051d
 	JP	-1,-1,-1
-	PG	$0752
+	PG	$0765
 	JP	-1,-1,-1
-	PG	$09b5
+	PG	$09e7
 	JP	-1,-1,-1
-	PG	$0cbc
+	PG	$0d19
 	JP	-1,-1,-1
-	PG	$0f77
+	PG	$0fc6
 	JP	-1,-1,-1
-	PG	$11a6
+	PG	$1262
 	JP	13,-1,-1
-	PG	$1431
-	JP	-1,-1,-1
 	PG	-1
 chp_11:  ;  B
 	BM	-1
@@ -177,22 +175,20 @@ chp_11:  ;  B
 	JP	-1,-1,-1
 	PG	$02aa
 	JP	-1,-1,-1
-	PG	$04ca
+	PG	$04fb
 	JP	-1,-1,-1
-	PG	$0739
+	PG	$076e
 	JP	-1,-1,-1
-	PG	$0a1f
+	PG	$0a4d
 	JP	-1,-1,-1
-	PG	$0c89
+	PG	$0c93
 	JP	-1,-1,-1
-	PG	$0e62
+	PG	$0ef5
 	JP	-1,-1,-1
-	PG	$10d7
+	PG	$1139
 	JP	-1,-1,-1
-	PG	$136b
+	PG	$1440
 	JP	13,-1,-1
-	PG	$15e9
-	JP	-1,-1,-1
 	PG	-1
 chp_12:  ;  C
 	BM	-1
@@ -200,19 +196,19 @@ chp_12:  ;  C
 	JP	-1,-1,-1
 	PG	$0230
 	JP	-1,-1,-1
-	PG	$0453
+	PG	$047c
 	JP	-1,-1,-1
-	PG	$0627
+	PG	$062f
 	JP	-1,-1,-1
-	PG	$085f
+	PG	$08cb
 	JP	-1,-1,-1
-	PG	$0b80
+	PG	$0bae
 	JP	-1,-1,-1
-	PG	$0e1b
+	PG	$0e59
 	JP	-1,-1,-1
-	PG	$1034
+	PG	$1091
 	JP	-1,-1,-1
-	PG	$1244
+	PG	$1277
 	JP	13,-1,-1
 	PG	-1
 chp_13:  ;  D
@@ -228,113 +224,111 @@ chp_14:  ;  E
 	BM	6
 	PG	$0000
 	JP	-1,-1,-1
-	PG	$02c9
+	PG	$02d2
 	JP	-1,-1,-1
 	PG	$051a
 	JP	-1,-1,-1
-	PG	$0761
+	PG	$078d
 	JP	-1,-1,-1
 	PG	$0a30
 	JP	-1,-1,-1
-	PG	$0cbf
+	PG	$0cce
 	JP	-1,-1,-1
-	PG	$0e8e
+	PG	$0ea5
 	JP	-1,-1,-1
-	PG	$10df
+	PG	$113f
 	JP	-1,-1,-1
-	PG	$132a
+	PG	$1380
 	JP	-1,-1,-1
-	PG	$1537
+	PG	$158a
 	JP	-1,-1,-1
-	PG	$1791
+	PG	$17c7
 	JP	15,16,-1
 	PG	-1
 chp_15:  ;  F
 	BM	7
 	PG	$0000
 	JP	-1,-1,-1
-	PG	$02bf
+	PG	$0307
 	JP	-1,-1,-1
-	PG	$055d
+	PG	$056e
 	JP	-1,-1,-1
-	PG	$07e6
+	PG	$0849
 	JP	-1,-1,-1
-	PG	$0a2e
+	PG	$0a85
 	JP	17,-1,-1
 	PG	-1
 chp_16:  ;  G
 	BM	-1
 	PG	$0000
 	JP	-1,-1,-1
-	PG	$02cb
+	PG	$02fd
 	JP	-1,-1,-1
-	PG	$05d9
+	PG	$0614
 	JP	-1,-1,-1
-	PG	$08c6
-	JP	-1,-1,-1
-	PG	$0a9d
+	PG	$0909
 	JP	1,-1,-1
+	PG	$0b0b
+	JP	-1,-1,-1
 	PG	-1
 chp_17:  ;  H
 	BM	8
 	PG	$0000
 	JP	-1,-1,-1
-	PG	$02c4
+	PG	$02f1
 	JP	-1,-1,-1
-	PG	$059a
+	PG	$05d8
 	JP	-1,-1,-1
-	PG	$0805
-	JP	-1,-1,-1
-	PG	$0a93
+	PG	$0895
 	JP	18,19,-1
 	PG	-1
 chp_18:  ;  I
 	BM	-1
 	PG	$0000
 	JP	-1,-1,-1
-	PG	$0310
+	PG	$0337
 	JP	-1,-1,-1
-	PG	$0581
+	PG	$05d8
 	JP	-1,-1,-1
-	PG	$07c6
+	PG	$082d
 	JP	-1,-1,-1
-	PG	$0a82
+	PG	$0b00
 	JP	-1,-1,-1
-	PG	$0cb9
+	PG	$0d6d
 	JP	-1,-1,-1
-	PG	$0f35
-	JP	20,-1,-1
-	PG	$1182
-	JP	-1,21,-1
+	PG	$0f9d
+	JP	20,21,-1
+	PG	$123a
+	JP	-1,-1,-1
 	PG	-1
 chp_19:  ;  J
 	BM	-1
 	PG	$0000
 	JP	-1,-1,-1
-	PG	$02ce
+	PG	$02d5
 	JP	-1,-1,-1
-	PG	$05b4
+	PG	$05bc
 	JP	-1,-1,-1
-	PG	$0888
+	PG	$08bb
 	JP	-1,-1,-1
-	PG	$0aaf
+	PG	$0ada
 	JP	-1,-1,-1
-	PG	$0d48
+	PG	$0d7c
 	JP	-1,-1,-1
-	PG	$1020
+	PG	$1079
 	JP	20,-1,-1
 	PG	-1
 chp_20:  ;  K
 	BM	9
 	PG	$0000
 	JP	-1,-1,-1
-	PG	$02da
+	PG	$02df
 	JP	-1,-1,-1
 	PG	$0506
 	JP	-1,-1,-1
-	PG	$0786
+	PG	$07b8
 	JP	-1,-1,-1
-	PG	$0a2c
+	PG	$0a5d
 	JP	-1,-1,-1
 	PG	$0cca
 	JP	-1,-1,-1
@@ -342,17 +336,17 @@ chp_20:  ;  K
 	JP	-1,-1,-1
 	PG	$11f8
 	JP	-1,-1,-1
-	PG	$146e
+	PG	$14a2
 	JP	-1,-1,-1
 	PG	-1
 chp_21:  ;  L
 	BM	-1
 	PG	$0000
 	JP	-1,-1,-1
-	PG	$031d
+	PG	$0337
 	JP	-1,-1,-1
 	PG	$05d0
 	JP	-1,-1,-1
-	PG	$08b0
+	PG	$08b4
 	JP	1,-1,-1
 	PG	-1

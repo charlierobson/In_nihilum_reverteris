@@ -8,8 +8,7 @@ PAUSE 	        = $0F35	;inBC=delay
 KSCAN	        = $02bb	;outHL=Key, L=ROWbit, H=KEYbit
 FINDCHR         = $07bd	;HL=key
 
-
-SPC_WIDTH       = 5     ; must be first byte of font width file + 1
+SPC_WIDTH       = 4     ; must match first byte of font width file + 1
 
 ;-------------------------------------------------------------------------------
 
@@ -65,31 +64,21 @@ line1:  .byte   0,1
 ;
 PS: ; program start
 
+        call    cls
         call    initwad
-
-        ld      hl,$16          ; 0START
-        call    wadLoad
-
-        ld      hl,$8032
-        ld      de,screen
-        ld      bc,32*192
-        ldir
-
         ld      ix,hrg
 
-_wait:
-        call   gamestep
-        ld      a,(select)
-        cp      1
-        jr      nz,_wait
+        xor     a
+        call    showpic
 
-        ld      d,1
-        call    getchapter
-        ld      (chapter),hl
+        ld      a,1
+        ld      (chapnum),a
+
+_gochap:
+        call    loadchapter
 
         xor     a
         ld      (pagenum),a
-        ld      e,a
         call    getpage
         ld      (page),hl
 
@@ -110,53 +99,80 @@ _tcdi:  ld      a,(pagenum)
 
 _td:    ld      a,(down)
         cp      1
-        jr      nz,_tc
+        jr      nz,_tja
 
 _tddi:  ld      a,(pagenum)
         inc     a
         call    trysetpage
         jr      nz,_updatepage
-        jr      _tc
+
+_tja:   ld      a,(btnA)
+        cp      1
+        jr      nz,_tjb
+
+        ld      a,(jtab+0)
+        bit     7,a
+        jr      z,_newchapter
+
+_tjb:   ld      a,(btnB)
+        cp      1
+        jr      nz,_tjc
+
+        ld      a,(jtab+1)
+        bit     7,a
+        jr      z,_newchapter
+
+_tjc:   ld      a,(btnC)
+        cp      1
+        jr      nz,_tc
+
+        ld      a,(jtab+2)
+        bit     7,a
+        jr      nz,_tc
+
+_newchapter:
+        ld      (chapnum),a
+        jp      _gochap
+
 
 
 trysetpage:
-        ld      (tempage),a
-
+        ld      (_tempage),a
         cp      $ff             ; page of -1 no allowed
         ret     z
 
-        ld      e,a             ; get page ptr
         call    getpage
         ld      a,$ff           ; end of chapter marked with ffff
         cp      h
         ret     z
 
-        ld      a,(tempage)
+_tempage=$+1
+        ld      a,0
         ld      (pagenum),a
         ld      (page),hl
         or      $ff             ; clear z flag to indicate success
         ret
 
+
+chapnum:
+        .byte   0
 chapter:
         .word   0
-chapterbmp:
+
+pagenum:
         .byte   0
 page:
         .word   0
-pagenum:
-        .byte   0
-tempage:
-        .byte   0
+
+jtab:
+        .byte   0,0,0
 
 ;-------------------------------------------------------------------------------
 ;
 .module ci
 ;
-getchapter:
-        ; d <- chapter number
-        ; hl -> pointer to start of chapter info block
-
-        ld      a,d                     ; index into the chapter pointer table
+loadchapter:
+        ld      a,(chapnum)             ; index into the chapter pointer table
         add     a,a
         ld      l,a
         ld      h,chapterptrs / 256
@@ -166,29 +182,60 @@ getchapter:
         ld      l,a                     ; hl points to start of chapter info block
  
         ld      a,(hl)                  ; snaffle out the bmp index, if there is one
-        ld      (chapterbmp),a
-        inc     hl
+        cp      -1
+        jr      z,_nopic
 
-        push    hl                      ; load chapter
-        ld      l,d
-        ld      h,0
-        call    wadLoad
+        push    hl
+        call    showpic
         pop     hl
 
+_nopic:
+        inc     hl
+        ld      (chapter),hl
+
+        ld      a,(chapnum)
+        call    wadLoad
         ret
 
+
+showpic:
+        add     a,$16
+        call    wadLoad
+
+        ld      hl,$8032
+        ld      de,screen
+        ld      bc,32*192
+        ldir
+
+_wait4key:
+        call   gamestep
+        ld      a,(select)
+        cp      1
+        jr      nz,_wait4key
+        ret
+
+
+
 getpage:
-        ; e <- chapter number
+        ; a <- page number
         ; hl -> offset into page data
 
         ld      hl,(chapter)
 
         ld      d,0                     ; each page info is 5 bytes
+        ld      e,a
         add     hl,de
         sla     e
         sla     e
         add     hl,de
-
+        push    hl
+        inc     hl
+        inc     hl
+        ld      de,jtab
+        ldi
+        ldi
+        ldi
+        pop     hl
         ld      a,(hl)                  ; get offset into page text
         inc     hl
         ld      h,(hl)
@@ -209,17 +256,18 @@ drawpage:
 
 _loop:
         ld      hl,(wordp)
+        ld      a,(hl)
+        and     a                       ; a = 0 when no more words left
+        ret     z
+
         call    getword                 ; get the next word into the word buffer
+
         ld      (wordp),hl
 
         ld      a,(wordbuf)
         cp      10
-        jr      nz,{+}
+        jr      z,_donewline
 
-        call    newline
-        ret     z
-
-+:
         call    getwordlen              ; return with word length in BC
 
         ld      a,(x)                   ; will x + word len fit?
@@ -232,6 +280,11 @@ _loop:
         call    textout                 ; render the word
         jr      _loop
 
+_donewline:
+        call    newline
+        jr      nz,_loop
+        ret
+
 
 _newlineorbust:
         call    newline                 ; no space left, so advance a line
@@ -240,12 +293,12 @@ _newlineorbust:
         pop     hl                      ; don't return to drawing, but to caller
         ret
 
-_remlp:
-        inc     hl
 _remspc:
         ld      a,(hl)                  ; remove whitespace from front of word if necessary
-        cp      33
-        jr      c,_remlp
+        cp      32
+        ret     nz
+
+        inc     hl
         ret
 
 
@@ -280,18 +333,14 @@ _gwi:
 
 _scrape:
         ldi
-        and     a
-        ret     z
         cp      10
         ret     z
         ld      a,(hl)
         cp      32
         ret     z
-        cp      10
-        jr      nz,_scrape
+        cp      15
+        jr      nc,_scrape
         ret
-
-        jr      _scrape
 
 wordbuf:
         .fill   32
@@ -316,6 +365,7 @@ _advance:
         and     a
         jr      nz,_accum
 
+        dec     c
         ret
 
 ;-------------------------------------------------------------------------------
@@ -333,6 +383,8 @@ initwad:
 
 
 wadLoad:
+        ld      h,0
+        ld      l,a
         add     hl,hl
         ld      de,wadptrs
         add     hl,de

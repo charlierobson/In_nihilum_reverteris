@@ -21,6 +21,9 @@ namespace testapp1
     {
         private int _jumpIdx;
 
+        private void LogV(string s) {
+            Console.Write(s);
+        }
         public void SplitMD()
         {
             var chapters = new Dictionary<string, string>();
@@ -36,7 +39,13 @@ namespace testapp1
             var currentChapterName = string.Empty;
 
             while (line < rawMD.Length) {
-                var match = chapterMatcher.Match(rawMD[line]);
+                var raw = rawMD[line];
+
+                raw = raw.Replace("<span id=\"anchor\"></span>", "");
+                raw = raw.Replace(@"\!", "!");
+                raw = raw.Replace(@"\*", "*");
+
+                var match = chapterMatcher.Match(raw);
                 if (match.Success) {
                     if (accumulatedText.Length != 0) {
                         chapters[currentChapterName] = accumulatedText.ToString().Trim();
@@ -44,7 +53,7 @@ namespace testapp1
                     currentChapterName = match.Groups[1].Captures[0].ToString();
                     accumulatedText.Clear();
                 } else {
-                    accumulatedText.AppendLine(rawMD[line]);
+                    accumulatedText.AppendLine(raw);
                 }
                 ++line;
             }
@@ -98,6 +107,8 @@ namespace testapp1
                     return q + " ";
                 });
 
+                chapters[chapterName] += '\0';
+
                 Console.WriteLine("Writing " + chapterName + ".md");
                 File.WriteAllText("md/" + chapterName + ".md", chapters[chapterName]);
             }
@@ -107,6 +118,8 @@ namespace testapp1
             foreach (var chapterName in chapterIDs)
             {
                 var textBytes = File.ReadAllBytes("md/" + chapterName + ".md");
+
+                LogV($"-----------------CHAPTER-{chapterName}----------------\n");
 
                 const int numLines = 192 / 11;
 
@@ -135,6 +148,7 @@ namespace testapp1
                     bool jumpCFound = false;
 
                     chapterdat.Add($"\tPG\t${cursor:x4}");
+                    LogV("\n------------------------------\n");
 
                     while (cursor < textBytes.Length && y < numLines)
                     {
@@ -145,12 +159,12 @@ namespace testapp1
                         {
                             x = 0;
                             ++y;
+                            LogV("\n");
                             continue;
                         }
 
-                        var len = word.Aggregate(0, (total, next) => total + charWidths[next] + 1);
-                        var remaining = 256 - x;
-                        if (len > remaining)
+                        var len = word.Aggregate(0, (total, next) => total + charWidths[next] + 1) - 1;
+                        if (x + len > 255)
                         {
                             x = 0;
                             ++y;
@@ -158,6 +172,7 @@ namespace testapp1
                             {
                                 continue;
                             }
+                            LogV("\n");
                             if (word[0] == 32)
                             {
                                 word =  word.Skip(1).Take(word.Length - 1).ToArray();
@@ -165,7 +180,8 @@ namespace testapp1
                             }
                         }
 
-                        x += len;
+                        x += len;   
+                        LogV(Encoding.Default.GetString(word));
                         jumpAFound |= Array.Exists(word, element => element == 0x1a);
                         jumpBFound |= Array.Exists(word, element => element == 0x1c);
                         jumpCFound |= Array.Exists(word, element => element == 0x1e);
@@ -173,6 +189,7 @@ namespace testapp1
                     chapterdat.Add($"\tJP\t{jumpAFound?jumps[chapterName][0]:-1},{jumpBFound?jumps[chapterName][1]:-1},{jumpCFound?jumps[chapterName][2]:-1}");
                 }
                 chapterdat.Add("\tPG\t-1");
+                LogV("\n------------------------------\n");
             }
 
             Console.WriteLine("Writing chapterdat.asm");
