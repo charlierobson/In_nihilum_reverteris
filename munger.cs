@@ -11,9 +11,13 @@ namespace testapp1
     {
         private int _jumpIdx;
         private Dictionary<byte, string> chardict;
- 
+
+        private static bool verbose;
+
         public static void Main(string[] args)
         {
+            verbose = args.Length > 0 && args[0] == "V";
+
             var p = new Program();
             p.Run();
         }
@@ -38,6 +42,7 @@ namespace testapp1
             chardict[0x1d] = "]";
             chardict[0x1e] = "[C";
             chardict[0x1f] = "]";
+            chardict[0x7f] = "    ";
 
             SplitMD();
             MakeWAD();
@@ -58,7 +63,7 @@ namespace testapp1
         }
 
         private void LogV(string s) {
-            Console.Write(s);
+            if (verbose) Console.Write(s);
         }
 
         public void SplitMD()
@@ -83,6 +88,7 @@ namespace testapp1
                 raw = raw.Replace(@"\*", "*");
                 raw = raw.Replace(@"tooth.* *", "tooth.");
                 raw = raw.Replace(@"* * *", "                 * * *");
+                raw = raw.Replace("fickly-fiddle-dee-dee", "fickly-fiddle-dee- dee");
 
                 var match = chapterMatcher.Match(raw);
                 if (match.Success) {
@@ -92,6 +98,7 @@ namespace testapp1
                     currentChapterName = match.Groups[1].Captures[0].ToString();
                     accumulatedText.Clear();
                 } else {
+                    if (raw.Length > 1) raw = (char)(127) + raw;
                     accumulatedText.AppendLine(raw);
                 }
                 ++line;

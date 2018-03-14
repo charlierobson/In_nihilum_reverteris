@@ -8,7 +8,8 @@ PAUSE 	        = $0F35	;inBC=delay
 KSCAN	        = $02bb	;outHL=Key, L=ROWbit, H=KEYbit
 FINDCHR         = $07bd	;HL=key
 
-SPC_WIDTH       = 4     ; must match first byte of font width file + 1
+SPC_WIDTH       = 4     ; must match values in font file
+TAB_WIDTH       = 16    ; 
 
 ;-------------------------------------------------------------------------------
 
@@ -438,6 +439,14 @@ wadLoad:
 
         ld      a,(x)
         add     a,SPC_WIDTH
+        ld      (x),a
+        jr      textout
+
++:      cp      $7f
+        jr      nz,{+}
+
+        ld      a,(x)
+        add     a,TAB_WIDTH
         ld      (x),a
         jr      textout
 

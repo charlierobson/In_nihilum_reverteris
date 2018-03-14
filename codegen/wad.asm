@@ -11,22 +11,22 @@
 	.word	$0094		; 0a  md/A.md
 	.word	$00a9		; 0b  md/B.md
 	.word	$00c0		; 0c  md/C.md
-	.word	$00d4		; 0d  md/D.md
-	.word	$00dc		; 0e  md/E.md
-	.word	$00f6		; 0f  md/F.md
-	.word	$0102		; 10  md/G.md
-	.word	$010e		; 11  md/H.md
-	.word	$011a		; 12  md/I.md
-	.word	$012e		; 13  md/J.md
-	.word	$0141		; 14  md/K.md
-	.word	$0157		; 15  md/L.md
-	.word	$0162		; 16  bmp/0START.pbm
-	.word	$017b		; 17  bmp/1.pbm
-	.word	$0194		; 18  bmp/5.pbm
-	.word	$01ad		; 19  bmp/8.pbm
-	.word	$01c6		; 1a  bmp/9.pbm
-	.word	$01df		; 1b  bmp/D.pbm
-	.word	$01f8		; 1c  bmp/E.pbm
-	.word	$0211		; 1d  bmp/F.pbm
-	.word	$022a		; 1e  bmp/H.pbm
-	.word	$0243		; 1f  bmp/K.pbm
+	.word	$00d5		; 0d  md/D.md
+	.word	$00dd		; 0e  md/E.md
+	.word	$00f7		; 0f  md/F.md
+	.word	$0104		; 10  md/G.md
+	.word	$0110		; 11  md/H.md
+	.word	$011c		; 12  md/I.md
+	.word	$0130		; 13  md/J.md
+	.word	$0143		; 14  md/K.md
+	.word	$0159		; 15  md/L.md
+	.word	$0164		; 16  bmp/0START.pbm
+	.word	$017d		; 17  bmp/1.pbm
+	.word	$0196		; 18  bmp/5.pbm
+	.word	$01af		; 19  bmp/8.pbm
+	.word	$01c8		; 1a  bmp/9.pbm
+	.word	$01e1		; 1b  bmp/D.pbm
+	.word	$01fa		; 1c  bmp/E.pbm
+	.word	$0213		; 1d  bmp/F.pbm
+	.word	$022c		; 1e  bmp/H.pbm
+	.word	$0245		; 1f  bmp/K.pbm
