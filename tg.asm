@@ -66,7 +66,7 @@ PS: ; program start
 
         call    cls
         call    initwad
-        ld      ix,hrg
+        ld      ix,wrx
 
         xor     a
         call    showpic
@@ -676,25 +676,19 @@ PE: ; program end
 ;
 .module hrg
 ;
-hrg:	; not sure any of this is needed other than for timing -------------------
-        ;
-        inc     hl
-        inc     b
-        ld	bc,$e0ff ;
-	ld      a,$b0    ; ?? whyyyy
-	out     (c),a    ;
-        ld      hl,(pointer+0)
-        nop
-        ld      (pointer+0),hl
-        ld      hl,(pointer+0)
-        nop
-        ld      (pointer+0),hl
-        or      e
-        ;
-        ;--------------------------------------------------------------------------
+wrx:
+        ; timing, do a waste, then prepare for display
 
-        ld      b,192           ; 192 rows
-        ld      de,32
+        ld      b,7             ; 7
+        djnz    $               ; 7 * 13 + 8 = 99
+        ld      a,0             ; 7
+        ld      a,0             ; 7
+        ld      hl,screen       ; 10
+
+        ld      b,192           ; 7    192 rows
+        ld      de,32           ; 10   row stride
+
+        ; from start to here = 140T
 _loop:
         ld      a,h
         ld      i,a
@@ -704,31 +698,83 @@ _loop:
         dec     b
         jp      nz,_loop
 
+        ; prepare for bottom margin and VSYNC
+
         ld      hl,gameframe
         inc     (hl)
 
-        call    basic_ret_app1  ; BASIC in the lower rows
-        call    basic_vsync     ; Keyscan etc
+VCentreBot = $+1
+	ld	a,55 ;BOTTOM_MARGIN 	; 7
+	neg				; 8
+	inc	a			; 4
+	ex	af,af'			; 4
+	ld	ix,GENERATE_VSYNC	; 14
 
-        ld      ix,hrg
-        jp      basic_ret_app2  ; BASIC in the upper rows
+        ; NMI on
 
+	out	($fe),a 		; 11
+
+        ; Do the things you need to do
+
+        ; CALL VSYNCTASK
+
+        ; return to application
+
+	pop	hl			; 10
+	pop	de			; 10
+	pop	bc			; 10
+	pop	af			; 10
+	ret				; 10
+
+
+GENERATE_VSYNC:
+; VSync start
+	in	a,($fe) 		; 11
+
+        ld      de,INPUT._kbin          ; 10
+        ld      bc,$fefe                ; 10
+        ; = 20
+        .repeat 8
+                in      a,(c)           ; 12
+                rlc     b               ; 8
+                ld      (de),a          ; 7
+                inc     de              ; 6  = 33
+        .loop
+        ; = 8 * 33 = 264
+
+	;waste time
+	ld		b,40		; 7
+	djnz	$			; 13/8
+	; = (40*13)+8+7 = 535
+
+	; for timing only
+	ld	a,0		        ; 7
+
+; total T = 535 + 264 + 20  + 7 = 826
+
+; prepare for top margin
+VCentreTop = $+1
+	ld	a,(margin)              ; 7
+	neg				; 8
+	inc	a			; 4
+	ex	af,af'			; 4
+	ld	ix,wrx		        ; 14
+
+	pop	hl			; 10
+	pop	de			; 10
+	pop	bc			; 10
+	pop	af			; 10
+
+        ; NMI on, VSync stop
+	out	($fe),a 		; 11
+
+        ; return to application
+	ret
 
 hrg_dummy:
         ld      r,a
         .byte   0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
         ret     nc
-
-pointer:
-        .word   screen
-
-;-------------------------------------------------------------------------------
-
-vsync:	ld      hl,gameframe
-        ld      a,(hl)
-vsync2: cp      (hl)
-        jr      z,vsync2        ;auf Ende des Bildes warten
-        ret
 
 ;-------------------------------------------------------------------------------
 

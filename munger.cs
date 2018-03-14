@@ -4,26 +4,63 @@ using System.Collections.Generic;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Linq;
-
+ 
 namespace testapp1
 {
     public class Program
     {
+        private int _jumpIdx;
+        private Dictionary<byte, string> chardict;
+ 
         public static void Main(string[] args)
         {
-            var program = new WadMaker();
-            program.SplitMD();
-            program.MakeWAD();
+            var p = new Program();
+            p.Run();
         }
-    }
 
-    public class WadMaker
-    {
-        private int _jumpIdx;
+        public void Run()
+        {
+            chardict = new Dictionary<byte, string>();
+            chardict[0x0f] = "'";
+            chardict[0x10] = "'";
+            chardict[0x11] = "\"";
+            chardict[0x12] = "\"";
+            chardict[0x13] = "a";
+            chardict[0x14] = "a";
+            chardict[0x15] = "a";
+            chardict[0x16] = "e";
+            chardict[0x17] = "e";
+            chardict[0x18] = "e";
+            chardict[0x19] = "o";
+            chardict[0x1a] = "[A";
+            chardict[0x1b] = "]";
+            chardict[0x1c] = "[B";
+            chardict[0x1d] = "]";
+            chardict[0x1e] = "[C";
+            chardict[0x1f] = "]";
+
+            SplitMD();
+            MakeWAD();
+        }
+
+        private string GetString(byte[] source)
+        {
+            var sb = new StringBuilder();
+            foreach (var b in source) {
+                if (b >= 32 && b < 128) {
+                    sb.Append((char)b);
+                }
+                if (chardict.Keys.Contains(b)) {
+                    sb.Append(chardict[b]);
+                }
+            }
+            return sb.ToString();
+        }
 
         private void LogV(string s) {
             Console.Write(s);
         }
+
         public void SplitMD()
         {
             var chapters = new Dictionary<string, string>();
@@ -44,6 +81,8 @@ namespace testapp1
                 raw = raw.Replace("<span id=\"anchor\"></span>", "");
                 raw = raw.Replace(@"\!", "!");
                 raw = raw.Replace(@"\*", "*");
+                raw = raw.Replace(@"tooth.* *", "tooth.");
+                raw = raw.Replace(@"* * *", "                 * * *");
 
                 var match = chapterMatcher.Match(raw);
                 if (match.Success) {
@@ -181,7 +220,7 @@ namespace testapp1
                         }
 
                         x += len;   
-                        LogV(Encoding.Default.GetString(word));
+                        LogV(GetString(word));
                         jumpAFound |= Array.Exists(word, element => element == 0x1a);
                         jumpBFound |= Array.Exists(word, element => element == 0x1c);
                         jumpCFound |= Array.Exists(word, element => element == 0x1e);
@@ -210,21 +249,6 @@ namespace testapp1
             while (cursor != str.Length && b != 10 && str[cursor] != 32 && str[cursor] != 10);
 
             return word.ToArray();
-/*
-getword:
-    ld      a,(hl)
--:  ldi
-    and     a
-    ret     z
-    cp      10
-    ret     z
-    ld      a,(hl)
-    cp      32
-    ret     z
-    cp      10
-    jr      nz,{-}
-    ret
-*/
         }
 
         public void MakeWAD()

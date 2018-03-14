@@ -64,15 +64,6 @@ jsreadfn = $+1
     call    _nullstick
     ld      (_lastJ),a
 
-    ld      de,INPUT._kbin-1
-    ld      bc,$fefe
-    .repeat 8
-        in      a,(c)
-        rlc     b
-        inc     de
-        ld      (de),a
-    .loop
-
     ; point at first input state block
     ;
     ld      hl,inputstates
