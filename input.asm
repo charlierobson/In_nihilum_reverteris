@@ -60,11 +60,10 @@ _nullstick:
     ret
 
 readinput:
-jsreadfn = $+1
-    call    _nullstick
-    ld      (_lastJ),a
+    ; _kbin & _lastJ are filled during display generation wasted time
 
-    ; point at first input state block
+    ; point at first input state block,
+    ; return from function pointing to next
     ;
     ld      hl,inputstates
 
