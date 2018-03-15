@@ -65,8 +65,13 @@ line1:  .byte   0,1
 ;
 PS: ; program start
 
-        call    cls
+        ld      bc,$e007                ; go low
+        ld      a,$b2
+        out     (c),a
+
         call    initwad
+
+        call    cls
         ld      ix,wrx
 
         xor     a
@@ -676,13 +681,16 @@ cls:
         ld      (y),a
         ret
 
- gamestep:
+gamestep:
+        call    waitsync
+        jp      readinput
+
+waitsync:
         ld      hl,gameframe
         ld      a,(hl)
 -:      cp      (hl)
         jr      z,{-}
-
-        jp      readinput
+        ret
 
 ;-------------------------------------------------------------------------------
 
@@ -708,9 +716,9 @@ wrx:
 
         ; the loop is VERY timing sensitive, has to be exactly 207T
 _loop:
-        ld      a,h             ; 9
+        ld      a,h             ; 4?
         ld      i,a             ; 9
-        ld      a,l             ; 9
+        ld      a,l             ; 4?
         call    hrg_dfile+8000H ; 17 + 9 + (32*4) + 11
         add     hl,de           ; 11
         dec     b               ; 4     ; 207 to here...

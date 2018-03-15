@@ -30,7 +30,7 @@ inputstates:
     .byte	%01000000,4,%00010000,0        ; down    (6)
     .byte	%00100000,7,%00001000,0        ; left    (N)
     .byte	%00010000,7,%00000100,0        ; right   (M)
-    .byte	%00001000,6,%00000001,0        ; select  (NL)
+    .byte	%00001000,6,%00000001,0        ; select  (NL) / fire
     .byte	%11111111,1,%00000001,0        ; A
     .byte	%11111111,7,%00010000,0        ; B
     .byte	%11111111,0,%00001000,0        ; C
@@ -60,7 +60,7 @@ readinput:
     ; _kbin is filled during display generation wasted time
 
     ld      bc,$e007        ; initiate a zxpand joystick read
-    ld      a,$b0
+    ld      a,$a0
     out     (c),a
     ex      (sp),hl
     ex      (sp),hl
