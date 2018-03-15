@@ -247,11 +247,9 @@ showpic:
         ld      bc,32*192
         ldir
 
-_wait4key:
-        call   gamestep
-        ld      a,(select)
-        cp      1
-        jr      nz,_wait4key
+        call    waitkeytimeout          ; 10 second wait or proceed on keypress
+        ret     nc
+        call    waitkeytimeout
         ret
 
 
@@ -765,20 +763,15 @@ waitsync:
         ret
 
 
-waitkey:
-        call    gamestep
-        ld      a,(select)
-        cp      1
-        jr      nz,waitkey
-        ret
-
-
 waitkeytimeout:
         xor     a
         jr      {+}
 
 -:      call    gamestep
         ld      a,(select)
+        cp      1
+        ret     z                       ; zero set, carry clear
+        ld      a,(down)
         cp      1
         ret     z                       ; zero set, carry clear
         ld      a,(_timeout)
@@ -906,6 +899,10 @@ GENERATE_VSYNC:
 	out	($fe),a
 b2a2:	ret
 
+;-------------------------------------------------------------------------------
+
+gameframe
+	.byte	0
 
 hrg_dfile:
         ld      r,a
@@ -941,11 +938,6 @@ linestarts:
         .word   screen+ 8*bytesperline, screen+ 9*bytesperline, screen+10*bytesperline, screen+11*bytesperline
         .word   screen+12*bytesperline, screen+13*bytesperline, screen+14*bytesperline, screen+15*bytesperline
         .word   screen+16*bytesperline, screen+17*bytesperline
-
-;-------------------------------------------------------------------------------
-
-gameframe
-	.byte	0
 
 ;-------------------------------------------------------------------------------
 
