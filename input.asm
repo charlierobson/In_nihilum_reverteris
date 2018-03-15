@@ -53,20 +53,24 @@ _kbin:
     .fill   8
 
 _lastJ:
-    .byte   0
+    .byte   $ff
 
-_nullstick:
-    ld      a,$ff
-    ret
 
 readinput:
-    ; _kbin & _lastJ are filled during display generation wasted time
+    ; _kbin is filled during display generation wasted time
+
+    ld      bc,$e007        ; initiate a zxpand joystick read
+    ld      a,$b0
+    out     (c),a
+    ex      (sp),hl
+    ex      (sp),hl
+    in      a,(c)           ; retrieve joystick byte
+    ld      (_lastJ),a
 
     ; point at first input state block,
-    ; return from function pointing to next
+    ; return from update function pointing to next
     ;
     ld      hl,inputstates
-
     call    updateinputstate ; (up)
     call    updateinputstate ; (down)
     call    updateinputstate ;  etc.

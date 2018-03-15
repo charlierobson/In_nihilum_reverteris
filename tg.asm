@@ -696,29 +696,13 @@ wrx:
         ; timing, do a waste, then prepare for display
         ; this is timing to shift the picture right/left, normally 140t
 
-        ; let's do something less wasteful instead :D
-
-        ld      bc,$e007        ; 10    ; initiate a zxpand joystick read
-        ld      a,$b0           ; 7
-        out     (c),a           ; 12    ; does nothing on machines w/o ZXpand
-        ; = 29
-
-        nop                     ; 4
-        ld      b,0             ; 7
-        ld      b,2             ; 7
-        djnz    $               ; 2 * 13 + 8 = 34
-        ; = 52
-
-        ld      bc,$e007                ; 10    ; read j/s result. gives $ff on machines w/o ZXpand
-        in      a,(c)                   ; 12
-        ld      (INPUT._lastJ),a        ; 13
-        ; = 35
- 
-        ld      b,192           ; 7     ; 192 rows
+        ld      b,7             ; 7
+        djnz    $               ; 7 * 13 + 8 = 99
+        ld      hl,screen       ; 10
         ld      hl,screen       ; 10
         ld      de,32           ; 10    ; row stride
+        ld      b,192           ; 7     ; 192 rows
         or      e               ; 4     ; need to ensure C is clear for RETNC in display file
-        ; = 24
 
         ; = 140 T to here
 
