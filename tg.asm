@@ -459,17 +459,24 @@ textout:
         ret
 
 
-
-; x = 5 w = 3
-; byte mode
-; x % 8 + w < 8
+; character rendering is a little bit optimised
 ;
-; x = 8 w = 4
+; a different rendering method is used depending on whether the character:
+;  * is aligned on a byte boundary
+;  * will fit entirely within a byte after shifting
+;  * requires a 16 bit window for shifting
+;
+; byte shift mode
+; x % 8 + w <= 8
+; ex: x = 5 w = 2
+;
 ; copy mode
 ; x % 8 = 0
+; ex: x = 8 w = 4
 ;
-; x = 12 w = 6
-; word mode
+; word shift mode
+; x % 8 + w > 8
+; ex: x = 7 w = 6
 
 x:      .byte   0
 y:      .byte   0
@@ -686,18 +693,16 @@ PE: ; program end
 .module hrg
 ;
 wrx:
-        ; timing, do a waste, then prepare for display
+        ; timing, do a waste, then prepare for display - 140Ts
 
         ld      b,7             ; 7
         djnz    $               ; 7 * 13 + 8 = 99
-        ld      a,0             ; 7
-        ld      a,0             ; 7
         ld      hl,screen       ; 10
+        ld      hl,screen       ; 10
+        ld      de,32           ; 10    ; row stride
+        ld      b,192           ; 7     ; 192 rows
+        or      e               ; 4     ; need to ensure C is clear for RETNC in display file
 
-        ld      b,192           ; 7    192 rows
-        ld      de,32           ; 10   row stride
-
-        ; from start to here = 140T
 _loop:
         ld      a,h
         ld      i,a
@@ -707,26 +712,25 @@ _loop:
         dec     b
         jp      nz,_loop
 
+        ; -------------------------------------------------------------
         ; prepare for bottom margin and VSYNC
+        ; is this section time critical?
+        ld      hl,gameframe            ; 10
+        inc     (hl)                    ; 11
 
-        ld      hl,gameframe
-        inc     (hl)
-
-VCentreBot = $+1
-	ld	a,55 ;BOTTOM_MARGIN 	; 7
+	ld	a,(margin) 	        ; 13    ; IS THIS RIGHT?
 	neg				; 8
 	inc	a			; 4
 	ex	af,af'			; 4
 	ld	ix,GENERATE_VSYNC	; 14
 
         ; NMI on
+        ; i guess that the nmi has to be turned on at the right moment?
 
 	out	($fe),a 		; 11
 
         ; Do the things you need to do
-
         ; CALL VSYNCTASK
-
         ; return to application
 
 	pop	hl			; 10
@@ -737,33 +741,33 @@ VCentreBot = $+1
 
 
 GENERATE_VSYNC:
-; VSync start
 	in	a,($fe) 		; 11
 
         ld      de,INPUT._kbin          ; 10
         ld      bc,$fefe                ; 10
         ; = 20
+
         .repeat 8
                 in      a,(c)           ; 12
                 rlc     b               ; 8
                 ld      (de),a          ; 7
                 inc     de              ; 6  = 33
         .loop
-        ; = 8 * 33 = 264
+        ; = 264 == 8 * 33
 
-	;waste time
-	ld		b,40		; 7
+	; waste time
+	ld	b,40		        ; 7
 	djnz	$			; 13/8
-	; = (40*13)+8+7 = 535
+	; = 535 == (40*13)+8+7
 
-	; for timing only
 	ld	a,0		        ; 7
+        ; = 7
 
-; total T = 535 + 264 + 20  + 7 = 826
+; total T = 826 == 20 + 264 + 535 + 7
 
 ; prepare for top margin
 VCentreTop = $+1
-	ld	a,(margin)              ; 7
+	ld	a,(margin)              ; 13     ; IS THIS RIGHT?
 	neg				; 8
 	inc	a			; 4
 	ex	af,af'			; 4
@@ -779,6 +783,9 @@ VCentreTop = $+1
 
         ; return to application
 	ret
+
+pointer:
+        .word $2000
 
 hrg_dummy:
         ld      r,a
