@@ -804,7 +804,7 @@ wrx:
 
         ld      b,7             ; 7
         djnz    $               ; 7 * 13 + 8 = 99
-        ld      h,0             ; 4
+        ld      h,0             ; 7
         ld      hl,screen       ; 10
         ld      de,32           ; 10    ; row stride
         ld      b,192           ; 7     ; 192 rows
