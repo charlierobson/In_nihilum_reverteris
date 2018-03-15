@@ -178,7 +178,7 @@ namespace testapp1
 
                 var bm2idx = "01589DEFHK";
                 intidx = bm2idx.IndexOf(chapterName);
-                chapterdat.Add($"\tBM\t{File.Exists($"bmp/{chapterName}.pbm") ? intidx : -1}");
+                chapterdat.Add($"\tBMAP\t{File.Exists($"bmp/{chapterName}.pbm") ? intidx : -1}");
 
                 while (cursor < textBytes.Length)
                 {
@@ -193,7 +193,7 @@ namespace testapp1
                     bool jumpBFound = false;
                     bool jumpCFound = false;
 
-                    chapterdat.Add($"\tPG\t${cursor:x4}");
+                    chapterdat.Add($"\tPAGE\t${cursor:x4}");
                     LogV("\n------------------------------\n");
 
                     while (cursor < textBytes.Length && y < numLines)
@@ -232,9 +232,9 @@ namespace testapp1
                         jumpBFound |= Array.Exists(word, element => element == 0x1c);
                         jumpCFound |= Array.Exists(word, element => element == 0x1e);
                     }
-                    chapterdat.Add($"\tJP\t{jumpAFound?jumps[chapterName][0]:-1},{jumpBFound?jumps[chapterName][1]:-1},{jumpCFound?jumps[chapterName][2]:-1}");
+                    chapterdat.Add($"\tJUMP\t{jumpAFound?jumps[chapterName][0]:-1},{jumpBFound?jumps[chapterName][1]:-1},{jumpCFound?jumps[chapterName][2]:-1}");
                 }
-                chapterdat.Add("\tPG\t-1");
+                chapterdat.Add("\tPAGE\t-1");
                 LogV("\n------------------------------\n");
             }
 

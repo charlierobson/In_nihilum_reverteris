@@ -65,9 +65,27 @@ line1:  .byte   0,1
 ;
 PS: ; program start
 
+        xor     a
+        ld      (soundEn),a
+
         call    cls
-        call    initwad
         ld      ix,wrx
+
+        call    initwad
+
+        ld      hl,titletext1
+        call    centreTextOut
+        ld      hl,titletext2
+        call    centreTextOut
+        ld      hl,titletext3
+        call    centreTextOut
+        ld      hl,titletext4
+        call    centreTextOut
+
+        ld      hl,berlin
+        call    INIT_STC
+
+        call    waitkey
 
         xor     a
         call    showpic
@@ -89,11 +107,20 @@ _updatepage:
 
 _tc:    call    gamestep
 
-        ld      a,(up)
+        ld      a,(sound)
+        cp      1
+        jr      nz,_tu
+
+        ld      a,(soundEn)
+        xor     $ff
+        ld      (soundEn),a
+        call    z,mute_stc
+
+_tu:    ld      a,(up)
         cp      1
         jr      nz,_td
 
-_tcdi:  ld      a,(pagenum)
+_tudi:  ld      a,(pagenum)
         dec     a
         call    trysetpage
         jr      nz,_updatepage
@@ -273,12 +300,11 @@ _loop:
 
         ld      a,(x)                   ; will x + word len fit?
         add     a,c
-
         ld      hl,wordbuf              ; get a word pointer ready in case it needs updating
-
         call    c,_newlineorbust
 
         call    textout                 ; render the word
+
         jr      _loop
 
 _donewline:
@@ -457,6 +483,39 @@ textout:
         and     a
         jr      nz,{-}
         ret
+
+
+centretextout:
+        ld      a,(hl)                  ; set Y
+        ld      (y),a
+
+        ld      c,0
+        ld      d,widths / 256
+
+        inc     hl
+        push    hl                      ; stash string pointer for rendering later
+        jr      measurestring
+
+-:      ld      e,a                     ; get char width and accumulate it
+        ld      a,(de)
+        add     a,c
+        ld      c,a
+        inc     hl
+
+measurestring:
+        ld      a,(hl)
+        cp      0
+        jr      nz,{-}
+
+        srl     c
+        ld      a,128
+        sub     c
+        ld      (x),a
+
+        pop     hl
+        jp    textout
+
+
 
 
 ; character rendering is a little bit optimised
@@ -684,6 +743,15 @@ cls:
 
         jp      readinput
 
+
+waitkey:
+        call    gamestep
+        ld      a,(select)
+        cp      1
+        jr      nz,waitkey
+        ret
+
+
 ;-------------------------------------------------------------------------------
 
 PE: ; program end
@@ -730,7 +798,11 @@ _loop:
 	out	($fe),a 		; 11
 
         ; Do the things you need to do
-        ; CALL VSYNCTASK
+
+        ld      a,(soundEn)
+        and     $ff
+        call    nz,play_stc
+
         ; return to application
 
 	pop	hl			; 10
@@ -794,6 +866,15 @@ hrg_dummy:
 
 ;-------------------------------------------------------------------------------
 
+titletext1:
+        .byte   5, "In Nihilum Reverteris",0
+titletext2:
+        .byte   8, "An Interactive Novel",0
+titletext3:
+        .byte   10, "By Yerzmyey",0
+titletext4:
+        .byte   12, "H-Prg 2018",0
+
 font:
         .incbin textgamefont.bin
 
@@ -840,9 +921,9 @@ cpI = 18
 cpJ = 19
 cpK = 20
 cpL = 21
-        .define PG .word
-        .define JP .byte
-        .define BM .byte
+        .define PAGE .word
+        .define JUMP .byte
+        .define BMAP .byte
 
         .align 256
 
@@ -864,6 +945,16 @@ wadfile:
 ;-------------------------------------------------------------------------------
 
         .include "input.asm"
+
+;-------------------------------------------------------------------------------
+
+        .include "stcplay.asm"
+
+berlin:
+        .incbin "stc/berlin.stc"
+
+soundEn:
+        .byte   $ff
 
 ;-------------------------------------------------------------------------------
 

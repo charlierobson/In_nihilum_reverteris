@@ -28,8 +28,8 @@
 inputstates:
     .byte	%10000000,4,%00001000,0        ; up      (7)
     .byte	%01000000,4,%00010000,0        ; down    (6)
-    .byte	%00100000,7,%00001000,0        ; left    (N)
-    .byte	%00010000,7,%00000100,0        ; right   (M)
+    .byte	%11111111,1,%00000010,0        ; sound   (S)
+    .byte	%11111111,7,%00000100,0        ; right   (M)
     .byte	%00001000,6,%00000001,0        ; select  (NL)
     .byte	%11111111,1,%00000001,0        ; A
     .byte	%11111111,7,%00010000,0        ; B
@@ -39,7 +39,7 @@ inputstates:
 ; calculate actual input impulse addresses
 up      = inputstates + 3
 down    = inputstates + 7
-left    = inputstates + 11
+sound   = inputstates + 11
 right   = inputstates + 15
 select  = inputstates + 19
 btnA    = inputstates + 23
