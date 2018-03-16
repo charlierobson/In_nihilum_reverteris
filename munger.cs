@@ -10,6 +10,7 @@ namespace testapp1
     public class Program
     {
         private int _jumpIdx;
+        private bool _italics;
         private Dictionary<byte, string> chardict;
 
         private static bool verbose;
@@ -55,7 +56,9 @@ namespace testapp1
                 if (b >= 32 && b < 128) {
                     sb.Append((char)b);
                 }
-                if (chardict.Keys.Contains(b)) {
+                if (b > 128) {
+                    sb.Append("_" + (char)(b-128));
+                } else if (chardict.Keys.Contains(b)) {
                     sb.Append(chardict[b]);
                 }
             }
@@ -66,13 +69,28 @@ namespace testapp1
             if (verbose) Console.Write(s);
         }
 
+        private byte[] xlat(string x) {
+            var bytes = Encoding.ASCII.GetBytes(x);
+            List<byte> outbytes = new List<byte>();
+            var italic = false;
+            foreach(var b in bytes) {
+                if (b == '*') {
+                    italic = !italic;
+                    continue;
+                }
+                outbytes.Add((byte)(b + (italic?128:0)));
+            }
+            return outbytes.ToArray();
+        }
+
         public void SplitMD()
         {
             var chapters = new Dictionary<string, string>();
             var jumps = new Dictionary<String, int[]>();
 
             var rawMD = File.ReadAllLines("converted.md");
-            var charWidths = File.ReadAllBytes("textgamefont-widths.bin");
+            var charWidthsX = File.ReadAllBytes("textgamefont-widths.bin");
+            var charWidths = charWidthsX.Concat(charWidthsX).ToArray();
 
             var line = 0;
             var chapterMatcher = new Regex(@"^(\S)$");
@@ -86,9 +104,17 @@ namespace testapp1
                 raw = raw.Replace("<span id=\"anchor\"></span>", "");
                 raw = raw.Replace(@"\!", "!");
                 raw = raw.Replace(@"\*", "*");
-                raw = raw.Replace(@"tooth.* *", "tooth.");
-                raw = raw.Replace(@"* * *", "                 * * *");
+                raw = raw.Replace("tooth.* *", "tooth.");
+                raw = raw.Replace("* * *", "                 # # #");
+                raw = raw.Replace("*    *", "#    #");
                 raw = raw.Replace("fickly-fiddle-dee-dee", "fickly-fiddle-dee- dee");
+                raw = raw.Replace("facto *escape", "facto* escape");
+                raw = raw.Replace("*fauna *and", "*fauna* and");
+                raw = raw.Replace("exist*. *The", "exist. The");
+                raw = raw.Replace("nothing *exist?", "nothing* exist?");
+                raw = raw.Replace(" *absolute *void", " *absolute* void");
+                raw = raw.Replace("only *one *Testament!", "only *one* Testament!");
+                raw = raw.Replace(" *without Judith", "* without Judith");
 
                 var match = chapterMatcher.Match(raw);
                 if (match.Success) {
@@ -157,12 +183,14 @@ namespace testapp1
 
                 Console.WriteLine("Writing " + chapterName + ".md");
                 File.WriteAllText("md/" + chapterName + ".md", chapters[chapterName]);
+                File.WriteAllBytes("md/" + chapterName + ".mdx", xlat(chapters[chapterName]));
             }
 
             var chapterdat = new List<string>();
 
             foreach (var chapterName in chapterIDs)
             {
+                _italics = false;
                 var textBytes = File.ReadAllBytes("md/" + chapterName + ".md");
 
                 LogV($"-----------------CHAPTER-{chapterName}----------------\n");
@@ -228,6 +256,7 @@ namespace testapp1
 
                         x += len;   
                         LogV(GetString(word));
+
                         jumpAFound |= Array.Exists(word, element => element == 0x1a);
                         jumpBFound |= Array.Exists(word, element => element == 0x1c);
                         jumpCFound |= Array.Exists(word, element => element == 0x1e);
@@ -250,8 +279,16 @@ namespace testapp1
             do
             {
                 b = str[cursor];
-                word.Add(b);
                 ++cursor;
+                if (b == '*') {
+                    _italics = !_italics;
+                    continue;
+                }
+                int add = 0;
+                if (_italics && b > 14) {
+                    add = 128;
+                }
+                word.Add((byte)(b + add));
             }
             while (cursor != str.Length && b != 10 && str[cursor] != 32 && str[cursor] != 10);
 

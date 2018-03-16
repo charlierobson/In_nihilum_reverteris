@@ -1,25 +1,25 @@
-	.word	$0000		; 00  md/0.md
-	.word	$000a		; 01  md/1.md
-	.word	$0017		; 02  md/2.md
-	.word	$001b		; 03  md/3.md
-	.word	$0022		; 04  md/4.md
-	.word	$002c		; 05  md/5.md
-	.word	$003b		; 06  md/6.md
-	.word	$0057		; 07  md/7.md
-	.word	$006c		; 08  md/8.md
-	.word	$0085		; 09  md/9.md
-	.word	$0094		; 0a  md/A.md
-	.word	$00a9		; 0b  md/B.md
-	.word	$00c0		; 0c  md/C.md
-	.word	$00d5		; 0d  md/D.md
-	.word	$00dd		; 0e  md/E.md
-	.word	$00f7		; 0f  md/F.md
-	.word	$0104		; 10  md/G.md
-	.word	$0110		; 11  md/H.md
-	.word	$011c		; 12  md/I.md
-	.word	$0130		; 13  md/J.md
-	.word	$0143		; 14  md/K.md
-	.word	$0159		; 15  md/L.md
+	.word	$0000		; 00  md/0.mdx
+	.word	$000a		; 01  md/1.mdx
+	.word	$0017		; 02  md/2.mdx
+	.word	$001b		; 03  md/3.mdx
+	.word	$0022		; 04  md/4.mdx
+	.word	$002c		; 05  md/5.mdx
+	.word	$003b		; 06  md/6.mdx
+	.word	$0057		; 07  md/7.mdx
+	.word	$006c		; 08  md/8.mdx
+	.word	$0085		; 09  md/9.mdx
+	.word	$0094		; 0a  md/A.mdx
+	.word	$00a9		; 0b  md/B.mdx
+	.word	$00c0		; 0c  md/C.mdx
+	.word	$00d5		; 0d  md/D.mdx
+	.word	$00dd		; 0e  md/E.mdx
+	.word	$00f7		; 0f  md/F.mdx
+	.word	$0104		; 10  md/G.mdx
+	.word	$0110		; 11  md/H.mdx
+	.word	$011c		; 12  md/I.mdx
+	.word	$0130		; 13  md/J.mdx
+	.word	$0143		; 14  md/K.mdx
+	.word	$0159		; 15  md/L.mdx
 	.word	$0164		; 16  bmp/0START.pbm
 	.word	$017d		; 17  bmp/1.pbm
 	.word	$0196		; 18  bmp/5.pbm

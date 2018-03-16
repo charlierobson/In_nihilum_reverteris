@@ -86,8 +86,8 @@ PS: ; program start
 
         call    initwad
 
-        ld      hl,berlin
-        call    INIT_STC
+;        ld      hl,berlin
+;        call    INIT_STC
 
 -:      call    waitkeytimeout          ; times out after approx 5 seconds
         jr      nc,_advance
@@ -138,6 +138,9 @@ _tudi:  ld      a,(pagenum)
         jr      nz,_updatepage
 
 _td:    ld      a,(down)
+        cp      1
+        jr      z,_tddi
+        ld      a,(select)
         cp      1
         jr      nz,_tja
 
@@ -839,7 +842,7 @@ _loop:
 
         ld      a,(soundEn)
         and     $ff
-        call    nz,play_stc
+ ;       call    nz,play_stc
 
         ; return to application
 
@@ -923,11 +926,11 @@ titletext5:
         .byte   16, "Press New Line, or H for help",0
 
 font:
-        .incbin textgamefont.bin
+        .incbin textgamefont2.bin
 
         .align 256
 widths:
-        .incbin textgamefont-widths.bin
+        .incbin textgamefont2-widths.bin
 
         bytesperline = 32 * 11
 
@@ -992,8 +995,8 @@ wadfile:
 
         .include "stcplay.asm"
 
-berlin:
-        .incbin "stc/berlin.stc"
+;berlin:
+;        .incbin "stc/berlin.stc"
 
 soundEn:
         .byte   $ff
