@@ -89,8 +89,10 @@ namespace testapp1
             var jumps = new Dictionary<String, int[]>();
 
             var rawMD = File.ReadAllLines("converted.md");
-            var charWidthsX = File.ReadAllBytes("textgamefont-widths.bin");
-            var charWidths = charWidthsX.Concat(charWidthsX).ToArray();
+            var charWidthsN = File.ReadAllBytes("textgamefont-widths.bin");
+            var charWidthsI = File.ReadAllBytes("textgamefont-i-widths.bin");
+
+            var charWidths = charWidthsN.Concat(charWidthsI).ToArray();
 
             var line = 0;
             var chapterMatcher = new Regex(@"^(\S)$");

@@ -1,6 +1,7 @@
 pandoc -f odt -t gfm Yerzmyey-In_nihilum_reverteris.odt --wrap=none > converted.md
 
-python fontcreator.py textgamefont2.bdf
+python fontcreator.py textgamefont.bdf
+python fontcreator.py textgamefont.bdf i
 
 mcs munger.cs
 mono munger.exe
