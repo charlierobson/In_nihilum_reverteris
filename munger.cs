@@ -72,7 +72,7 @@ namespace testapp1
         private byte[] xlat(string x) {
             var bytes = Encoding.ASCII.GetBytes(x);
             List<byte> outbytes = new List<byte>();
-            outbytes.AddRange(new byte[320]);
+            outbytes.AddRange(new byte[0x230]);
 
             var italic = false;
             foreach(var b in bytes) {
@@ -201,7 +201,7 @@ namespace testapp1
 
             var chapterdat = new List<string>();
 
-            chapterdat.Add(".define PAGE .word");
+            chapterdat.Add(".define PAGE .byte");
             chapterdat.Add(".define JUMP .byte");
             chapterdat.Add(".define BMAP .byte");
 
@@ -213,6 +213,8 @@ namespace testapp1
                 var textBytes = File.ReadAllBytes("md/" + chapterName + ".mdx");
 
                 ProcessChapterNew(chapterName, chapterdat, textBytes);
+
+                File.WriteAllBytes("md/" + chapterName + ".mdx", textBytes);
             }
 
             Console.WriteLine("Writing chapterdat.asm");
@@ -221,7 +223,7 @@ namespace testapp1
 
         void ProcessChapterNew(string chapterName, List<string> chapterdat, byte[] textBytes)
         {
-            LogV($"-----------------CHAPTER-{chapterName}----------------\n\n");
+            LogV($"\n-----------------CHAPTER-{chapterName}----------------\n");
 
             var cn2idx = "0123456789ABCDEFGHIJKL";
             var intidx = cn2idx.IndexOf(chapterName);
@@ -231,10 +233,10 @@ namespace testapp1
             intidx = bm2idx.IndexOf(chapterName);
             chapterdat.Add($"\tBMAP\t{File.Exists($"bmp/{chapterName}.pbm") ? intidx : -1}");
 
-            var curStash = 320;
+            var n = 0;
+            var curStash = 0x230;
             var cursor = curStash;
             var lastBreak = curStash;
-            var lineOffsets = new List<int>();
 
             do
             {
@@ -251,14 +253,21 @@ namespace testapp1
                     if (b == 0) {
                         break;
                     }
-                    x += charWidths[textBytes[cursor] & 0x7f];
+                    x += charWidths[textBytes[cursor] & 0x7f] + 1;
                     ++cursor;
                 }
 
                 // line runs from curstash -> lastBreak
-                lineOffsets.Add(curStash);
+                textBytes[n++] = (byte)(lastBreak-curStash);
+                textBytes[n++] = (byte)(curStash & 255);
+                textBytes[n++] = (byte)(curStash / 256);
+
                 var ll = GetString(textBytes.Skip(curStash).Take(lastBreak-curStash).ToArray());
-                LogV(ll + "\n");
+                LogV($"{lastBreak-curStash,2}  {ll}\n");
+
+                if ((n/3)%17 == 0) {
+                    LogV("--------------------\n");
+                }
 
                 curStash = lastBreak + 1;
                 cursor = curStash;
@@ -266,10 +275,26 @@ namespace testapp1
             }
             while(textBytes[lastBreak - 1] != 0);
 
-            if (_maxLines < lineOffsets.Count()) {
-                _maxLines = lineOffsets.Count();
+            var lc = n / 3;
+            var o = 0;
+
+            do {
+                var offs = textBytes[o + 1] + 256 * textBytes[o + 2];
+
+                chapterdat.Add($"\tPAGE\t${o:x2}");
+                chapterdat.Add($"\tJUMP\t-1,-1,-1");
+                o += 17;
+                if (textBytes[3 * o] == 0) {
+                    ++o;
+                }
             }
-            LogV($"\nLines: {lineOffsets.Count()}, max {_maxLines}\n");
+            while (o < lc);
+            chapterdat.Add($"\tPAGE\t-1");
+
+            if (_maxLines < lc) {
+                _maxLines = lc;
+            }
+            LogV($"\nLines: {lc}, max {_maxLines}\n");
         }
 
         void ProcessChapterOrig(string chapterName, List<string> chapterdat, byte[] textBytes)
@@ -278,7 +303,7 @@ namespace testapp1
 
             const int numLines = 192 / 11;
 
-            var curstash = 320;
+            var curstash = 0x230;
             var cursor = curstash;
 
             var cn2idx = "0123456789ABCDEFGHIJKL";

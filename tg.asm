@@ -120,25 +120,73 @@ _advance:
 _gochap:
         call    loadchapter
 
-        xor     a
-        ld      (pagenum),a
-        call    getpage
-        call    beginpage
+        xor     a                       ; start at page 0
+        call    trysetpage
 
 _updatepage:
         call    cls
-        call    drawpage
+
+        ld      h,0                     ; get pointer to starting line in line table
+        ld      l,0                     ; = line * 3 + page
+        ld      d,h
+        ld      e,l
+        add     hl,hl
+        add     hl,de
+        ld      de,(page)
+        add     hl,de
+
+        ld      b,17                    ; render up to 17 lines
+
+_nextline:
+        push    hl
+        push    bc
+
+        xor     a
+        cp      (hl)
+        jr      z,_emptyline
+
+        ld      b,(hl)                  ; line character count
+        inc     hl
+        ld      a,(hl)
+        inc     hl
+        ld      h,(hl)
+        ld      l,a
+        set     7,h                     ; pointer to text data
+
+        xor     a
+        ld      (x),a
+
+_line:
+        push    bc
+        ld      a,(hl)
+        call    extcharout
+        pop     bc
+        inc     hl
+        djnz    _line
+
+_emptyline:
+        ld      a,(y)
+        inc     a
+        ld      (y),a
+
+        pop     bc
+        pop     hl
+        inc     hl
+        inc     hl
+        inc     hl
+        djnz    _nextline
+
 
 _tc:    call    gamestep
 
         ld      a,(right)
         cp      1
         jr      nz,{+}
-
         ld      a,$0e
         jp      _newchapter
++:
 
-+:      ld      a,(sound)
+        ld      a,(sound)
         cp      1
         jr      nz,_tu
 
@@ -166,7 +214,7 @@ _td:    ld      a,(down)
 _tddi:  ld      a,(pagenum)
         inc     a
         call    trysetpage
-        jr      nz,_updatepage
+        jp      nz,_updatepage
 
 _tja:   ld      a,(btnA)
         cp      1
@@ -202,15 +250,15 @@ trysetpage:
         cp      $ff             ; page of -1 no allowed
         ret     z
 
-        ld      (_tempage),a
+        ld      (_tempage),a    ; self modify
 
-        call    getpage         ; get pointer to start relevant page table entry
+        call    getpageptr      ; get pointer to start relevant page table entry
         ld      a,(hl)          ; end of chapter marked with ffff
         cp      $ff
         ret     z
 
 _tempage=$+1
-        ld      a,-1            ; self modifying
+        ld      a,-1            ; self modified
         ld      (pagenum),a
         call    beginpage       ; store calculated values in memory
         or      $ff             ; clear z flag to indicate success
@@ -226,6 +274,9 @@ pagenum:
         .byte   0
 page:
         .word   0
+
+linenum:
+        .byte   0
 
 jtab:
         .byte   0,0,0
@@ -276,15 +327,14 @@ showpic:
 
 
 
-getpage:
+getpageptr:
         ; a <- page number
         ; hl -> offset into page data
 
-        ld      hl,(chapter)
+        ld      hl,(chapter)            ; pointer to page info in chapter metadata chp_1, chp_K etc
 
-        ld      d,0                     ; each page info is 5 bytes
+        ld      d,0                     ; each page info is 4 bytes
         ld      e,a
-        add     hl,de
         sla     e
         sla     e
         add     hl,de
@@ -293,17 +343,18 @@ getpage:
 beginpage:
         push    hl
         inc     hl
-        inc     hl
         ld      de,jtab
         ldi
         ldi
         ldi
         pop     hl
-        ld      a,(hl)                  ; get offset into page text
-        inc     hl
-        ld      h,(hl)
-        ld      l,a
-        ld      (page),hl
+        ld      l,(hl)                  ; get offset into page line structure
+        ld      h,0
+        ld      d,$80
+        ld      e,l
+        add     hl,hl
+        add     hl,de                   ; * 3
+        ld      (page),hl               ; points to line list structure
         ret
 
 
@@ -439,29 +490,14 @@ _advance:
 ;
 -:      inc     hl
 
-        cp      $20
-        jr      nz,{+}
-
-        ld      a,(x)
-        add     a,SPC_WIDTH
-        ld      (x),a
-        jr      textout
-
-+:      cp      $09
-        jr      nz,{+}
-
-        ld      a,(x)
-        add     a,TAB_WIDTH
-        ld      (x),a
-        jr      textout
-
-+:      call    charout
+        call    extcharout
 
 textout:
         ld      a,(hl)
         and     a
         jr      nz,{-}
         ret
+
 
 
 centretextout:
@@ -493,10 +529,30 @@ measurestring:
         ld      (x),a
 
         pop     hl
-        jp    textout
+        jp      textout
 
 
 
+extcharout:
+        cp      $20
+        jr      nz,_notspc
+
+        ld      a,(x)
+        add     a,SPC_WIDTH
+        ld      (x),a
+        ret
+
+_notspc:
+        cp      $09
+        jr      nz,_nottab
+
+        ld      a,(x)
+        add     a,TAB_WIDTH
+        ld      (x),a
+        ret
+
+_nottab:
+        ; falls into charout
 
 ; character rendering is a little bit optimised
 ;
@@ -516,10 +572,6 @@ measurestring:
 ; word shift mode
 ; x % 8 + w > 8
 ; ex: x = 7 w = 6
-
-x:      .byte   0
-y:      .byte   0
-w:      .byte   0
 
 charout:
         push    hl
@@ -707,6 +759,7 @@ _stb:   ld      c,(hl)
 
         djnz    _advance
 
+
 updatex:
         ld      a,(x)           ; update cursor x
         ld      c,a
@@ -717,6 +770,12 @@ updatex:
 
         pop     hl
         ret
+
+
+x:      .byte   0
+y:      .byte   0
+w:      .byte   0
+
 
 ;-------------------------------------------------------------------------------
 ;
@@ -788,14 +847,16 @@ wadLoad:
 .module misc
 ;
 cls:
+        push    af
+        xor     a
+        ld      (x),a
+        ld      (y),a
         ld	hl,screen
 	ld      de,screen+1
 	ld      bc,6144-1
-        xor     a
 	ld      (hl),a
 	ldir
-        ld      (x),a
-        ld      (y),a
+        pop     af
         ret
 
 
