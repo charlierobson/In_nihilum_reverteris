@@ -5,7 +5,7 @@ chp_0:  ;  0
 	BMAP	-1
 	PAGE	$0000
 	JUMP	-1,-1,-1
-	PAGE	$02d6
+	PAGE	$02db
 	JUMP	-1,-1,-1
 	PAGE	$056c
 	JUMP	-1,-1,-1
@@ -49,7 +49,7 @@ chp_4:  ;  4
 	JUMP	-1,-1,-1
 	PAGE	$022a
 	JUMP	-1,-1,-1
-	PAGE	$047f
+	PAGE	$0481
 	JUMP	-1,-1,-1
 	PAGE	$0731
 	JUMP	-1,-1,-1
@@ -75,7 +75,7 @@ chp_6:  ;  6
 	BMAP	-1
 	PAGE	$0000
 	JUMP	-1,-1,-1
-	PAGE	$02fd
+	PAGE	$0306
 	JUMP	-1,-1,-1
 	PAGE	$05d7
 	JUMP	-1,-1,-1
@@ -83,17 +83,17 @@ chp_6:  ;  6
 	JUMP	-1,-1,-1
 	PAGE	$0a82
 	JUMP	-1,-1,-1
-	PAGE	$0d87
+	PAGE	$0d9d
 	JUMP	-1,-1,-1
-	PAGE	$101c
+	PAGE	$104f
 	JUMP	-1,-1,-1
-	PAGE	$1351
+	PAGE	$137a
 	JUMP	-1,-1,-1
-	PAGE	$15bc
+	PAGE	$15f0
 	JUMP	-1,-1,-1
-	PAGE	$189f
+	PAGE	$18cc
 	JUMP	-1,-1,-1
-	PAGE	$1ae3
+	PAGE	$1b06
 	JUMP	8,-1,-1
 	PAGE	-1
 chp_7:  ;  7
@@ -129,7 +129,7 @@ chp_8:  ;  8
 	JUMP	-1,-1,-1
 	PAGE	$0cc9
 	JUMP	-1,-1,-1
-	PAGE	$0fcc
+	PAGE	$0fd5
 	JUMP	-1,-1,-1
 	PAGE	$124a
 	JUMP	-1,-1,-1
@@ -148,10 +148,10 @@ chp_9:  ;  9
 	JUMP	-1,-1,-1
 	PAGE	$0751
 	JUMP	-1,-1,-1
-	PAGE	$09e0
-	JUMP	10,-1,-1
-	PAGE	$0c47
-	JUMP	-1,11,12
+	PAGE	$09e8
+	JUMP	10,11,-1
+	PAGE	$0c73
+	JUMP	-1,-1,12
 	PAGE	-1
 chp_10:  ;  A
 	BMAP	-1
@@ -169,7 +169,7 @@ chp_10:  ;  A
 	JUMP	-1,-1,-1
 	PAGE	$0fc8
 	JUMP	-1,-1,-1
-	PAGE	$123e
+	PAGE	$1252
 	JUMP	13,-1,-1
 	PAGE	-1
 chp_11:  ;  B
@@ -186,14 +186,12 @@ chp_11:  ;  B
 	JUMP	-1,-1,-1
 	PAGE	$0c65
 	JUMP	-1,-1,-1
-	PAGE	$0e42
+	PAGE	$0e6f
 	JUMP	-1,-1,-1
-	PAGE	$10ef
+	PAGE	$1103
 	JUMP	-1,-1,-1
-	PAGE	$1391
+	PAGE	$13eb
 	JUMP	13,-1,-1
-	PAGE	$1600
-	JUMP	-1,-1,-1
 	PAGE	-1
 chp_12:  ;  C
 	BMAP	-1
@@ -209,11 +207,11 @@ chp_12:  ;  C
 	JUMP	-1,-1,-1
 	PAGE	$0bba
 	JUMP	-1,-1,-1
-	PAGE	$0e56
+	PAGE	$0e5b
 	JUMP	-1,-1,-1
 	PAGE	$1044
 	JUMP	-1,-1,-1
-	PAGE	$1259
+	PAGE	$1286
 	JUMP	13,-1,-1
 	PAGE	-1
 chp_13:  ;  D
@@ -222,7 +220,7 @@ chp_13:  ;  D
 	JUMP	-1,-1,-1
 	PAGE	$0296
 	JUMP	-1,-1,-1
-	PAGE	$05c8
+	PAGE	$05d3
 	JUMP	14,-1,-1
 	PAGE	-1
 chp_14:  ;  E
@@ -233,30 +231,28 @@ chp_14:  ;  E
 	JUMP	-1,-1,-1
 	PAGE	$051f
 	JUMP	-1,-1,-1
-	PAGE	$0717
+	PAGE	$0763
 	JUMP	-1,-1,-1
-	PAGE	$0974
+	PAGE	$0a23
 	JUMP	-1,-1,-1
-	PAGE	$0b41
+	PAGE	$0c4e
 	JUMP	-1,-1,-1
-	PAGE	$0d26
+	PAGE	$0e46
 	JUMP	-1,-1,-1
-	PAGE	$0eb7
+	PAGE	$106f
 	JUMP	-1,-1,-1
-	PAGE	$1135
+	PAGE	$12ba
 	JUMP	-1,-1,-1
-	PAGE	$1377
+	PAGE	$1506
 	JUMP	-1,-1,-1
-	PAGE	$155e
-	JUMP	-1,-1,-1
-	PAGE	$1791
+	PAGE	$1762
 	JUMP	15,16,-1
 	PAGE	-1
 chp_15:  ;  F
 	BMAP	7
 	PAGE	$0000
 	JUMP	-1,-1,-1
-	PAGE	$02c1
+	PAGE	$02d3
 	JUMP	-1,-1,-1
 	PAGE	$0568
 	JUMP	-1,-1,-1
@@ -275,7 +271,7 @@ chp_16:  ;  G
 	JUMP	-1,-1,-1
 	PAGE	$090c
 	JUMP	-1,-1,-1
-	PAGE	$0ae1
+	PAGE	$0b10
 	JUMP	1,-1,-1
 	PAGE	-1
 chp_17:  ;  H
@@ -284,11 +280,11 @@ chp_17:  ;  H
 	JUMP	-1,-1,-1
 	PAGE	$02f3
 	JUMP	-1,-1,-1
-	PAGE	$05db
+	PAGE	$05e5
 	JUMP	-1,-1,-1
 	PAGE	$089a
 	JUMP	-1,-1,-1
-	PAGE	$0a7f
+	PAGE	$0afd
 	JUMP	-1,-1,-1
 	PAGE	-1
 chp_18:  ;  I
@@ -299,11 +295,11 @@ chp_18:  ;  I
 	JUMP	-1,-1,-1
 	PAGE	$05db
 	JUMP	-1,-1,-1
-	PAGE	$0804
+	PAGE	$0833
 	JUMP	-1,-1,-1
-	PAGE	$0aa2
+	PAGE	$0ad9
 	JUMP	-1,-1,-1
-	PAGE	$0cc3
+	PAGE	$0ced
 	JUMP	-1,-1,-1
 	PAGE	$0f42
 	JUMP	20,-1,-1

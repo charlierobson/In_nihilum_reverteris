@@ -78,7 +78,12 @@ namespace testapp1
                     italic = !italic;
                     continue;
                 }
-                outbytes.Add((byte)(b + (italic?128:0)));
+
+                int add = 0;
+                if (italic && b > 14 && b != 32 && b != '.') {
+                    add = 128;
+                }
+                outbytes.Add((byte)(b + add));
             }
             return outbytes.ToArray();
         }
@@ -197,7 +202,7 @@ namespace testapp1
             foreach (var chapterName in chapterIDs)
             {
                 _italics = false;
-                var textBytes = File.ReadAllBytes("md/" + chapterName + ".md");
+                var textBytes = File.ReadAllBytes("md/" + chapterName + ".mdx");
 
                 LogV($"-----------------CHAPTER-{chapterName}----------------\n");
 
@@ -260,8 +265,10 @@ namespace testapp1
                             }
                         }
 
+                        len = word.Aggregate(0, (total, next) => total + charWidths[next] + (next > 127 ? -2 : 0) + 1) - 1;
+
                         x += len;   
-                        LogV(GetString(word));
+                        LogV(GetString(word) + $"[{len}, {x}]");
 
                         jumpAFound |= Array.Exists(word, element => element == 0x1a);
                         jumpBFound |= Array.Exists(word, element => element == 0x1c);
@@ -291,7 +298,7 @@ namespace testapp1
                     continue;
                 }
                 int add = 0;
-                if (_italics && b > 14) {
+                if (_italics && b > 14 && b != 32 && b != '.') {
                     add = 128;
                 }
                 word.Add((byte)(b + add));

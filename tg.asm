@@ -135,8 +135,7 @@ _tc:    call    gamestep
         cp      1
         jr      nz,{+}
 
-        ld      a,(chapnum)
-        inc     a
+        ld      a,$0e
         jp      _newchapter
 
 +:      ld      a,(sound)
@@ -272,9 +271,7 @@ showpic:
         ld      bc,32*192
         ldir
 
-        call    waitkeytimeout          ; 10 second wait or proceed on keypress
-        ret     nc
-        call    waitkeytimeout
+        call    waitkey
         ret
 
 
@@ -397,14 +394,12 @@ getword:
 _gwi:
         ld      de,wordbuf
         ld      a,(hl)
-        and     $7f
 
 _scrape:
         ldi
         cp      10
         ret     z
         ld      a,(hl)
-        and     $7f
         cp      32
         ret     z
         cp      15
@@ -816,6 +811,18 @@ waitsync:
         ret
 
 
+waitkey:
+        call    gamestep
+        ld      a,(select)
+        cp      1
+        ret     z
+        ld      a,(down)
+        cp      1
+        jr      nz,waitkey
+        ret
+
+
+
 waitkeytimeout:
         xor     a
         jr      {+}
@@ -973,7 +980,7 @@ titletext3:
 titletext4:
         .byte   12, "H-Prg 2018",0
 titletext5:
-        .byte   16, "Press New Line, or H for help",0
+        .byte   16, "Press New Line",0
 
 font:
         .incbin textgamefont.bin
