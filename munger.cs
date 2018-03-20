@@ -26,6 +26,7 @@ namespace testapp1
         public void Run()
         {
             chardict = new Dictionary<byte, string>();
+            chardict[0x09] = "    ";
             chardict[0x0f] = "'";
             chardict[0x10] = "'";
             chardict[0x11] = "\"";
@@ -43,7 +44,6 @@ namespace testapp1
             chardict[0x1d] = "]";
             chardict[0x1e] = "[C";
             chardict[0x1f] = "]";
-            chardict[0x7f] = "    ";
 
             SplitMD();
             MakeWAD();
@@ -72,6 +72,8 @@ namespace testapp1
         private byte[] xlat(string x) {
             var bytes = Encoding.ASCII.GetBytes(x);
             List<byte> outbytes = new List<byte>();
+            outbytes.AddRange(new byte[320]);
+
             var italic = false;
             foreach(var b in bytes) {
                 if (b == '*') {
@@ -88,6 +90,10 @@ namespace testapp1
             return outbytes.ToArray();
         }
 
+        private int _maxLines;
+        private byte[] charWidths;
+        private Dictionary<String, int[]> jumps;
+
         public void SplitMD()
         {
             var chapters = new Dictionary<string, string>();
@@ -97,7 +103,7 @@ namespace testapp1
             var charWidthsN = File.ReadAllBytes("textgamefont-widths.bin");
             var charWidthsI = File.ReadAllBytes("textgamefont-i-widths.bin");
 
-            var charWidths = charWidthsN.Concat(charWidthsI).ToArray();
+            charWidths = charWidthsN.Concat(charWidthsI).ToArray();
 
             var line = 0;
             var chapterMatcher = new Regex(@"^(\S)$");
@@ -126,18 +132,18 @@ namespace testapp1
                 var match = chapterMatcher.Match(raw);
                 if (match.Success) {
                     if (accumulatedText.Length != 0) {
-                        chapters[currentChapterName] = accumulatedText.ToString().Trim();
+                        chapters[currentChapterName] = "\t" + accumulatedText.ToString().Trim();
                     }
                     currentChapterName = match.Groups[1].Captures[0].ToString();
                     accumulatedText.Clear();
                 } else {
-                    if (raw.Length > 1) raw = (char)(127) + raw;
+                    if (raw.Length > 1) raw = (char)9 + raw;
                     accumulatedText.AppendLine(raw);
                 }
                 ++line;
             }
 
-            chapters[currentChapterName] = accumulatedText.ToString().Trim();
+            chapters[currentChapterName] = "\t" + accumulatedText.ToString().Trim();
 
             var chapterIDs = new List<string>(chapters.Keys);
             chapterIDs.Sort();
@@ -199,89 +205,149 @@ namespace testapp1
             chapterdat.Add(".define JUMP .byte");
             chapterdat.Add(".define BMAP .byte");
 
+            _maxLines = 0;
+
             foreach (var chapterName in chapterIDs)
             {
                 _italics = false;
                 var textBytes = File.ReadAllBytes("md/" + chapterName + ".mdx");
 
-                LogV($"-----------------CHAPTER-{chapterName}----------------\n");
-
-                const int numLines = 192 / 11;
-
-                var curstash = 0;
-                var cursor = curstash;
-
-                var cn2idx = "0123456789ABCDEFGHIJKL";
-                var intidx = cn2idx.IndexOf(chapterName);
-                chapterdat.Add($"chp_{intidx}:  ;  {chapterName}");
-
-                var bm2idx = "01589DEFHK";
-                intidx = bm2idx.IndexOf(chapterName);
-                chapterdat.Add($"\tBMAP\t{File.Exists($"bmp/{chapterName}.pbm") ? intidx : -1}");
-
-                while (cursor < textBytes.Length)
-                {
-                    var x = 0; // cls ;)
-                    var y = 0;
-                    cursor = curstash;
-
-                    while(textBytes[cursor] == 10 || textBytes[cursor] == 32) {
-                        ++cursor;
-                    }
-                    bool jumpAFound = false;
-                    bool jumpBFound = false;
-                    bool jumpCFound = false;
-
-                    chapterdat.Add($"\tPAGE\t${cursor:x4}");
-                    LogV("\n------------------------------\n");
-
-                    while (cursor < textBytes.Length && y < numLines)
-                    {
-                        curstash = cursor;
-                        var word = getWord(textBytes, ref cursor);
-
-                        if (word[0] == 10)
-                        {
-                            x = 0;
-                            ++y;
-                            LogV("\n");
-                            continue;
-                        }
-
-                        var len = word.Aggregate(0, (total, next) => total + charWidths[next] + 1) - 1;
-                        if (x + len > 255)
-                        {
-                            x = 0;
-                            ++y;
-                            if (y >= numLines)
-                            {
-                                continue;
-                            }
-                            LogV("\n");
-                            if (word[0] == 32)
-                            {
-                                word =  word.Skip(1).Take(word.Length - 1).ToArray();
-                                len -= charWidths[32];
-                            }
-                        }
-
-                        len = word.Aggregate(0, (total, next) => total + charWidths[next] + (next > 127 ? -2 : 0) + 1) - 1;
-
-                        x += len;   
-                        LogV(GetString(word) + $"[{len}, {x}]");
-
-                        jumpAFound |= Array.Exists(word, element => element == 0x1a);
-                        jumpBFound |= Array.Exists(word, element => element == 0x1c);
-                        jumpCFound |= Array.Exists(word, element => element == 0x1e);
-                    }
-                    chapterdat.Add($"\tJUMP\t{jumpAFound?jumps[chapterName][0]:-1},{jumpBFound?jumps[chapterName][1]:-1},{jumpCFound?jumps[chapterName][2]:-1}");
-                }
-                chapterdat.Add("\tPAGE\t-1");
-                LogV("\n------------------------------\n");
+                ProcessChapterNew(chapterName, chapterdat, textBytes);
             }
 
             Console.WriteLine("Writing chapterdat.asm");
             File.WriteAllLines("codegen/chapterdat.asm", chapterdat);
+        }
+
+        void ProcessChapterNew(string chapterName, List<string> chapterdat, byte[] textBytes)
+        {
+            LogV($"-----------------CHAPTER-{chapterName}----------------\n\n");
+
+            var cn2idx = "0123456789ABCDEFGHIJKL";
+            var intidx = cn2idx.IndexOf(chapterName);
+            chapterdat.Add($"chp_{intidx}:  ;  {chapterName}");
+
+            var bm2idx = "01589DEFHK";
+            intidx = bm2idx.IndexOf(chapterName);
+            chapterdat.Add($"\tBMAP\t{File.Exists($"bmp/{chapterName}.pbm") ? intidx : -1}");
+
+            var curStash = 320;
+            var cursor = curStash;
+            var lastBreak = curStash;
+            var lineOffsets = new List<int>();
+
+            do
+            {
+                var x = 0;
+                while (x < 255)
+                {
+                    byte b = textBytes[cursor];
+                    if (b == 32 || b == 10 || b == 0) {
+                        lastBreak = cursor;
+                    }
+                    if (b == 10) {
+                        break;
+                    }
+                    if (b == 0) {
+                        break;
+                    }
+                    x += charWidths[textBytes[cursor] & 0x7f];
+                    ++cursor;
+                }
+
+                // line runs from curstash -> lastBreak
+                lineOffsets.Add(curStash);
+                var ll = GetString(textBytes.Skip(curStash).Take(lastBreak-curStash).ToArray());
+                LogV(ll + "\n");
+
+                curStash = lastBreak + 1;
+                cursor = curStash;
+                lastBreak = cursor;
+            }
+            while(textBytes[lastBreak - 1] != 0);
+
+            if (_maxLines < lineOffsets.Count()) {
+                _maxLines = lineOffsets.Count();
+            }
+            LogV($"\nLines: {lineOffsets.Count()}, max {_maxLines}\n");
+        }
+
+        void ProcessChapterOrig(string chapterName, List<string> chapterdat, byte[] textBytes)
+        {
+            LogV($"-----------------CHAPTER-{chapterName}----------------\n");
+
+            const int numLines = 192 / 11;
+
+            var curstash = 320;
+            var cursor = curstash;
+
+            var cn2idx = "0123456789ABCDEFGHIJKL";
+            var intidx = cn2idx.IndexOf(chapterName);
+            chapterdat.Add($"chp_{intidx}:  ;  {chapterName}");
+
+            var bm2idx = "01589DEFHK";
+            intidx = bm2idx.IndexOf(chapterName);
+            chapterdat.Add($"\tBMAP\t{File.Exists($"bmp/{chapterName}.pbm") ? intidx : -1}");
+
+            while (cursor < textBytes.Length)
+            {
+                var x = 0; // cls ;)
+                var y = 0;
+                cursor = curstash;
+
+                while(textBytes[cursor] == 10 || textBytes[cursor] == 32) {
+                    ++cursor;
+                }
+                bool jumpAFound = false;
+                bool jumpBFound = false;
+                bool jumpCFound = false;
+
+                chapterdat.Add($"\tPAGE\t${cursor:x4}");
+                LogV("\n------------------------------\n");
+
+                while (cursor < textBytes.Length && y < numLines)
+                {
+                    curstash = cursor;
+                    var word = getWord(textBytes, ref cursor);
+
+                    if (word[0] == 10)
+                    {
+                        x = 0;
+                        ++y;
+                        LogV("\n");
+                        continue;
+                    }
+
+                    var len = word.Aggregate(0, (total, next) => total + charWidths[next] + 1) - 1;
+                    if (x + len > 255)
+                    {
+                        x = 0;
+                        ++y;
+                        if (y >= numLines)
+                        {
+                            continue;
+                        }
+                        LogV("\n");
+                        if (word[0] == 32)
+                        {
+                            word =  word.Skip(1).Take(word.Length - 1).ToArray();
+                            len -= charWidths[32];
+                        }
+                    }
+
+                    len = word.Aggregate(0, (total, next) => total + charWidths[next] + (next > 127 ? -2 : 0) + 1) - 1;
+
+                    x += len;   
+                    LogV(GetString(word) + $"[{len}, {x}]");
+
+                    jumpAFound |= Array.Exists(word, element => element == 0x1a);
+                    jumpBFound |= Array.Exists(word, element => element == 0x1c);
+                    jumpCFound |= Array.Exists(word, element => element == 0x1e);
+                }
+                chapterdat.Add($"\tJUMP\t{jumpAFound?jumps[chapterName][0]:-1},{jumpBFound?jumps[chapterName][1]:-1},{jumpCFound?jumps[chapterName][2]:-1}");
+            }
+            chapterdat.Add("\tPAGE\t-1");
+            LogV("\n------------------------------\n");
         }
 
         public byte[] getWord(byte[] str, ref int cursor)

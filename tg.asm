@@ -447,7 +447,7 @@ _advance:
         ld      (x),a
         jr      textout
 
-+:      cp      $7f
++:      cp      $09
         jr      nz,{+}
 
         ld      a,(x)

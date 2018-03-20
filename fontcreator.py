@@ -94,7 +94,7 @@ while i < len(content):
 
         if (idx == 32): # space hack
             w = 4
-        if (idx == 127): # tab hack
+        if (idx == 9): # tab hack
             w = 16
         if (idx == 0x1a or idx == 0x1c or idx == 0x1e):
             w = 5 # jump-character hack - one extra pixel will be added by rendererer
