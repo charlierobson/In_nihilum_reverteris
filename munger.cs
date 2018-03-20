@@ -190,6 +190,10 @@ namespace testapp1
 
             var chapterdat = new List<string>();
 
+            chapterdat.Add(".define PAGE .word");
+            chapterdat.Add(".define JUMP .byte");
+            chapterdat.Add(".define BMAP .byte");
+
             foreach (var chapterName in chapterIDs)
             {
                 _italics = false;
@@ -319,8 +323,10 @@ namespace testapp1
             {
                 var bytes = File.ReadAllBytes(file);
                 bytes.CopyTo(wad, offset);
+                var lenny = (bytes.Length + 255) / 256;
                 waddat.Add($"\t.word\t${offset / 256:x4}\t\t; {idx:x2}  {file}");
-                offset += ((bytes.Length + 255) / 256) * 256;
+                waddat.Add($"\t.byte\t${lenny:x2}");
+                offset += lenny * 256;
                 ++idx;
             }
 

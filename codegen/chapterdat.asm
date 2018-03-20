@@ -1,3 +1,6 @@
+.define PAGE .word
+.define JUMP .byte
+.define BMAP .byte
 chp_0:  ;  0
 	BMAP	-1
 	PAGE	$0000
