@@ -56,6 +56,10 @@ membot  .fill   32,0
 
 ;-------------------------------------------------------------------------------
 
+        .include lowdata.bin.inc
+
+;-------------------------------------------------------------------------------
+
 line1:  .byte   0,1
         .word   line1end-$-2
         .byte   $ea
@@ -75,6 +79,15 @@ PS: ; program start
         call    cls
         ld      ix,wrx
 
+        call    initwad
+
+        ld      a,$20                   ; lowdat
+        call    wadload
+        ld      hl,$8000
+        ld      de,$3800
+        ld      bc,$800
+        ldir
+
         ld      hl,titletext1
         call    centreTextOut
         ld      hl,titletext2
@@ -83,8 +96,6 @@ PS: ; program start
         call    centreTextOut
         ld      hl,titletext4
         call    centreTextOut
-
-        call    initwad
 
         ld      hl,berlin
         call    INIT_STC
@@ -99,6 +110,7 @@ PS: ; program start
 _advance:
         ld      a,$ff                   ; music on, show title picture
         ld      (soundEn),a
+
         xor     a
         call    showpic
 
@@ -108,16 +120,77 @@ _advance:
 _gochap:
         call    loadchapter
 
-        xor     a
-        ld      (pagenum),a
-        call    getpage
-        call    beginpage
+        xor     a                       ; start at page 0
+        call    trysetpage
 
 _updatepage:
         call    cls
-        call    drawpage
 
-_tc:    call    gamestep
+        ld      h,0                     ; get pointer to starting line in line table
+        ld      l,0                     ; = line * 3 + page
+        ld      d,h
+        ld      e,l
+        add     hl,hl
+        add     hl,de
+        ld      de,(page)
+        add     hl,de
+
+        xor     a                       ; disable jumps until they're rendered
+        ld      (jmpA),a
+        ld      (jmpB),a
+        ld      (jmpC),a
+
+        ld      b,17                    ; render up to 17 lines
+
+_nextline:
+        push    hl
+        push    bc
+
+        xor     a
+        cp      (hl)
+        jr      z,_emptyline
+
+        ld      b,(hl)                  ; line character count
+        inc     hl
+        ld      a,(hl)
+        inc     hl
+        ld      h,(hl)
+        ld      l,a
+        set     7,h                     ; pointer to text data
+
+        xor     a
+        ld      (x),a
+
+_line:
+        push    bc
+        ld      a,(hl)
+        call    extcharout
+        pop     bc
+        inc     hl
+        djnz    _line
+
+_emptyline:
+        ld      a,(y)
+        inc     a
+        ld      (y),a
+
+        pop     bc
+        pop     hl
+        inc     hl
+        inc     hl
+        inc     hl
+        djnz    _nextline
+
+
+_mainloop:
+        call    gamestep
+
+        ld      a,(right)
+        cp      1
+        jr      nz,{+}
+        ld      a,$0e
+        jp      _newchapter
++:
 
         ld      a,(sound)
         cp      1
@@ -139,36 +212,44 @@ _tudi:  ld      a,(pagenum)
 
 _td:    ld      a,(down)
         cp      1
+        jr      z,_tddi
+        ld      a,(select)
+        cp      1
         jr      nz,_tja
 
 _tddi:  ld      a,(pagenum)
         inc     a
         call    trysetpage
-        jr      nz,_updatepage
+        jp      nz,_updatepage
 
 _tja:   ld      a,(btnA)
         cp      1
         jr      nz,_tjb
+        ld      a,(jmpA)
+        and     a
+        jr      z,_tjb
 
         ld      a,(jtab+0)
-        bit     7,a
-        jr      z,_newchapter
+        jr      _newchapter
 
 _tjb:   ld      a,(btnB)
         cp      1
         jr      nz,_tjc
+        ld      a,(jmpB)
+        and     a
+        jr      z,_tjc
 
         ld      a,(jtab+1)
-        bit     7,a
-        jr      z,_newchapter
+        jr      _newchapter
 
 _tjc:   ld      a,(btnC)
         cp      1
-        jr      nz,_tc
+        jr      nz,_mainloop
+        ld      a,(jmpC)
+        and     a
+        jr      z,_mainloop
 
         ld      a,(jtab+2)
-        bit     7,a
-        jr      nz,_tc
 
 _newchapter:
         ld      (chapnum),a
@@ -176,20 +257,46 @@ _newchapter:
 
 
 
+
+
+getpageptr:
+        ; a <- page number
+        ; hl -> offset into page data
+
+        ld      hl,(chapter)            ; pointer to page info in chapter metadata chp_1, chp_K etc
+        ld      d,0
+        ld      e,a
+        add     hl,de
+        ret
+
+
+
+beginpage:
+        ld      l,(hl)                  ; get offset into page line structure
+        ld      h,0
+        ld      d,$80
+        ld      e,l
+        add     hl,hl
+        add     hl,de                   ; * 3
+        ld      (page),hl               ; points to line list structure
+        ret
+
+
 trysetpage:
-        ld      (_tempage),a
         cp      $ff             ; page of -1 no allowed
         ret     z
 
-        call    getpage
+        ld      (_tempage),a    ; self modify
+
+        call    getpageptr      ; get pointer to start relevant page table entry
         ld      a,(hl)          ; end of chapter marked with ffff
         cp      $ff
         ret     z
 
 _tempage=$+1
-        ld      a,0
+        ld      a,-1            ; self modified
         ld      (pagenum),a
-        call    beginpage
+        call    beginpage       ; store calculated values in memory
         or      $ff             ; clear z flag to indicate success
         ret
 
@@ -204,7 +311,14 @@ pagenum:
 page:
         .word   0
 
-jtab:
+linenum:
+        .byte   0
+
+jtab = $
+jmpA = $+3
+jmpB = $+4
+jmpC = $+5
+        .byte   0,0,0
         .byte   0,0,0
 
 ;-------------------------------------------------------------------------------
@@ -212,10 +326,11 @@ jtab:
 .module ci
 ;
 loadchapter:
+        ld      hl,chapterptrs
         ld      a,(chapnum)             ; index into the chapter pointer table
         add     a,a
+        add     a,l
         ld      l,a
-        ld      h,chapterptrs / 256
         ld      a,(hl)
         inc     hl
         ld      h,(hl)
@@ -230,12 +345,16 @@ loadchapter:
         pop     hl
 
 _nopic:
-        inc     hl
-        ld      (chapter),hl
+        inc     hl                      ; copy out jump indicies
+        ld      de,jtab
+        ldi
+        ldi
+        ldi
+
+        ld      (chapter),hl            ; finally make pointer to page start line offsets
 
         ld      a,(chapnum)
-        call    wadLoad
-        ret
+        jp      wadLoad
 
 
 showpic:
@@ -247,226 +366,7 @@ showpic:
         ld      bc,32*192
         ldir
 
-        call    waitkeytimeout          ; 10 second wait or proceed on keypress
-        ret     nc
-        call    waitkeytimeout
-        ret
-
-
-
-getpage:
-        ; a <- page number
-        ; hl -> offset into page data
-
-        ld      hl,(chapter)
-
-        ld      d,0                     ; each page info is 5 bytes
-        ld      e,a
-        add     hl,de
-        sla     e
-        sla     e
-        add     hl,de
-        ret
-
-beginpage:
-        push    hl
-        inc     hl
-        inc     hl
-        ld      de,jtab
-        ldi
-        ldi
-        ldi
-        pop     hl
-        ld      a,(hl)                  ; get offset into page text
-        inc     hl
-        ld      h,(hl)
-        ld      l,a
-        ld      (page),hl
-        ret
-
-
-;-------------------------------------------------------------------------------
-;
-.module dp
-;
-drawpage:
-        ld      hl,(page)
-        ld      de,$8000
-        add     hl,de
-        ld      (wordp),hl
-
-        ; we have a pointer to the page text within the chapter
-
-_loop:
-        ld      hl,(wordp)
-        ld      a,(hl)
-        and     a                       ; a = 0 when no more words left
-        ret     z
-
-        call    getword                 ; get the next word into the word buffer
-
-        ld      (wordp),hl
-
-        ld      a,(wordbuf)
-        cp      10
-        jr      z,_donewline
-
-        call    getwordlen              ; return with word length in BC
-
-        ld      a,(x)                   ; will x + word len fit?
-        add     a,c
-        ld      hl,wordbuf              ; get a word pointer ready in case it needs updating
-        call    c,_newlineorbust
-
-        call    textout                 ; render the word
-
-        jr      _loop
-
-_donewline:
-        call    newline
-        jr      nz,_loop
-        ret
-
-
-_newlineorbust:
-        call    newline                 ; no space left, so advance a line
-        jr      nz,_remspc              ; continue if there are lines left
-
-        pop     hl                      ; don't return to drawing, but to caller
-        ret
-
-_remspc:
-        ld      a,(hl)                  ; remove whitespace from front of word if necessary
-        cp      32
-        ret     nz
-
-        inc     hl
-        ret
-
-
-newline:
-        xor     a                       ; newline
-        ld      (x),a
-        ld      a,(y)
-        inc     a
-        ld      (y),a
-        cp      17
-        ret
-
-
-wordp:
-        .word   0
-
-
-;-------------------------------------------------------------------------------
-;
-.module words
-;
-getword:
-        call    _gwi
-        ex      de,hl
-        ld      (hl),0
-        ex      de,hl
-        ret
-
-_gwi:
-        ld      de,wordbuf
-        ld      a,(hl)
-
-_scrape:
-        ldi
-        cp      10
-        ret     z
-        ld      a,(hl)
-        cp      32
-        ret     z
-        cp      15
-        jr      nc,_scrape
-        ret
-
-wordbuf:
-        .fill   32
-
-
-getwordlen:
-        ld      de,wordbuf
-        ld      h,widths / 256
-        ld      bc,0
-        jr      _advance
-
-_accum:
-        ld      l,a
-        ld      a,(hl)
-        add     a,c
-        ld      c,a
-        inc     c
-        inc     de
-
-_advance:
-        ld      a,(de)
-        and     a
-        jr      nz,_accum
-
-        dec     c
-        ret
-
-;-------------------------------------------------------------------------------
-;
-.module wad
-;
-initwad:
-        ld      de,wadfile      ; send filename
-        call    $1ffa
-
-        ld      bc,$8007        ; open read
-        ld      a,$00
-        out     (c),a
-        jp      $1ff6           ; wait/get response
-
-
-wadLoad:
-        ld      h,0
-        ld      l,a
-        add     hl,hl
-        ld      de,wadptrs
-        add     hl,de
-        xor     a
-        ld      (PRTBUF),a
-        ld      (PRTBUF+3),a
-        ld      de,PRTBUF+1
-        ldi
-        ldi
-
-        ld      de,PRTBUF
-        ld      l,4             ; transfer seek position dword
-        ld      a,l
-        call    $1ffc
-
-        ld      bc,$8007        ; dword seek
-        ld      a,$d0
-        out     (c),a
-        call    $1ff6           ; wait/get response
-
-        ld      de,$8000        ; read 8k to $8000, nasty but oh well
--:      push    de
-
-        ld      bc,$A007        ; file read, 256 bytes
-        xor     a
-        out     (c),a
-        call    $1ff6           ; wait/get response
-
-        pop     de              ; xfer
-        push    de
-        xor     a
-        ld      l,a
-        call    $1ffc
-
-        pop     de
-        inc     d
-        ld      a,$a0
-        cp      d
-        jr      nz,{-}
-
+        call    waitkey
         ret
 
 ;-------------------------------------------------------------------------------
@@ -475,29 +375,14 @@ wadLoad:
 ;
 -:      inc     hl
 
-        cp      $20
-        jr      nz,{+}
-
-        ld      a,(x)
-        add     a,SPC_WIDTH
-        ld      (x),a
-        jr      textout
-
-+:      cp      $7f
-        jr      nz,{+}
-
-        ld      a,(x)
-        add     a,TAB_WIDTH
-        ld      (x),a
-        jr      textout
-
-+:      call    charout
+        call    extcharout
 
 textout:
         ld      a,(hl)
         and     a
         jr      nz,{-}
         ret
+
 
 
 centretextout:
@@ -529,10 +414,48 @@ measurestring:
         ld      (x),a
 
         pop     hl
-        jp    textout
+        jp      textout
 
 
 
+extcharout:
+        cp      $20
+        jr      nz,_notspc
+
+        ld      a,(x)
+        add     a,SPC_WIDTH
+        ld      (x),a
+        ret
+
+_notspc:
+        cp      $09
+        jr      nz,_nottab
+
+        ld      a,(x)
+        add     a,TAB_WIDTH
+        ld      (x),a
+        ret
+
+_nottab:
+        cp      $1a
+        jr      nz,_notjmpa
+
+        ld      (jmpA),a
+
+_notjmpa:
+        cp      $1c
+        jr      nz,_notjmpb
+
+        ld      (jmpB),a
+
+_notjmpb:
+        cp      $1e
+        jr      nz,_notjmpc
+
+        ld      (jmpC),a
+
+_notjmpc:
+        ; falls into charout
 
 ; character rendering is a little bit optimised
 ;
@@ -553,10 +476,6 @@ measurestring:
 ; x % 8 + w > 8
 ; ex: x = 7 w = 6
 
-x:      .byte   0
-y:      .byte   0
-w:      .byte   0
-
 charout:
         push    hl
  
@@ -565,19 +484,32 @@ charout:
         ld      l,a
         ld      h,widths / 256
         ld      c,(hl)
+
         ld      hl,w
-        ld      (hl),c          ; stash for later
+        ld      (hl),c          ; stash width for later
+        cp      128             ; if this is an italic character, employ some shonky kerning
+        jr      c,{+}
+
+        dec     c               ; kern
+        dec     c
+        ld      (hl),c
+        inc     c
+        inc     c
 
         ; calculate glyph data address
         ;
-        ld      h,0             ; hl = a * 12 + font base
++:      cp      128
+        jr      c,{+}
+        sub     15
++:      sub     15
+        ld      h,0             ; hl = a * 10 + font base
         ld      l,a
-        add     hl,hl
-        add     hl,hl
         ld      d,h
         ld      e,l
         add     hl,hl
+        add     hl,hl
         add     hl,de
+        add     hl,hl
         ld      de,font
         add     hl,de
 
@@ -635,7 +567,7 @@ charout:
 .module ws
 ;
 wordshift:
-        ld      b,11
+        ld      b,10
         jr      _stw
 
 _advance:
@@ -677,7 +609,7 @@ _shift: srl     a
 .module bs
 ;
 byteshift:
-        ld      b,11
+        ld      b,10
         jr      _stb
 
 _advance:
@@ -711,19 +643,25 @@ _shift: rrca
 .module ba
 ;
 bytealigned:
-        ld      bc,$0bff        ; set c to be high number so we can use LDI
+        ld      b,10
         jr      _stb
 
 _advance:
         ld      a,e
-        add     a,31            ; ldi already added 1
+        add     a,32
         ld      e,a
         jr      nc,_stb
 
         inc     d
 
-_stb:   ldi
+_stb:   ld      c,(hl)
+        ld      a,(de)
+        or      c
+        ld      (de),a
+        inc     hl
+
         djnz    _advance
+
 
 updatex:
         ld      a,(x)           ; update cursor x
@@ -736,20 +674,94 @@ updatex:
         pop     hl
         ret
 
+
+x:      .byte   0
+y:      .byte   0
+w:      .byte   0
+
+
+;-------------------------------------------------------------------------------
+;
+.module wad
+;
+initwad:
+        ld      de,wadfile      ; send filename
+        call    $1ffa
+
+        ld      bc,$8007        ; open read
+        ld      a,$00
+        out     (c),a
+        jp      $1ff6           ; wait/get response
+
+
+wadLoad:
+        ld      h,0             ; a * 3 bytes / entry
+        ld      l,a
+        ld      d,h
+        ld      e,l
+        add     hl,hl
+        add     hl,de
+        ld      de,wadptrs
+        add     hl,de
+        xor     a
+        ld      (PRTBUF),a
+        ld      (PRTBUF+3),a
+        ld      de,PRTBUF+1
+        ldi
+        ldi
+        ld      a,(hl)          ; length in 256 byte blocks
+        or      $80             ; high byte of last address
+        ld      (w),a
+
+        ld      de,PRTBUF
+        ld      l,4             ; transfer seek position dword
+        ld      a,l
+        call    $1ffc
+
+        ld      bc,$8007        ; dword seek
+        ld      a,$d0
+        out     (c),a
+        call    $1ff6           ; wait/get response
+
+        ld      de,$8000        ; read 8k to $8000, nasty but oh well
+-:      push    de
+
+        ld      bc,$A007        ; file read, 256 bytes
+        xor     a
+        out     (c),a
+        call    $1ff6           ; wait/get response
+
+        pop     de              ; xfer
+        push    de
+        xor     a
+        ld      l,a
+        call    $1ffc
+
+        pop     de
+        inc     d
+        ld      a,(w)           ; loaded enough?
+        cp      d
+        jr      nz,{-}
+
+        ret
+
 ;-------------------------------------------------------------------------------
 ;
 .module misc
 ;
 cls:
+        push    af
+        xor     a
+        ld      (x),a
+        ld      (y),a
         ld	hl,screen
 	ld      de,screen+1
 	ld      bc,6144-1
-        xor     a
 	ld      (hl),a
 	ldir
-        ld      (x),a
-        ld      (y),a
+        pop     af
         ret
+
 
 gamestep:
         call    waitsync
@@ -761,6 +773,18 @@ waitsync:
 -:      cp      (hl)
         jr      z,{-}
         ret
+
+
+waitkey:
+        call    gamestep
+        ld      a,(select)
+        cp      1
+        ret     z
+        ld      a,(down)
+        cp      1
+        jr      nz,waitkey
+        ret
+
 
 
 waitkeytimeout:
@@ -920,69 +944,17 @@ titletext3:
 titletext4:
         .byte   12, "H-Prg 2018",0
 titletext5:
-        .byte   16, "Press New Line, or H for help",0
+        .byte   16, "Press New Line",0
 
 font:
         .incbin textgamefont.bin
-
-        .align 256
-widths:
-        .incbin textgamefont-widths.bin
-
-        bytesperline = 32 * 11
-
-        ; needs to be here for alignment purposes
-linestarts:
-        .word   screen+ 0*bytesperline, screen+ 1*bytesperline, screen+ 2*bytesperline, screen+ 3*bytesperline
-        .word   screen+ 4*bytesperline, screen+ 5*bytesperline, screen+ 6*bytesperline, screen+ 7*bytesperline
-        .word   screen+ 8*bytesperline, screen+ 9*bytesperline, screen+10*bytesperline, screen+11*bytesperline
-        .word   screen+12*bytesperline, screen+13*bytesperline, screen+14*bytesperline, screen+15*bytesperline
-        .word   screen+16*bytesperline, screen+17*bytesperline
-
-;-------------------------------------------------------------------------------
-
-cp0 = 0
-cp1 = 1
-cp2 = 2
-cp3 = 3
-cp4 = 4
-cp5 = 5
-cp6 = 6
-cp7 = 7
-cp8 = 8
-cp9 = 9
-cpA = 10
-cpB = 11
-cpC = 12
-cpD = 13
-cpE = 14
-cpF = 15
-cpG = 16
-cpH = 17
-cpI = 18
-cpJ = 19
-cpK = 20
-cpL = 21
-        .define PAGE .word
-        .define JUMP .byte
-        .define BMAP .byte
-
-        .align 256
-
-chapterptrs:
-	.word	chp_0,  chp_1,  chp_2,  chp_3,  chp_4,  chp_5
-	.word	chp_6,  chp_7,  chp_8,  chp_9,  chp_10, chp_11
-	.word	chp_12, chp_13, chp_14, chp_15, chp_16, chp_17
-	.word	chp_18, chp_19, chp_20, chp_21
-
-        .include "codegen/chapterdat.asm"
-
-        .align 256
-wadptrs:
-        .include "codegen/wad.asm"
+        .incbin textgamefont-i.bin
 
 wadfile:
         .byte   $39,$2c,$1b,$3c,$26,$29+$80     ; TG.WAD
+
+wadptrs:
+    .include "codegen/wad.asm"
 
 ;-------------------------------------------------------------------------------
 

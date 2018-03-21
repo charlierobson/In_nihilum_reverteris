@@ -24,9 +24,14 @@ verbose = None
 with open(sys.argv[1]) as f:
     content = f.readlines()
 
+italic = len(sys.argv) == 3 and sys.argv[2] == 'i'
+isuff = ''
+if italic:
+    isuff = '-i'
+
 # open the destination, using the input with the extension changed
-fontfile = open(os.path.splitext(sys.argv[1])[0] + '.bin', 'wb')
-fontwidthfile = open(os.path.splitext(sys.argv[1])[0] + '-widths.bin', 'wb')
+fontfile = open(os.path.splitext(sys.argv[1])[0] + isuff + '.bin', 'wb')
+fontwidthfile = open(os.path.splitext(sys.argv[1])[0] + isuff  + '-widths.bin', 'wb')
 
 i = 0
 height = 0
@@ -58,12 +63,17 @@ while i < len(content):
             s = content[i].strip()
             i += 1
 
-        # copy out [glyph height] bytes to the output file
+        # copy out [glyph height - 1] bytes to the output file
+        # (the top line isn't used)
         # OR together all the bytes to track all the used bits
+        i += 1
         aggregate = 0
-        for n in range(height):
+        for n in range(height-1):
             b = int(content[i].strip(), 16)
-            fontfile.write(chr(b))
+            if italic:
+                b >>= 3 - n / 3
+            if idx > 14:
+                fontfile.write(chr(b))
             aggregate |= b
             i += 1
 
@@ -84,12 +94,11 @@ while i < len(content):
 
         if (idx == 32): # space hack
             w = 4
-        if (idx == 127): # tab hack
+        if (idx == 9): # tab hack
             w = 16
         if (idx == 0x1a or idx == 0x1c or idx == 0x1e):
             w = 5 # jump-character hack - one extra pixel will be added by rendererer
 
-        fontfile.write(chr(w))
         fontwidthfile.write(chr(w))
 
     i += 1
