@@ -12,7 +12,6 @@ namespace testapp1
         private const int screenLines = 16;
 
         private int _jumpIdx;
-        private bool _italics;
         private Dictionary<byte, string> chardict;
 
         private static bool verbose;
@@ -214,7 +213,6 @@ namespace testapp1
 
             foreach (var chapterName in chapterIDs)
             {
-                _italics = false;
                 var textBytes = File.ReadAllBytes("md/" + chapterName + ".mdx");
 
                 ProcessChapterNew(chapterName, chapterdat, textBytes);

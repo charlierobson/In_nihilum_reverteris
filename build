@@ -1,12 +1,14 @@
+mkdir codegen
+
 pandoc -f odt -t gfm Yerzmyey-In_nihilum_reverteris.odt --wrap=none > converted.md
 
 python fontcreator.py textgamefont.bdf
 python fontcreator.py textgamefont.bdf i
 
-mono brass.exe lowdata.asm lowdata.bin -l lowdata.html
-
 mcs munger.cs
 mono munger.exe
+
+mono brass.exe lowdata.asm lowdata.bin -l lowdata.html
 
 mono brass.exe tg.asm tg.p -l tg.html
 
