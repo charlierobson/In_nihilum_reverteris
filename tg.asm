@@ -135,6 +135,11 @@ _updatepage:
         ld      de,(page)
         add     hl,de
 
+        xor     a                       ; disable jumps until they're rendered
+        ld      (jmpA),a
+        ld      (jmpB),a
+        ld      (jmpC),a
+
         ld      b,17                    ; render up to 17 lines
 
 _nextline:
@@ -177,7 +182,8 @@ _emptyline:
         djnz    _nextline
 
 
-_tc:    call    gamestep
+_mainloop:
+        call    gamestep
 
         ld      a,(right)
         cp      1
@@ -219,31 +225,61 @@ _tddi:  ld      a,(pagenum)
 _tja:   ld      a,(btnA)
         cp      1
         jr      nz,_tjb
+        ld      a,(jmpA)
+        and     a
+        jr      z,_tjb
 
         ld      a,(jtab+0)
-        bit     7,a
-        jr      z,_newchapter
+        jr      _newchapter
 
 _tjb:   ld      a,(btnB)
         cp      1
         jr      nz,_tjc
+        ld      a,(jmpB)
+        and     a
+        jr      z,_tjc
 
         ld      a,(jtab+1)
-        bit     7,a
-        jr      z,_newchapter
+        jr      _newchapter
 
 _tjc:   ld      a,(btnC)
         cp      1
-        jr      nz,_tc
+        jr      nz,_mainloop
+        ld      a,(jmpC)
+        and     a
+        jr      z,_mainloop
 
         ld      a,(jtab+2)
-        bit     7,a
-        jr      nz,_tc
 
 _newchapter:
         ld      (chapnum),a
         jp      _gochap
 
+
+
+
+
+getpageptr:
+        ; a <- page number
+        ; hl -> offset into page data
+
+        ld      hl,(chapter)            ; pointer to page info in chapter metadata chp_1, chp_K etc
+        ld      d,0
+        ld      e,a
+        add     hl,de
+        ret
+
+
+
+beginpage:
+        ld      l,(hl)                  ; get offset into page line structure
+        ld      h,0
+        ld      d,$80
+        ld      e,l
+        add     hl,hl
+        add     hl,de                   ; * 3
+        ld      (page),hl               ; points to line list structure
+        ret
 
 
 trysetpage:
@@ -278,7 +314,11 @@ page:
 linenum:
         .byte   0
 
-jtab:
+jtab = $
+jmpA = $+3
+jmpB = $+4
+jmpC = $+5
+        .byte   0,0,0
         .byte   0,0,0
 
 ;-------------------------------------------------------------------------------
@@ -305,12 +345,16 @@ loadchapter:
         pop     hl
 
 _nopic:
-        inc     hl
-        ld      (chapter),hl
+        inc     hl                      ; copy out jump indicies
+        ld      de,jtab
+        ldi
+        ldi
+        ldi
+
+        ld      (chapter),hl            ; finally make pointer to page start line offsets
 
         ld      a,(chapnum)
-        call    wadLoad
-        ret
+        jp      wadLoad
 
 
 showpic:
@@ -323,165 +367,6 @@ showpic:
         ldir
 
         call    waitkey
-        ret
-
-
-
-getpageptr:
-        ; a <- page number
-        ; hl -> offset into page data
-
-        ld      hl,(chapter)            ; pointer to page info in chapter metadata chp_1, chp_K etc
-
-        ld      d,0                     ; each page info is 4 bytes
-        ld      e,a
-        sla     e
-        sla     e
-        add     hl,de
-        ret
-
-beginpage:
-        push    hl
-        inc     hl
-        ld      de,jtab
-        ldi
-        ldi
-        ldi
-        pop     hl
-        ld      l,(hl)                  ; get offset into page line structure
-        ld      h,0
-        ld      d,$80
-        ld      e,l
-        add     hl,hl
-        add     hl,de                   ; * 3
-        ld      (page),hl               ; points to line list structure
-        ret
-
-
-;-------------------------------------------------------------------------------
-;
-.module dp
-;
-drawpage:
-        ld      hl,(page)
-        ld      de,$8000
-        add     hl,de
-        ld      (wordp),hl
-
-        ; we have a pointer to the page text within the chapter
-
-_loop:
-        ld      hl,(wordp)
-        ld      a,(hl)
-        and     a                       ; a = 0 when no more words left
-        ret     z
-
-        call    getword                 ; get the next word into the word buffer
-
-        ld      (wordp),hl
-
-        ld      a,(wordbuf)
-        cp      10
-        jr      z,_donewline
-
-        call    getwordlen              ; return with word length in BC
-
-        ld      a,(x)                   ; will x + word len fit?
-        add     a,c
-        ld      hl,wordbuf              ; get a word pointer ready in case it needs updating
-        call    c,_newlineorbust
-
-        call    textout                 ; render the word
-
-        jr      _loop
-
-_donewline:
-        call    newline
-        jr      nz,_loop
-        ret
-
-
-_newlineorbust:
-        call    newline                 ; no space left, so advance a line
-        jr      nz,_remspc              ; continue if there are lines left
-
-        pop     hl                      ; don't return to drawing, but to caller
-        ret
-
-_remspc:
-        ld      a,(hl)                  ; remove whitespace from front of word if necessary
-        cp      32
-        ret     nz
-
-        inc     hl
-        ret
-
-
-newline:
-        xor     a                       ; newline
-        ld      (x),a
-        ld      a,(y)
-        inc     a
-        ld      (y),a
-        cp      17
-        ret
-
-
-wordp:
-        .word   0
-
-
-;-------------------------------------------------------------------------------
-;
-.module words
-;
-getword:
-        call    _gwi
-        ex      de,hl
-        ld      (hl),0
-        ex      de,hl
-        ret
-
-_gwi:
-        ld      de,wordbuf
-        ld      a,(hl)
-
-_scrape:
-        ldi
-        cp      10
-        ret     z
-        ld      a,(hl)
-        cp      32
-        ret     z
-        cp      15
-        jr      nc,_scrape
-        ret
-
-wordbuf:
-        .fill   32
-
-
-getwordlen:
-        ld      de,wordbuf
-        ld      h,widths / 256
-        ld      bc,0
-        jr      _advance
-
-_accum:
-        and     $7f                     ; remove italic flag
-        ld      l,a
-        ld      a,(hl)
-        add     a,c
-        ld      c,a
-        inc     c
-        inc     de
-
-_advance:
-        ld      a,(de)
-        and     a
-        jr      nz,_accum
-
-        dec     c
         ret
 
 ;-------------------------------------------------------------------------------
@@ -552,6 +437,24 @@ _notspc:
         ret
 
 _nottab:
+        cp      $1a
+        jr      nz,_notjmpa
+
+        ld      (jmpA),a
+
+_notjmpa:
+        cp      $1c
+        jr      nz,_notjmpb
+
+        ld      (jmpB),a
+
+_notjmpb:
+        cp      $1e
+        jr      nz,_notjmpc
+
+        ld      (jmpC),a
+
+_notjmpc:
         ; falls into charout
 
 ; character rendering is a little bit optimised

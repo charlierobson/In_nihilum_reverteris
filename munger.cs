@@ -97,7 +97,6 @@ namespace testapp1
         public void SplitMD()
         {
             var chapters = new Dictionary<string, string>();
-            var jumps = new Dictionary<String, int[]>();
 
             var rawMD = File.ReadAllLines("converted.md");
             var charWidthsN = File.ReadAllBytes("textgamefont-widths.bin");
@@ -145,6 +144,8 @@ namespace testapp1
 
             chapters[currentChapterName] = "\t" + accumulatedText.ToString().Trim();
 
+            jumps = new Dictionary<String, int[]>();
+
             var chapterIDs = new List<string>(chapters.Keys);
             chapterIDs.Sort();
             foreach (var chapterName in chapterIDs)
@@ -174,7 +175,9 @@ namespace testapp1
                     var intidx = cn2idx.IndexOf(target);
                     jumpData.Add(intidx);
                 }
-
+                while(jumpData.Count < 3) {
+                    jumpData.Add(0xff);                    
+                }
                 jumps[chapterName] = jumpData.ToArray();
 
                 chapters[chapterName] = Regex.Replace(chapters[chapterName], @"\\\]", "");
@@ -232,6 +235,7 @@ namespace testapp1
             var bm2idx = "01589DEFHK";
             intidx = bm2idx.IndexOf(chapterName);
             chapterdat.Add($"\tBMAP\t{File.Exists($"bmp/{chapterName}.pbm") ? intidx : -1}");
+            chapterdat.Add($"\tJUMP\t${jumps[chapterName][0]:x2}, ${jumps[chapterName][1]:x2}, ${jumps[chapterName][2]:x2}");
 
             var n = 0;
             var curStash = 0x230;
@@ -279,10 +283,7 @@ namespace testapp1
             var o = 0;
 
             do {
-                var offs = textBytes[o + 1] + 256 * textBytes[o + 2];
-
                 chapterdat.Add($"\tPAGE\t${o:x2}");
-                chapterdat.Add($"\tJUMP\t-1,-1,-1");
                 o += 17;
                 if (textBytes[3 * o] == 0) {
                     ++o;

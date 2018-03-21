@@ -63,4 +63,4 @@
 	.word	$0273		; 1f  bmp/K.pbm
 	.byte	$19
 	.word	$028c		; 20  lowdata.bin
-	.byte	$04
+	.byte	$03
