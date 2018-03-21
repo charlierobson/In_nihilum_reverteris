@@ -6,14 +6,16 @@ widths:
     .incbin textgamefont-widths.bin
     .incbin textgamefont-i-widths.bin
 
-    bytesperline = 32 * 11
+    .include global.inc
 
-linestarts:
+    bytesperline = 32*(192/SCREENLINES)
+
+linestarts: ; contains some redundancy
     .word   $2000+ 0*bytesperline, $2000+ 1*bytesperline, $2000+ 2*bytesperline, $2000+ 3*bytesperline
     .word   $2000+ 4*bytesperline, $2000+ 5*bytesperline, $2000+ 6*bytesperline, $2000+ 7*bytesperline
     .word   $2000+ 8*bytesperline, $2000+ 9*bytesperline, $2000+10*bytesperline, $2000+11*bytesperline
     .word   $2000+12*bytesperline, $2000+13*bytesperline, $2000+14*bytesperline, $2000+15*bytesperline
-    .word   $2000+16*bytesperline, $2000+17*bytesperline
+    .word   $2000+16*bytesperline, $2000+17*bytesperline, $2000+18*bytesperline, $2000+19*bytesperline
 
 ;-------------------------------------------------------------------------------
 

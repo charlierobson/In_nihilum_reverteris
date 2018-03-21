@@ -9,6 +9,8 @@ namespace testapp1
 {
     public class Program
     {
+        private const int screenLines = 16;
+
         private int _jumpIdx;
         private bool _italics;
         private Dictionary<byte, string> chardict;
@@ -269,7 +271,7 @@ namespace testapp1
                 var ll = GetString(textBytes.Skip(curStash).Take(lastBreak-curStash).ToArray());
                 LogV($"{lastBreak-curStash,2}  {ll}\n");
 
-                if ((n/3)%17 == 0) {
+                if ((n/3) % screenLines == 0) {
                     LogV("--------------------\n");
                 }
 
@@ -284,7 +286,7 @@ namespace testapp1
 
             do {
                 chapterdat.Add($"\tPAGE\t${o:x2}");
-                o += 17;
+                o += screenLines;
                 if (textBytes[3 * o] == 0) {
                     ++o;
                 }
@@ -296,108 +298,6 @@ namespace testapp1
                 _maxLines = lc;
             }
             LogV($"\nLines: {lc}, max {_maxLines}\n");
-        }
-
-        void ProcessChapterOrig(string chapterName, List<string> chapterdat, byte[] textBytes)
-        {
-            LogV($"-----------------CHAPTER-{chapterName}----------------\n");
-
-            const int numLines = 192 / 11;
-
-            var curstash = 0x230;
-            var cursor = curstash;
-
-            var cn2idx = "0123456789ABCDEFGHIJKL";
-            var intidx = cn2idx.IndexOf(chapterName);
-            chapterdat.Add($"chp_{intidx}:  ;  {chapterName}");
-
-            var bm2idx = "01589DEFHK";
-            intidx = bm2idx.IndexOf(chapterName);
-            chapterdat.Add($"\tBMAP\t{File.Exists($"bmp/{chapterName}.pbm") ? intidx : -1}");
-
-            while (cursor < textBytes.Length)
-            {
-                var x = 0; // cls ;)
-                var y = 0;
-                cursor = curstash;
-
-                while(textBytes[cursor] == 10 || textBytes[cursor] == 32) {
-                    ++cursor;
-                }
-                bool jumpAFound = false;
-                bool jumpBFound = false;
-                bool jumpCFound = false;
-
-                chapterdat.Add($"\tPAGE\t${cursor:x4}");
-                LogV("\n------------------------------\n");
-
-                while (cursor < textBytes.Length && y < numLines)
-                {
-                    curstash = cursor;
-                    var word = getWord(textBytes, ref cursor);
-
-                    if (word[0] == 10)
-                    {
-                        x = 0;
-                        ++y;
-                        LogV("\n");
-                        continue;
-                    }
-
-                    var len = word.Aggregate(0, (total, next) => total + charWidths[next] + 1) - 1;
-                    if (x + len > 255)
-                    {
-                        x = 0;
-                        ++y;
-                        if (y >= numLines)
-                        {
-                            continue;
-                        }
-                        LogV("\n");
-                        if (word[0] == 32)
-                        {
-                            word =  word.Skip(1).Take(word.Length - 1).ToArray();
-                            len -= charWidths[32];
-                        }
-                    }
-
-                    len = word.Aggregate(0, (total, next) => total + charWidths[next] + (next > 127 ? -2 : 0) + 1) - 1;
-
-                    x += len;   
-                    LogV(GetString(word) + $"[{len}, {x}]");
-
-                    jumpAFound |= Array.Exists(word, element => element == 0x1a);
-                    jumpBFound |= Array.Exists(word, element => element == 0x1c);
-                    jumpCFound |= Array.Exists(word, element => element == 0x1e);
-                }
-                chapterdat.Add($"\tJUMP\t{jumpAFound?jumps[chapterName][0]:-1},{jumpBFound?jumps[chapterName][1]:-1},{jumpCFound?jumps[chapterName][2]:-1}");
-            }
-            chapterdat.Add("\tPAGE\t-1");
-            LogV("\n------------------------------\n");
-        }
-
-        public byte[] getWord(byte[] str, ref int cursor)
-        {
-            var word = new List<byte>();
-
-            byte b;
-            do
-            {
-                b = str[cursor];
-                ++cursor;
-                if (b == '*') {
-                    _italics = !_italics;
-                    continue;
-                }
-                int add = 0;
-                if (_italics && b > 14 && b != 32 && b != '.') {
-                    add = 128;
-                }
-                word.Add((byte)(b + add));
-            }
-            while (cursor != str.Length && b != 10 && str[cursor] != 32 && str[cursor] != 10);
-
-            return word.ToArray();
         }
 
         public void MakeWAD()

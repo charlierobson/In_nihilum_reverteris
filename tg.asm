@@ -8,8 +8,7 @@ PAUSE 	        = $0F35	;inBC=delay
 KSCAN	        = $02bb	;outHL=Key, L=ROWbit, H=KEYbit
 FINDCHR         = $07bd	;HL=key
 
-SPC_WIDTH       = 4     ; must match values in font file
-TAB_WIDTH       = 16    ; 
+        .include global.inc
 
 ;-------------------------------------------------------------------------------
 
@@ -140,7 +139,7 @@ _updatepage:
         ld      (jmpB),a
         ld      (jmpC),a
 
-        ld      b,17                    ; render up to 17 lines
+        ld      b,SCREENLINES           ; render up to this many lines
 
 _nextline:
         push    hl

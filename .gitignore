@@ -7,3 +7,8 @@
 *.mdb
 ZXpand_SD_Card
 *.inc
+codegen
+codegen/
+delme.txt
+tg.wad
+Archive*.zip
