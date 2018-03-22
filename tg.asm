@@ -8,7 +8,7 @@ PAUSE 	        = $0F35	;inBC=delay
 KSCAN	        = $02bb	;outHL=Key, L=ROWbit, H=KEYbit
 FINDCHR         = $07bd	;HL=key
 
-        .include global.inc
+        .include codegen/global.inc
 
 ;-------------------------------------------------------------------------------
 

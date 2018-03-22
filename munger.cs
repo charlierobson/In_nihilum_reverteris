@@ -9,7 +9,7 @@ namespace testapp1
 {
     public class Program
     {
-        private const int screenLines = 17;
+        private const int screenLines = 16;
 
         private int _jumpIdx;
         private Dictionary<byte, string> chardict;
@@ -197,7 +197,6 @@ namespace testapp1
 
                 chapters[chapterName] += '\0';
 
-                Console.WriteLine("Writing " + chapterName + ".md");
                 File.WriteAllText("md/" + chapterName + ".md", chapters[chapterName]);
                 File.WriteAllBytes("md/" + chapterName + ".mdx", xlat(chapters[chapterName]));
             }
@@ -221,11 +220,17 @@ namespace testapp1
 
             Console.WriteLine("Writing chapterdat.asm");
             File.WriteAllLines("codegen/chapterdat.asm", chapterdat);
+
+            chapterdat.Clear();
+            chapterdat.Add("SPC_WIDTH .equ 4");
+            chapterdat.Add("TAB_WIDTH .equ 16");
+            chapterdat.Add($"SCREENLINES .equ {screenLines}");
+            File.WriteAllLines("codegen/global.inc", chapterdat);
         }
 
         void ProcessChapterNew(string chapterName, List<string> chapterdat, byte[] textBytes)
         {
-            LogV($"\n-----------------CHAPTER-{chapterName}----------------\n");
+            LogV($"\n-------------- CHAPTER - {chapterName} --------------\n");
 
             var cn2idx = "0123456789ABCDEFGHIJKL";
             var intidx = cn2idx.IndexOf(chapterName);
@@ -265,12 +270,12 @@ namespace testapp1
                 textBytes[n++] = (byte)(curStash & 255);
                 textBytes[n++] = (byte)(curStash / 256);
 
-                var ll = GetString(textBytes.Skip(curStash).Take(lastBreak-curStash).ToArray());
-                LogV($"{lastBreak-curStash,2}  {ll}\n");
+ //               var ll = GetString(textBytes.Skip(curStash).Take(lastBreak-curStash).ToArray());
+//                LogV($"{lastBreak-curStash,2}  {ll}\n");
 
-                if ((n/3) % screenLines == 0) {
-                    LogV("--------------------\n");
-                }
+  //              if ((n/3) % screenLines == 0) {
+    //                LogV("--------------------\n");
+      //          }
 
                 curStash = lastBreak + 1;
                 cursor = curStash;
@@ -280,15 +285,26 @@ namespace testapp1
 
             var lc = n / 3;
             var o = 0;
-
+            var pn = 0;
+        
             do {
+                LogV($"-- Page {pn} ----------------------------\n");
+                for (int i = 0; i < screenLines; ++i) {
+                    int nn = textBytes[3 * (o+i)];
+                    int ppt = textBytes[3 * (o+i) + 1] + 256 * textBytes[3 * (o+i) + 2];
+                    var ll = GetString(textBytes.Skip(ppt).Take(nn).ToArray());
+                    LogV($"{nn,2}  {ll}\n");
+                }
+
                 chapterdat.Add($"\tPAGE\t${o:x2}");
                 o += screenLines;
                 if (textBytes[3 * o] == 0) {
                     ++o;
                 }
+                ++pn;
             }
             while (o < lc);
+
             chapterdat.Add($"\tPAGE\t-1");
 
             if (_maxLines < lc) {
