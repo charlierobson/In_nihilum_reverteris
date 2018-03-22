@@ -145,20 +145,27 @@ _nextline:
         push    hl
         push    bc
 
-        xor     a
-        cp      (hl)
-        jr      z,_emptyline
-
         ld      b,(hl)                  ; line character count
-        inc     hl
+
+        inc     hl                      ; line ptr
         ld      a,(hl)
         inc     hl
         ld      h,(hl)
         ld      l,a
-        set     7,h                     ; pointer to text data
 
-        xor     a
+        or      h                       ; line ptr is 0? if so we're done
+        jr      nz,{+}
+
+        pop     hl                      ; disgorge the stack and bail
+        pop     hl
+        jr      _mainloop
+
++:      xor     a                       ; char count 0 = newline
+        cp      b
+        jr      z,_emptyline
+
         ld      (x),a
+        set     7,h                     ; pointer to text data
 
 _line:
         push    bc
@@ -172,6 +179,7 @@ _emptyline:
         ld      a,(y)
         inc     a
         ld      (y),a
+
 
         pop     bc
         pop     hl
@@ -187,7 +195,9 @@ _mainloop:
         ld      a,(right)
         cp      1
         jr      nz,{+}
-        ld      a,$0e
+        ld      a,(chapnum)
+        inc     a
+        ld      (chapnum),a
         jp      _newchapter
 +:
 
@@ -207,7 +217,7 @@ _tu:    ld      a,(up)
 _tudi:  ld      a,(pagenum)
         dec     a
         call    trysetpage
-        jr      nz,_updatepage
+        jp      nz,_updatepage
 
 _td:    ld      a,(down)
         cp      1
