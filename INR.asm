@@ -76,7 +76,7 @@ PS: ; program start
         ld      (soundEn),a
 
         call    cls
-        ld      ix,wrx
+        ld	ix,GENERATE_VSYNC
 
         call    initwad
 
@@ -374,6 +374,44 @@ showpic:
         ld      de,screen
         ld      bc,32*192
         ldir
+
+        ld      b,192
+
+-:	call	WAIT_SCREEN
+        ld      hl,(RSP)
+        inc     hl
+        inc     hl
+        ld      (RSP),hl
+        djnz    {-}
+
+        ld      hl,RASTER_STACK_BLANKS
+        ld      de,RASTER_STACK
+        ld      bc,192*2
+        ldir
+
+        ld      hl,RASTER_STACK
+        ld      (RSP),hl
+
+        ld      bc,192
+        ld      de,RASTER_STACK_BLANKS
+        ld      hl,$2000
+
+ -:     push    bc
+        ld      ($+4),de
+        ld      (0000),hl
+        ld      bc,$20
+        add     hl,bc
+        inc     de
+        inc     de
+        pop     bc
+        djnz    {-}
+
+-:	call	WAIT_SCREEN
+        ld      hl,(RSP)
+        inc     hl
+        inc     hl
+        ld      (RSP),hl
+        djnz    {-}
 
         call    waitkey
         ret
@@ -773,15 +811,9 @@ cls:
 
 
 gamestep:
-        call    waitsync
+        call    WAIT_SCREEN
         jp      readinput
 
-waitsync:
-        ld      hl,gameframe
-        ld      a,(hl)
--:      cp      (hl)
-        jr      z,{-}
-        ret
 
 
 waitkey:
@@ -820,127 +852,8 @@ _timeout:
 
 PE: ; program end
 
-;-------------------------------------------------------------------------------
-;
-.module hrg
-;
-wrx:
-        ; timing, do a waste, then prepare for display
-        ; this is timing to shift the picture right/left, normally 140t
+        .include        StackWRX.asm
 
-        ld      b,7             ; 7
-        djnz    $               ; 7 * 13 + 8 = 99
-        ld      h,0             ; 7
-        ld      hl,screen       ; 10
-        ld      de,32           ; 10    ; row stride
-        ld      b,192           ; 7     ; 192 rows
-        or      e               ; 4     ; need to ensure C is clear for RETNC in display file
-
-        ; = 140 T to here
-
-        ; the loop is VERY timing sensitive, has to be exactly 207T
-_loop:
-        ld      a,h             ; 4?
-        ld      i,a             ; 9
-        ld      a,l             ; 4?
-        call    hrg_dfile+8000H ; 17 + 9 + (32*4) + 11
-        add     hl,de           ; 11
-        dec     b               ; 4     ; 207 to here...
-        jp      nz,_loop        ; 10    ; this makes it 217 in my caclulations :/
-
-        ; timing from here is non-critical
-
-        ; -------------------------------------------------------------
-        ; prepare for bottom margin and VSYNC
-
-        ld      hl,gameframe
-        inc     (hl)
-
-        ; this is the lower margin. it is thus possible to use separate margin variables
-        ; to shift the picture up/down, like in zedragon
-
-	ld	a,(margin)
-	neg
-	inc	a
-	ex	af,af'
-	ld	ix,GENERATE_VSYNC
-
-        ; NMI on now we need to count rasters
-	out	($fe),a
-
-        ; Do the things you need to do
-
-        ld      a,(soundEn)
-        and     $ff
-        call    nz,play_stc
-
-        ; return to application
-
-	pop	hl
-	pop	de
-	pop	bc
-	pop	af
-b2a1:	ret
-
-
-GENERATE_VSYNC:
-	in	a,($fe)
-
-        ; the time to count is at least 4 whole rasters, so 4*207=828T.
-        ; it is not very time critical, it just has to be long enough :D
-
-        ; as this is normally wasted time let's do something less wasteful instead :D
-
-        ld      de,INPUT._kbin          ; 10
-        ld      bc,$fefe                ; 10
-
-        .repeat 8
-        in      a,(c)                   ; 12
-        rlc     b                       ; 8
-        ld      (de),a                  ; 7
-        inc     de                      ; 6
-        .loop
-        ; = 264 == 8 * 33
-
-	; waste time
-
-	ld	b,34		        ; 7
-	djnz	$			; (40 * 13) + 8
-	; = 457 == (34*13)+8+7
-
-	ld	a,0		        ; 7
-
-        ; prepare for top margin
-
-	ld	a,(margin)              ; 13
-	neg                             ; 8
-	inc	a                       ; 4
-	ex	af,af'                  ; 4
-	ld	ix,wrx                  ; 14
-
-	pop	hl                      ; 10
-	pop	de                      ; 10
-	pop	bc                      ; 10
-	pop	af                      ; 10
-        ; = 83
-
-        ; total T = 
-        ; 831 == 20 + 264 + 457 + 7 + 83
-        
-        ; NMI on, vsync stop then back to user app
-
-	out	($fe),a
-b2a2:	ret
-
-;-------------------------------------------------------------------------------
-
-gameframe
-	.byte	0
-
-hrg_dfile:
-        ld      r,a
-        .byte   0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0,0
-        ret     nc
 
 ;-------------------------------------------------------------------------------
 
@@ -981,7 +894,7 @@ soundEn:
 
 ;-------------------------------------------------------------------------------
 
-scrbase
+scrbase:
         .word   screen
         .byte   076H                    ; N/L
 line1end:
