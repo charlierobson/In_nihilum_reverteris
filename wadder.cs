@@ -49,8 +49,8 @@ namespace testapp1
                 ++idx;
             }
 
-            Console.WriteLine("Writing tg.wad");
-            File.WriteAllBytes("tg.wad", wad);
+            Console.WriteLine("Writing wad");
+            File.WriteAllBytes("INR.wad", wad);
 
             Console.WriteLine("Writing wad.asm");
             File.WriteAllLines("codegen/wad.asm", waddat);

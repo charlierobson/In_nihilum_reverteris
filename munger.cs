@@ -127,6 +127,7 @@ namespace testapp1
                 raw = raw.Replace(" *absolute *void", " *absolute* void");
                 raw = raw.Replace("only *one *Testament!", "only *one* Testament!");
                 raw = raw.Replace(" *without Judith", "* without Judith");
+                raw = raw.Replace("“You could well be right...” he sighed.", "*“You could well be right...” he sighed.*");
 
                 var match = chapterMatcher.Match(raw);
                 if (match.Success) {

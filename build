@@ -12,8 +12,8 @@ mono munger.exe
 mono brass.exe lowdata.asm lowdata.bin -l lowdata.html
 mono wadder.exe
 
-mono brass.exe tg.asm tg.p -l tg.html
+mono brass.exe INR.asm INR.p -l INR.html
 
-cp tg.p ZXpand_SD_Card/menu.p
-cp tg.p.sym ZXpand_SD_Card/menu.p.sym
-cp tg.wad ZXpand_SD_Card/
+cp INR.p ZXpand_SD_Card/menu.p
+cp INR.p.sym ZXpand_SD_Card/menu.p.sym
+cp INR.wad ZXpand_SD_Card/

@@ -110,9 +110,6 @@ _advance:
         ld      a,$ff                   ; music on, show title picture
         ld      (soundEn),a
 
-        xor     a
-        call    showpic
-
         ld      a,1                     ; prepare for first chapter
         ld      (chapnum),a
 
@@ -197,6 +194,7 @@ _mainloop:
         jr      nz,{+}
         ld      a,(chapnum)
         inc     a
+        ld      a,$e
         ld      (chapnum),a
         jp      _newchapter
 +:
@@ -256,7 +254,7 @@ _tjc:   ld      a,(btnC)
         jr      nz,_mainloop
         ld      a,(jmpC)
         and     a
-        jr      z,_mainloop
+        jp      z,_mainloop
 
         ld      a,(jtab+2)
 
@@ -314,7 +312,9 @@ chapnum:
         .byte   0
 chapter:
         .word   0
-
+chappic:
+        .byte   0
+        
 pagenum:
         .byte   0
 page:
@@ -335,7 +335,13 @@ jmpC = $+5
 .module ci
 ;
 loadchapter:
-        ld      hl,chapterptrs
+        ld      a,(chappic)
+        cp      $ff
+        jr      z,{+}
+
+        call    showpic
+
++:      ld      hl,chapterptrs
         ld      a,(chapnum)             ; index into the chapter pointer table
         add     a,a
         add     a,l
@@ -346,14 +352,8 @@ loadchapter:
         ld      l,a                     ; hl points to start of chapter info block
  
         ld      a,(hl)                  ; snaffle out the bmp index, if there is one
-        cp      -1
-        jr      z,_nopic
+        ld      (chappic),a
 
-        push    hl
-        call    showpic
-        pop     hl
-
-_nopic:
         inc     hl                      ; copy out jump indicies
         ld      de,jtab
         ldi
@@ -960,7 +960,7 @@ font:
         .incbin textgamefont-i.bin
 
 wadfile:
-        .byte   $39,$2c,$1b,$3c,$26,$29+$80     ; TG.WAD
+        .byte   $2e,$33,$37,$1b,$3c,$26,$29+$80     ; INR.WAD
 
 wadptrs:
     .include "codegen/wad.asm"
