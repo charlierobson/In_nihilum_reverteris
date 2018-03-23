@@ -83,8 +83,8 @@ PS: ; program start
         ld      a,$20                   ; lowdat
         call    wadload
         ld      hl,$8000
-        ld      de,$3800
-        ld      bc,$800
+        ld      de,LOWDATSTART
+        ld      bc,$4000-LOWDATSTART
         ldir
 
         ld      hl,titletext1
@@ -107,6 +107,9 @@ PS: ; program start
         jr      {-}
 
 _advance:
+        ld      hl,slocalcraster
+        ld      (slocalc),hl
+
         ld      a,$ff                   ; music on, show title picture
         ld      (soundEn),a
 
@@ -120,16 +123,9 @@ _gochap:
         call    trysetpage
 
 _updatepage:
-        call    cls
+;        call    cls
 
-        ld      h,0                     ; get pointer to starting line in line table
-        ld      l,0                     ; = line * 3 + page
-        ld      d,h
-        ld      e,l
-        add     hl,hl
-        add     hl,de
-        ld      de,(page)
-        add     hl,de
+        ld      hl,(page)
 
         xor     a                       ; disable jumps until they're rendered
         ld      (jmpA),a
@@ -157,7 +153,8 @@ _nextline:
         pop     hl
         jr      _mainloop
 
-+:      xor     a                       ; char count 0 = newline
++:      call    clearosr
+        xor     a                       ; char count 0 = newline
         cp      b
         jr      z,_emptyline
 
@@ -167,7 +164,7 @@ _nextline:
 _line:
         push    bc
         ld      a,(hl)
-        call    extcharout
+        call    extcharout 
         pop     bc
         inc     hl
         djnz    _line
@@ -177,6 +174,7 @@ _emptyline:
         inc     a
         ld      (y),a
 
+        call    scrollup
 
         pop     bc
         pop     hl
@@ -370,44 +368,22 @@ showpic:
         add     a,$16
         call    wadLoad
 
-        ld      hl,RASTER_STACK_PRE
-        ld      (RSP),hl
+        ld      hl,$8032                ; image data pointer
+        ld      b,192
 
-        ld      hl,$8032
-        ld      de,screen
-        ld      bc,32*192
+-:      push    bc                      ; save loop count
+
+        ld      de,(RASTER_STACK_POST)  ; copy a line of image into first off-screen scanline
+        ld      bc,32
         ldir
 
-        ld      b,192/2
+        call    scrollupone
 
--:	call	WAIT_SCREEN
-        ld      hl,(RSP)
-        inc     hl
-        inc     hl
-        inc     hl
-        inc     hl
-        ld      (RSP),hl
+        pop     bc                      ; loop counter
         djnz    {-}
 
-        call    waitkey
+        jp      waitkey
 
-        ld      b,192/2
-
--:	call	WAIT_SCREEN
-        ld      hl,(RSP)
-        inc     hl
-        inc     hl
-        inc     hl
-        inc     hl
-        ld      (RSP),hl
-        djnz    {-}
-
-        call    cls
-
-        ld      hl,RASTER_STACK
-        ld      (RSP),hl
-
-        ret
 
 ;-------------------------------------------------------------------------------
 ;
@@ -455,7 +431,6 @@ measurestring:
 
         pop     hl
         jp      textout
-
 
 
 extcharout:
@@ -555,17 +530,8 @@ charout:
 
         ; calculate screen line offset
         ;
-        push    hl
-        ld      a,(y)
-        add     a,a
-        add     a,linestarts & 255
-        ld      l,a
-        ld      h,linestarts / 256
-        ld      a,(hl)
-        inc     hl
-        ld      d,(hl)
-        ld      e,a
-        pop     hl
+slocalc = $+1
+        call    slocalcy
 
         ; calculate glyph pixel offset
         ;
@@ -643,6 +609,24 @@ _shift: srl     a
         djnz    _advance
 
         jr      updatex
+
+slocalcy:
+        push    hl
+        ld      a,(y)
+        add     a,a
+        add     a,linestarts & 255
+        ld      l,a
+        ld      h,linestarts / 256
+        ld      a,(hl)
+        inc     hl
+        ld      d,(hl)
+        ld      e,a
+        pop     hl
+        ret
+
+slocalcraster:
+        ld      de,(RASTER_STACK_POST)
+        ret
 
 ;-------------------------------------------------------------------------------
 ;
@@ -789,6 +773,52 @@ wadLoad:
 ;
 .module misc
 ;
+scrollup:
+        ld      b,12
+-:      call    scrollupone
+        djnz    {-}
+        ret
+
+
+scrollupone:
+        push    hl
+        push    de
+        push    bc
+
+        ld      hl,(RASTER_STACK)       ; cache the first on-screen scanline pointer
+        push    hl
+
+        call    WAIT_SCREEN             ; scroll the stack up one scanline
+        ld      hl,RASTER_STACK+2
+        ld      de,RASTER_STACK
+        ld      bc,(192+12-1)*2
+        ldir
+
+        pop     hl                      ; recover saved scanline pointer
+        ld      (RASTER_STACK_END-2),hl ; store it as last off-screen scanline pointer
+
+        pop     bc
+        pop     de
+        pop     hl
+        ret
+
+
+clearosr:
+        push    hl
+        push    de
+        push    bc
+        ld      de,(RASTER_STACK_POST)
+        ld      h,d
+        ld      l,e
+        ld      (hl),0
+        inc     de
+        ld      bc,32*12-1
+        ldir
+        pop     bc
+        pop     de
+        pop     hl
+        ret
+
 cls:
         push    af
         xor     a
@@ -796,7 +826,7 @@ cls:
         ld      (y),a
         ld	hl,screen
 	ld      de,screen+1
-	ld      bc,6144-1
+	ld      bc,32*(192+12)
 	ld      (hl),a
 	ldir
         pop     af

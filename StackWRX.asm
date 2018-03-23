@@ -33,10 +33,6 @@ CREATE_RASTER:
 	jp	    HIRES_RET
 
 ;--------------------------------
-RASTER_STACK_PRE:
-	.repeat SCREEN_HEIGHT_RASTERS
-		.word	BLANK_LINE
-	.loop
 RASTER_STACK:
 	ADDR = RASTER_DATA
 	.repeat SCREEN_HEIGHT_RASTERS
@@ -44,22 +40,22 @@ RASTER_STACK:
 		ADDR = ADDR + SCREEN_WIDTH_BYTES
 	.loop
 RASTER_STACK_POST:
-	.repeat SCREEN_HEIGHT_RASTERS
-		.word	BLANK_LINE
+	.repeat 12
+		.word	ADDR
+		ADDR = ADDR + SCREEN_WIDTH_BYTES
 	.loop
-
-	.align	32
-BLANK_LINE:
-    .fill   32,0
+RASTER_STACK_END:
 
 ;--------------------------------
 ;sync to screen update
 WAIT_SCREEN:
+	push	hl
 	ld	    hl,FrameCounter
 	ld	    a,(hl)
 _waitforit:
 	cp	    (hl)
 	jr	    z,_waitforit
+	pop		hl
 	ret
 
 

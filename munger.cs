@@ -225,6 +225,7 @@ namespace testapp1
             chapterdat.Clear();
             chapterdat.Add("SPC_WIDTH .equ 4");
             chapterdat.Add("TAB_WIDTH .equ 16");
+            chapterdat.Add($"LOWDATSTART .equ $3A00");
             chapterdat.Add($"SCREENLINES .equ {screenLines}");
             File.WriteAllLines("codegen/global.inc", chapterdat);
         }
