@@ -1,12 +1,12 @@
-    .org    $3800
+    .include codegen/global.inc
+
+    .org    LOWDATSTART
 
     .exportmode assembly
 
 widths:
     .incbin textgamefont-widths.bin
     .incbin textgamefont-i-widths.bin
-
-    .include codegen/global.inc
 
     bytesperline = 32 * word(192/SCREENLINES)
 
