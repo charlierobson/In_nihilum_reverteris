@@ -370,50 +370,43 @@ showpic:
         add     a,$16
         call    wadLoad
 
+        ld      hl,RASTER_STACK_PRE
+        ld      (RSP),hl
+
         ld      hl,$8032
         ld      de,screen
         ld      bc,32*192
         ldir
 
-        ld      b,192
+        ld      b,192/2
 
 -:	call	WAIT_SCREEN
         ld      hl,(RSP)
         inc     hl
         inc     hl
-        ld      (RSP),hl
-        djnz    {-}
-
-        ld      hl,RASTER_STACK_BLANKS
-        ld      de,RASTER_STACK
-        ld      bc,192*2
-        ldir
-
-        ld      hl,RASTER_STACK
-        ld      (RSP),hl
-
-        ld      bc,192
-        ld      de,RASTER_STACK_BLANKS
-        ld      hl,$2000
-
- -:     push    bc
-        ld      ($+4),de
-        ld      (0000),hl
-        ld      bc,$20
-        add     hl,bc
-        inc     de
-        inc     de
-        pop     bc
-        djnz    {-}
-
--:	call	WAIT_SCREEN
-        ld      hl,(RSP)
         inc     hl
         inc     hl
         ld      (RSP),hl
         djnz    {-}
 
         call    waitkey
+
+        ld      b,192/2
+
+-:	call	WAIT_SCREEN
+        ld      hl,(RSP)
+        inc     hl
+        inc     hl
+        inc     hl
+        inc     hl
+        ld      (RSP),hl
+        djnz    {-}
+
+        call    cls
+
+        ld      hl,RASTER_STACK
+        ld      (RSP),hl
+
         ret
 
 ;-------------------------------------------------------------------------------

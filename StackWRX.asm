@@ -33,17 +33,22 @@ CREATE_RASTER:
 	jp	    HIRES_RET
 
 ;--------------------------------
+RASTER_STACK_PRE:
+	.repeat SCREEN_HEIGHT_RASTERS
+		.word	BLANK_LINE
+	.loop
 RASTER_STACK:
 	ADDR = RASTER_DATA
 	.repeat SCREEN_HEIGHT_RASTERS
 		.word	ADDR
 		ADDR = ADDR + SCREEN_WIDTH_BYTES
 	.loop
-RASTER_STACK_BLANKS:
+RASTER_STACK_POST:
 	.repeat SCREEN_HEIGHT_RASTERS
 		.word	BLANK_LINE
 	.loop
 
+	.align	32
 BLANK_LINE:
     .fill   32,0
 
