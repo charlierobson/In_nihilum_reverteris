@@ -128,6 +128,7 @@ namespace testapp1
                 raw = raw.Replace("only *one *Testament!", "only *one* Testament!");
                 raw = raw.Replace(" *without Judith", "* without Judith");
                 raw = raw.Replace("“You could well be right...” he sighed.", "*“You could well be right...” he sighed.*");
+                raw = raw.Replace("at any momen", "at any momen\x0a\x0a\\[1");
 
                 var match = chapterMatcher.Match(raw);
                 if (match.Success) {
@@ -241,6 +242,9 @@ namespace testapp1
             var bm2idx = "01589DEFHK";
             intidx = bm2idx.IndexOf(chapterName);
             chapterdat.Add($"\tBMAP\t{File.Exists($"bmp/{chapterName}.pbm") ? intidx : -1}");
+            if (chapterName == "K") {
+                jumps[chapterName][0] = 1; // restart
+            }
             chapterdat.Add($"\tJUMP\t${jumps[chapterName][0]:x2}, ${jumps[chapterName][1]:x2}, ${jumps[chapterName][2]:x2}");
 
             var n = 0;

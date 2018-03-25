@@ -160,7 +160,7 @@ _mainloop:
         jr      nz,{+}
         ld      a,(chapnum)
         inc     a
-        ld      a,$e
+        ld      a,20
         ld      (chapnum),a
         jp      _newchapter
 +:
@@ -177,27 +177,25 @@ _mainloop:
 
 _tu:    ld      a,(up)
         cp      1
-        jr      nz,_td
-
-_tudi:  ld      a,(startlinenum)
-        dec     a
-        ld      b,0
-        call    tryshowline
-        jp      z,_mainloop
-        call    scrolldown
-        jp      _mainloop
+        jr      z,{+}
+        cp      $ff
++:      call    z,_linereverse
 
 _td:    ld      a,(down)
         cp      1
+        jr      z,{+}
+        cp      $ff
++:      call    z,_lineforward
+
+_tp:    ld      a,(select)
+        cp      1
         jr      nz,_tja
 
-        ld      a,(startlinenum)
-        inc     a
-        ld      b,16
-        call    tryshowline
-        jp      z,_mainloop
-        call    scrollup
-        jp      _mainloop
+        ld      b,10
+-:      push    bc
+        call    _lineforward
+        pop     bc
+        djnz    {-}
 
 _tja:   ld      a,(btnA)
         cp      1
@@ -233,15 +231,23 @@ _newchapter:
         jp      _gochap
 
 
-;if moving up -top
-;  put line into osl
-;  shift entire stack down
-;  put osl into first entries
 
-;if moving down +bottom
-;  put line into osl
-;  shift entire stack up
-;  put osl into last entries
+_lineforward:
+        ld      a,(startlinenum)
+        inc     a
+        ld      b,15
+        call    tryshowline
+        ret     z
+        jp      scrollup
+
+_linereverse:
+        ld      a,(startlinenum)
+        dec     a
+        ld      b,0
+        call    tryshowline
+        ret     z
+        jp      scrolldown
+
 
 
 tryshowline:
