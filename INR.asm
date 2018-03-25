@@ -197,39 +197,55 @@ _tp:    ld      a,(select)
         pop     bc
         djnz    {-}
 
-_tja:   ld      a,(btnA)
+_tja:   call    lastlinetest
+        jr      nz,_mainloop
+
+        ;
+
+        ld      a,(btnA)
         cp      1
         jr      nz,_tjb
-        ld      a,(jmpA)
-        and     a
-        jr      z,_tjb
 
         ld      a,(jtab+0)
-        jr      _newchapter
+        cp      $ff
+        jr      nz,_newchapter
 
 _tjb:   ld      a,(btnB)
         cp      1
         jr      nz,_tjc
-        ld      a,(jmpB)
-        and     a
-        jr      z,_tjc
 
         ld      a,(jtab+1)
-        jr      _newchapter
+        cp      $ff
+        jr      nz,_newchapter
 
 _tjc:   ld      a,(btnC)
         cp      1
         jp      nz,_mainloop
-        ld      a,(jmpC)
-        and     a
-        jp      z,_mainloop
 
         ld      a,(jtab+2)
+        cp      $ff
+        jp      z,_mainloop
 
 _newchapter:
         ld      (chapnum),a
         jp      _gochap
 
+
+lastlinetest:
+        ld      a,(startlinenum)
+        add     a,16
+        ld      l,a             ; hl => line data
+        ld      h,0
+        ld      d,$80
+        ld      e,l
+        add     hl,hl
+        add     hl,de
+        ld      a,(hl)          ; OR together the char count and line pointers
+        inc     hl
+        or      (hl)
+        inc     hl
+        or      (hl)
+        ret
 
 
 _lineforward:
