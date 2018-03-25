@@ -64,9 +64,9 @@ line1:  .byte   0,1
         .byte   $ea
 
 ;
-.module main
+.module A_MAIN
 ;
-PS: ; program start
+AA_PS: ; program start
 
         ld      bc,$e007                ; go low
         ld      a,$b2
@@ -100,13 +100,13 @@ PS: ; program start
         call    INIT_STC
 
 -:      call    waitkeytimeout          ; times out after approx 5 seconds
-        jr      nc,_advance
+        jr      nc,_begin
         
         ld      hl,titletext5           ; prompt
         call    centreTextOut
         jr      {-}
 
-_advance:
+_begin:
         ld      hl,slocalcraster
         ld      (slocalc),hl
 
@@ -118,14 +118,12 @@ _advance:
 
 _gochap:
         call    loadchapter
+        call    clearosr
+
+        call    scrollup
 
         xor     a                       ; start at page 0
         call    trysetpage
-
-_updatepage:
-;        call    cls
-
-        ld      hl,(page)
 
         xor     a                       ; disable jumps until they're rendered
         ld      (jmpA),a
@@ -133,60 +131,30 @@ _updatepage:
         ld      (jmpC),a
 
         ld      b,SCREENLINES           ; render up to this many lines
+        ld      hl,(page)               ; begin the beguine
 
 _nextline:
+        push    bc
         push    hl
-        push    bc
-
-        ld      b,(hl)                  ; line character count
-
-        inc     hl                      ; line ptr
-        ld      a,(hl)
-        inc     hl
-        ld      h,(hl)
-        ld      l,a
-
-        or      h                       ; line ptr is 0? if so we're done
-        jr      nz,{+}
-
-        pop     hl                      ; disgorge the stack and bail
-        pop     hl
-        jr      _mainloop
-
-+:      call    clearosr
-        xor     a                       ; char count 0 = newline
-        cp      b
-        jr      z,_emptyline
-
-        ld      (x),a
-        set     7,h                     ; pointer to text data
-
-_line:
-        push    bc
-        ld      a,(hl)
-        call    extcharout 
-        pop     bc
-        inc     hl
-        djnz    _line
-
-_emptyline:
-        ld      a,(y)
-        inc     a
-        ld      (y),a
-
-        call    scrollup
-
-        pop     bc
+        call    renderline
         pop     hl
         inc     hl
         inc     hl
         inc     hl
+        pop     bc
         djnz    _nextline
 
+        ld      a,0
+        ld      (startlinenum),a
+        ld      a,17
+        ld      (endlinenum),a
+
+        ;
 
 _mainloop:
         call    gamestep
 
+        ; cheatmode ------------
         ld      a,(right)
         cp      1
         jr      nz,{+}
@@ -196,6 +164,7 @@ _mainloop:
         ld      (chapnum),a
         jp      _newchapter
 +:
+        ; ------------ cheatmode
 
         ld      a,(sound)
         cp      1
@@ -210,22 +179,25 @@ _tu:    ld      a,(up)
         cp      1
         jr      nz,_td
 
-_tudi:  ld      a,(pagenum)
+_tudi:  ld      a,(startlinenum)
         dec     a
-        call    trysetpage
-        jp      nz,_updatepage
+        ld      b,0
+        call    tryshowline
+        jp      z,_mainloop
+        call    scrolldown
+        jp      _mainloop
 
 _td:    ld      a,(down)
         cp      1
-        jr      z,_tddi
-        ld      a,(select)
-        cp      1
         jr      nz,_tja
 
-_tddi:  ld      a,(pagenum)
+        ld      a,(startlinenum)
         inc     a
-        call    trysetpage
-        jp      nz,_updatepage
+        ld      b,16
+        call    tryshowline
+        jp      z,_mainloop
+        call    scrollup
+        jp      _mainloop
 
 _tja:   ld      a,(btnA)
         cp      1
@@ -249,7 +221,7 @@ _tjb:   ld      a,(btnB)
 
 _tjc:   ld      a,(btnC)
         cp      1
-        jr      nz,_mainloop
+        jp      nz,_mainloop
         ld      a,(jmpC)
         and     a
         jp      z,_mainloop
@@ -261,17 +233,46 @@ _newchapter:
         jp      _gochap
 
 
+;if moving up -top
+;  put line into osl
+;  shift entire stack down
+;  put osl into first entries
+
+;if moving down +bottom
+;  put line into osl
+;  shift entire stack up
+;  put osl into last entries
 
 
+tryshowline:
+        cp      $ff             ; page of -1 no allowed
+        ret     z
 
-getpageptr:
-        ; a <- page number
-        ; hl -> offset into page data
-
-        ld      hl,(chapter)            ; pointer to page info in chapter metadata chp_1, chp_K etc
-        ld      d,0
-        ld      e,a
+        ld      (_templn),a  ; self modify
+        add     a,b             ; offset
+        ld      l,a             ; hl => line data
+        ld      h,0
+        ld      d,$80
+        ld      e,l
+        add     hl,hl
         add     hl,de
+
+        push    hl
+        ld      a,(hl)          ; OR together the char count and line pointers
+        inc     hl
+        or      (hl)
+        inc     hl
+        or      (hl)
+        pop     hl
+        ret     z               ; result is 0 if the target line is past the end of text.
+
+_templn=$+1
+        ld      a,-1            ; self modified
+        ld      (startlinenum),a
+
+        call    renderline2     ; hl is data ptr
+
+        or      $ff             ; return with z clear to indicate success
         ret
 
 
@@ -279,8 +280,8 @@ getpageptr:
 beginpage:
         ld      l,(hl)                  ; get offset into page line structure
         ld      h,0
-        ld      d,$80
         ld      e,l
+        ld      d,$80
         add     hl,hl
         add     hl,de                   ; * 3
         ld      (page),hl               ; points to line list structure
@@ -293,7 +294,15 @@ trysetpage:
 
         ld      (_tempage),a    ; self modify
 
-        call    getpageptr      ; get pointer to start relevant page table entry
+        ; get pointer to start relevant page table entry
+        ; a <- page number
+        ; hl -> offset into page data
+
+        ld      hl,(chapter)            ; pointer to page info in chapter metadata chp_1, chp_K etc
+        ld      d,0
+        ld      e,a
+        add     hl,de
+
         ld      a,(hl)          ; end of chapter marked with ffff
         cp      $ff
         ret     z
@@ -304,6 +313,74 @@ _tempage=$+1
         call    beginpage       ; store calculated values in memory
         or      $ff             ; clear z flag to indicate success
         ret
+
+
+renderline:
+        ld      b,(hl)                  ; line character count
+
+        inc     hl                      ; line ptr
+        ld      a,(hl)
+        inc     hl
+        ld      h,(hl)
+        ld      l,a
+
+        call    clearosr
+
+        or      h                       ; line ptr is 0? if so we're done
+        ld      (morelines),a
+        jp      z,scrollup
+
+        xor     a                       ; char count 0 = newline
+        cp      b
+        jr      z,_emptyline
+
+        ld      (x),a
+        set     7,h                     ; pointer to text data
+
+_line:
+        push    bc
+        ld      a,(hl)
+        call    extcharout 
+        pop     bc
+        inc     hl
+        djnz    _line
+
+_emptyline:
+        ld      a,(y)
+        inc     a
+        ld      (y),a
+
+        jp      scrollup
+
+
+renderline2:
+        ld      b,(hl)                  ; line character count
+
+        inc     hl                      ; line ptr
+        ld      a,(hl)
+        inc     hl
+        ld      h,(hl)
+        ld      l,a
+
+        call    clearosr
+
+        xor     a                       ; char count 0 = newline
+        cp      b
+        ret     z
+
+        ld      (x),a
+        set     7,h                     ; pointer to text data
+
+_line2:
+        push    bc
+        ld      a,(hl)
+        call    extcharout 
+        pop     bc
+        inc     hl
+        djnz    _line2
+
+        ret
+
 
 
 chapnum:
@@ -319,6 +396,15 @@ page:
         .word   0
 
 linenum:
+        .byte   0
+
+startlinenum:
+        .byte   0
+
+endlinenum:
+        .byte   0
+
+morelines:
         .byte   0
 
 jtab = $
@@ -373,7 +459,7 @@ showpic:
 
 -:      push    bc                      ; save loop count
 
-        ld      de,(RASTER_STACK_POST)  ; copy a line of image into first off-screen scanline
+        ld      de,(RASTER_STACK_OSL)   ; copy a line of image into first off-screen scanline
         ld      bc,32
         ldir
 
@@ -610,6 +696,8 @@ _shift: srl     a
 
         jr      updatex
 
+
+
 slocalcy:
         push    hl
         ld      a,(y)
@@ -625,7 +713,7 @@ slocalcy:
         ret
 
 slocalcraster:
-        ld      de,(RASTER_STACK_POST)
+        ld      de,(RASTER_STACK_OSL)
         ret
 
 ;-------------------------------------------------------------------------------
@@ -773,29 +861,18 @@ wadLoad:
 ;
 .module misc
 ;
-scrollup:
-        ld      b,12
--:      call    scrollupone
-        djnz    {-}
-        ret
-
-
 scrollupone:
         push    hl
         push    de
         push    bc
 
         ld      hl,(RASTER_STACK)       ; cache the first on-screen scanline pointer
-        push    hl
+        ld      (RASTER_STACK_BUFFER),hl
 
-        call    WAIT_SCREEN             ; scroll the stack up one scanline
         ld      hl,RASTER_STACK+2
         ld      de,RASTER_STACK
-        ld      bc,(192+12-1)*2
+        ld      bc,(192+12+1)*2
         ldir
-
-        pop     hl                      ; recover saved scanline pointer
-        ld      (RASTER_STACK_END-2),hl ; store it as last off-screen scanline pointer
 
         pop     bc
         pop     de
@@ -803,11 +880,70 @@ scrollupone:
         ret
 
 
-clearosr:
+scrollup:
+        call    WAIT_SCREEN             ; scroll the stack up one scanline
+
+scrollup12:
         push    hl
         push    de
         push    bc
-        ld      de,(RASTER_STACK_POST)
+
+        ld      hl,RASTER_STACK         ; cache the first on-screen scanline pointer
+        ld      de,RASTER_STACK_BUFFER
+        ld      bc,12*2
+        ldir
+
+        ld      hl,RASTER_STACK+(12*2)  ; move the stack, post and buffer up
+        ld      de,RASTER_STACK
+        ld      bc,(192+12+12)*2
+        ldir
+
+        pop     bc
+        pop     de
+        pop     hl
+        ret
+
+
+scrolldown:
+        call    WAIT_SCREEN             ; scroll the stack up one scanline
+
+        push    hl
+        push    de
+        push    bc
+
+        ld      hl,RASTER_STACK_OSL     ; cache the first on-screen scanline pointer
+        ld      de,RASTER_STACK_BUFFER
+        ld      bc,12*2
+        ldir
+
+        ld      hl,RASTER_STACK_OSL-1   ; move the stack down
+        ld      de,RASTER_STACK_OSL+(12*2)-1
+        ld      bc,(192+12)*2
+        lddr
+
+        ld      hl,RASTER_STACK_BUFFER
+        ld      de,RASTER_STACK
+        ld      bc,12*2
+        ldir
+
+        pop     bc
+        pop     de
+        pop     hl
+        ret
+
+
+; RASTER_STACK                     RASTER_STACK_OSL   RASTER_STACK_BUFFER
+; 192*2                            12*2               12*2
+; 000 001 .. 012 013 ... 190 191   [192 193 .. 203]   [204 ... 215]
+;                                  [000        011]   [000 ... 011]
+; de         hl
+
+clearosr:
+        push    af
+        push    hl
+        push    de
+        push    bc
+        ld      de,(RASTER_STACK_OSL)
         ld      h,d
         ld      l,e
         ld      (hl),0
@@ -817,7 +953,9 @@ clearosr:
         pop     bc
         pop     de
         pop     hl
+        pop     af
         ret
+
 
 cls:
         push    af
@@ -838,7 +976,6 @@ gamestep:
         jp      readinput
 
 
-
 waitkey:
         call    gamestep
         ld      a,(select)
@@ -848,7 +985,6 @@ waitkey:
         cp      1
         jr      nz,waitkey
         ret
-
 
 
 waitkeytimeout:
@@ -870,13 +1006,6 @@ waitkeytimeout:
 
 _timeout:
         .byte   0
-
-;-------------------------------------------------------------------------------
-
-PE: ; program end
-
-        .include        StackWRX.asm
-
 
 ;-------------------------------------------------------------------------------
 
@@ -914,6 +1043,12 @@ berlin:
 
 soundEn:
         .byte   $ff
+
+;-------------------------------------------------------------------------------
+
+AA_PE: ; program end
+
+        .include        StackWRX.asm
 
 ;-------------------------------------------------------------------------------
 

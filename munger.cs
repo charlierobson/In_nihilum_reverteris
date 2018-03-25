@@ -300,9 +300,9 @@ namespace testapp1
 
                 chapterdat.Add($"\tPAGE\t${o:x2}");
                 o += screenLines;
-                if (textBytes[3 * o] == 0) {
-                    ++o;
-                }
+//                if (textBytes[3 * o] == 0) {
+  //                  ++o;
+    //            }
                 ++pn;
             }
             while (o < lc);

@@ -39,12 +39,15 @@ RASTER_STACK:
 		.word	ADDR
 		ADDR = ADDR + SCREEN_WIDTH_BYTES
 	.loop
-RASTER_STACK_POST:
+RASTER_STACK_OSL:
 	.repeat 12
 		.word	ADDR
 		ADDR = ADDR + SCREEN_WIDTH_BYTES
 	.loop
-RASTER_STACK_END:
+RASTER_STACK_BUFFER:
+	.repeat 12
+		.word	0
+	.loop
 
 ;--------------------------------
 ;sync to screen update
