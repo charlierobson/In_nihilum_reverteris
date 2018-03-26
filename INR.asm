@@ -122,21 +122,18 @@ _gochap:
 
         call    scrollup
 
-        xor     a                       ; start at page 0
-        call    trysetpage
-
         xor     a                       ; disable jumps until they're rendered
         ld      (jmpA),a
         ld      (jmpB),a
         ld      (jmpC),a
 
         ld      b,SCREENLINES           ; render up to this many lines
-        ld      hl,(page)               ; begin the beguine
+        ld      hl,$8000                ; begin the beguine
 
 _nextline:
         push    bc
         push    hl
-        call    renderline
+        call    renderline 
         pop     hl
         inc     hl
         inc     hl
@@ -146,8 +143,6 @@ _nextline:
 
         ld      a,0
         ld      (startlinenum),a
-        ld      a,17
-        ld      (endlinenum),a
 
         ;
 
@@ -299,43 +294,6 @@ _templn=$+1
 
 
 
-beginpage:
-        ld      l,(hl)                  ; get offset into page line structure
-        ld      h,0
-        ld      e,l
-        ld      d,$80
-        add     hl,hl
-        add     hl,de                   ; * 3
-        ld      (page),hl               ; points to line list structure
-        ret
-
-
-trysetpage:
-        cp      $ff             ; page of -1 no allowed
-        ret     z
-
-        ld      (_tempage),a    ; self modify
-
-        ; get pointer to start relevant page table entry
-        ; a <- page number
-        ; hl -> offset into page data
-
-        ld      hl,(chapter)            ; pointer to page info in chapter metadata chp_1, chp_K etc
-        ld      d,0
-        ld      e,a
-        add     hl,de
-
-        ld      a,(hl)          ; end of chapter marked with ffff
-        cp      $ff
-        ret     z
-
-_tempage=$+1
-        ld      a,-1            ; self modified
-        ld      (pagenum),a
-        call    beginpage       ; store calculated values in memory
-        or      $ff             ; clear z flag to indicate success
-        ret
-
 
 renderline:
         ld      b,(hl)                  ; line character count
@@ -349,7 +307,6 @@ renderline:
         call    clearosr
 
         or      h                       ; line ptr is 0? if so we're done
-        ld      (morelines),a
         jp      z,scrollup
 
         xor     a                       ; char count 0 = newline
@@ -407,26 +364,13 @@ _line2:
 
 chapnum:
         .byte   0
-chapter:
-        .word   0
 chappic:
         .byte   0
-        
-pagenum:
-        .byte   0
-page:
-        .word   0
 
 linenum:
         .byte   0
 
 startlinenum:
-        .byte   0
-
-endlinenum:
-        .byte   0
-
-morelines:
         .byte   0
 
 jtab = $
@@ -465,8 +409,6 @@ loadchapter:
         ldi
         ldi
         ldi
-
-        ld      (chapter),hl            ; finally make pointer to page start line offsets
 
         ld      a,(chapnum)
         jp      wadLoad
@@ -893,7 +835,7 @@ scrollupone:
 
         ld      hl,RASTER_STACK+2
         ld      de,RASTER_STACK
-        ld      bc,(192+12+1)*2
+        ld      bc,(192+LINEHEIGHTPIX+1)*2
         ldir
 
         pop     bc
@@ -912,12 +854,12 @@ scrollup12:
 
         ld      hl,RASTER_STACK         ; cache the first on-screen scanline pointer
         ld      de,RASTER_STACK_BUFFER
-        ld      bc,12*2
+        ld      bc,LINEHEIGHTPIX*2
         ldir
 
-        ld      hl,RASTER_STACK+(12*2)  ; move the stack, post and buffer up
+        ld      hl,RASTER_STACK+(LINEHEIGHTPIX*2)  ; move the stack, post and buffer up
         ld      de,RASTER_STACK
-        ld      bc,(192+12+12)*2
+        ld      bc,(192+LINEHEIGHTPIX+LINEHEIGHTPIX)*2
         ldir
 
         pop     bc
@@ -935,17 +877,17 @@ scrolldown:
 
         ld      hl,RASTER_STACK_OSL     ; cache the first on-screen scanline pointer
         ld      de,RASTER_STACK_BUFFER
-        ld      bc,12*2
+        ld      bc,LINEHEIGHTPIX*2
         ldir
 
         ld      hl,RASTER_STACK_OSL-1   ; move the stack down
-        ld      de,RASTER_STACK_OSL+(12*2)-1
-        ld      bc,(192+12)*2
+        ld      de,RASTER_STACK_OSL+(LINEHEIGHTPIX*2)-1
+        ld      bc,(192+LINEHEIGHTPIX)*2
         lddr
 
         ld      hl,RASTER_STACK_BUFFER
         ld      de,RASTER_STACK
-        ld      bc,12*2
+        ld      bc,LINEHEIGHTPIX*2
         ldir
 
         pop     bc
@@ -955,7 +897,7 @@ scrolldown:
 
 
 ; RASTER_STACK                     RASTER_STACK_OSL   RASTER_STACK_BUFFER
-; 192*2                            12*2               12*2
+; 192*2                            LINEHEIGHTPIX*2    LINEHEIGHTPIX*2
 ; 000 001 .. 012 013 ... 190 191   [192 193 .. 203]   [204 ... 215]
 ;                                  [000        011]   [000 ... 011]
 ; de         hl
@@ -970,7 +912,7 @@ clearosr:
         ld      l,e
         ld      (hl),0
         inc     de
-        ld      bc,32*12-1
+        ld      bc,32*LINEHEIGHTPIX-1
         ldir
         pop     bc
         pop     de
@@ -986,7 +928,7 @@ cls:
         ld      (y),a
         ld	hl,screen
 	ld      de,screen+1
-	ld      bc,32*(192+12)
+	ld      bc,32*(192+LINEHEIGHTPIX)
 	ld      (hl),a
 	ldir
         pop     af

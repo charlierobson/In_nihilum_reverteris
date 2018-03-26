@@ -10,6 +10,7 @@ namespace testapp1
     public class Program
     {
         private const int screenLines = 16;
+        private const int lineHeightPix = 192/screenLines;
 
         private int _jumpIdx;
         private Dictionary<byte, string> chardict;
@@ -205,7 +206,6 @@ namespace testapp1
 
             var chapterdat = new List<string>();
 
-            chapterdat.Add(".define PAGE .byte");
             chapterdat.Add(".define JUMP .byte");
             chapterdat.Add(".define BMAP .byte");
 
@@ -226,6 +226,7 @@ namespace testapp1
             chapterdat.Clear();
             chapterdat.Add("SPC_WIDTH .equ 4");
             chapterdat.Add("TAB_WIDTH .equ 16");
+            chapterdat.Add($"LINEHEIGHTPIX .equ {lineHeightPix}");
             chapterdat.Add($"LOWDATSTART .equ $3A00");
             chapterdat.Add($"SCREENLINES .equ {screenLines}");
             File.WriteAllLines("codegen/global.inc", chapterdat);
@@ -248,6 +249,7 @@ namespace testapp1
             chapterdat.Add($"\tJUMP\t${jumps[chapterName][0]:x2}, ${jumps[chapterName][1]:x2}, ${jumps[chapterName][2]:x2}");
 
             var n = 0;
+            var lc = 0;
             var curStash = 0x230;
             var cursor = curStash;
             var lastBreak = curStash;
@@ -275,48 +277,18 @@ namespace testapp1
                 textBytes[n++] = (byte)(lastBreak-curStash);
                 textBytes[n++] = (byte)(curStash & 255);
                 textBytes[n++] = (byte)(curStash / 256);
-
- //               var ll = GetString(textBytes.Skip(curStash).Take(lastBreak-curStash).ToArray());
-//                LogV($"{lastBreak-curStash,2}  {ll}\n");
-
-  //              if ((n/3) % screenLines == 0) {
-    //                LogV("--------------------\n");
-      //          }
-
+                lc++;
                 curStash = lastBreak + 1;
                 cursor = curStash;
                 lastBreak = cursor;
             }
             while(textBytes[lastBreak - 1] != 0);
 
-            var lc = n / 3;
-            var o = 0;
-            var pn = 0;
-        
-            do {
-                LogV($"-- Page {pn} ----------------------------\n");
-                for (int i = 0; i < screenLines; ++i) {
-                    int nn = textBytes[3 * (o+i)];
-                    int ppt = textBytes[3 * (o+i) + 1] + 256 * textBytes[3 * (o+i) + 2];
-                    var ll = GetString(textBytes.Skip(ppt).Take(nn).ToArray());
-                    LogV($"{nn,2}  {ll}\n");
-                }
-
-                chapterdat.Add($"\tPAGE\t${o:x2}");
-                o += screenLines;
-//                if (textBytes[3 * o] == 0) {
-  //                  ++o;
-    //            }
-                ++pn;
-            }
-            while (o < lc);
-
-            chapterdat.Add($"\tPAGE\t-1");
-
-            if (_maxLines < lc) {
+            if (lc > _maxLines) {
                 _maxLines = lc;
             }
-            LogV($"\nLines: {lc}, max {_maxLines}\n");
+            LogV($"\nLines: {lc}  max: {_maxLines}");
         }
+
     }
 }
