@@ -15,7 +15,6 @@
 ; $BF -  H, J, K, L, NL   6
 ; $7F -  B, N, M, ., SP   7
 ;
-
 ; input state data:
 ;
 ; joystick bit, or $ff/%11111111 for no joy
@@ -23,28 +22,28 @@
 ; key mask, or $ff/%11111111 for no key
 ; trigger impulse
 
-
-
 inputstates:
-    .byte	%10000000,4,%00001000,0        ; up      (7)
-    .byte	%01000000,4,%00010000,0        ; down    (6)
-    .byte	%11111111,1,%00000010,0        ; sound   (S)
-    .byte	%11111111,7,%00000100,0        ; right   (M)
-    .byte	%00001000,6,%00000001,0        ; select  (NL)
+    .byte	%10000000,4,%00001000,0        ; lineup      (7)
+    .byte	%01000000,4,%00010000,0        ; linedown    (6)
+    .byte	%00100000,3,%00010000,0        ; pageup      (5)
+    .byte	%00010000,4,%00000100,0        ; pagedown    (8)
+    .byte	%11111111,1,%00000010,0        ; sound       (S)
+    .byte	%00001000,6,%00000001,0        ; select      (NL)
     .byte	%11111111,1,%00000001,0        ; A
     .byte	%11111111,7,%00010000,0        ; B
     .byte	%11111111,0,%00001000,0        ; C
 
 
 ; calculate actual input impulse addresses
-up      = inputstates + 3
-down    = inputstates + 7
-sound   = inputstates + 11
-right   = inputstates + 15
-select  = inputstates + 19
-btnA    = inputstates + 23
-btnB    = inputstates + 27
-btnC    = inputstates + 31
+lineup   = inputstates + 3
+linedown = inputstates + 7
+pageup   = inputstates + 11
+pagedown = inputstates + 15
+sound    = inputstates + 19
+select   = inputstates + 23
+btnA     = inputstates + 27
+btnB     = inputstates + 31
+btnC     = inputstates + 35
 
 ; kbin is filled by the display interrupt
 
@@ -75,6 +74,7 @@ readinput:
     call    updateinputstate ; (down)
     call    updateinputstate ;  etc.
     call    updateinputstate ;
+    call    updateinputstate
     call    updateinputstate
     call    updateinputstate
     call    updateinputstate

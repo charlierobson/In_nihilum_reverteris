@@ -149,17 +149,7 @@ _nextline:
 _mainloop:
         call    gamestep
 
-        ; cheatmode ------------
-        ld      a,(right)
-        cp      1
-        jr      nz,{+}
-        ld      a,(chapnum)
-        inc     a
-        ld      a,20
-        ld      (chapnum),a
-        jp      _newchapter
-+:
-        ; ------------ cheatmode
+        call    flashindicator
 
         ld      a,(sound)
         cp      1
@@ -170,27 +160,45 @@ _mainloop:
         ld      (soundEn),a
         call    z,mute_stc
 
-_tu:    ld      a,(up)
+_tu:    ld      a,(lineup)
         cp      1
         jr      z,{+}
         cp      $ff
 +:      call    z,_linereverse
 
-_td:    ld      a,(down)
+_td:    ld      a,(linedown)
         cp      1
         jr      z,{+}
         cp      $ff
 +:      call    z,_lineforward
 
-_tp:    ld      a,(select)
+_tpd:   ld      a,(pagedown)
         cp      1
-        jr      nz,_tja
+        jr      z,{+}
+        ld      a,(select)
+        cp      1
+        jr      nz,_tpu
 
-        ld      b,10
++:      ld      b,SCREENLINES
 -:      push    bc
         call    _lineforward
         pop     bc
         djnz    {-}
+        call    toplineisblank
+        call    z,_lineforward
+
+_tpu:   ld      a,(pageup)
+        cp      1
+        jr      nz,_tja
+
+_nxpage:
+        ld      b,SCREENLINES
+-:      push    bc
+        call    _linereverse
+        pop     bc
+        djnz    {-}
+        call    toplineisblank
+        call    z,_linereverse
 
 _tja:   call    lastlinetest
         jr      nz,_mainloop
@@ -222,13 +230,15 @@ _tjc:   ld      a,(btnC)
         jp      z,_mainloop
 
 _newchapter:
+        call    clearindicator
         ld      (chapnum),a
         jp      _gochap
 
 
+; z set if last line
 lastlinetest:
         ld      a,(startlinenum)
-        add     a,16
+        add     a,SCREENLINES
         ld      l,a             ; hl => line data
         ld      h,0
         ld      d,$80
@@ -260,6 +270,19 @@ _linereverse:
         jp      scrolldown
 
 
+; z set if line blank
+toplineisblank:
+        ld      a,(startlinenum)
+        ld      l,a             ; hl => line data
+        ld      h,0
+        ld      d,$80
+        ld      e,l
+        add     hl,hl
+        add     hl,de
+        ld      a,(hl)          ; OR together the char count and line pointers
+        or      a
+        ret
+
 
 tryshowline:
         cp      $ff             ; page of -1 no allowed
@@ -286,6 +309,8 @@ tryshowline:
 _templn=$+1
         ld      a,-1            ; self modified
         ld      (startlinenum),a
+
+        call    clearindicator
 
         call    renderline2     ; hl is data ptr
 
@@ -434,6 +459,16 @@ showpic:
 
         jp      waitkey
 
+
+;-------------------------------------------------------------------------------
+;
+.module cu
+;
+flashindicator:
+        ret
+
+clearindicator:
+        ret
 
 ;-------------------------------------------------------------------------------
 ;
@@ -945,7 +980,7 @@ waitkey:
         ld      a,(select)
         cp      1
         ret     z
-        ld      a,(down)
+        ld      a,(pagedown)
         cp      1
         jr      nz,waitkey
         ret
@@ -959,7 +994,7 @@ waitkeytimeout:
         ld      a,(select)
         cp      1
         ret     z                       ; zero set, carry clear
-        ld      a,(down)
+        ld      a,(pagedown)
         cp      1
         ret     z                       ; zero set, carry clear
         ld      a,(_timeout)
