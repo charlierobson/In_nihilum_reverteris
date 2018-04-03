@@ -73,7 +73,7 @@ namespace testapp1
         private byte[] xlat(string x) {
             var bytes = Encoding.ASCII.GetBytes(x);
             List<byte> outbytes = new List<byte>();
-            outbytes.AddRange(new byte[0x230]);
+            outbytes.AddRange(new byte[0x240]);
 
             var italic = false;
             foreach(var b in bytes) {
@@ -99,7 +99,45 @@ namespace testapp1
         {
             var chapters = new Dictionary<string, string>();
 
-            var rawMD = File.ReadAllLines("converted.md");
+            var rawMDl = File.ReadAllLines("converted.md").ToList();
+            rawMDl.Add("");
+            rawMDl.Add("M");
+            rawMDl.Add("");
+            rawMDl.Add("");
+            rawMDl.Add("In Nihilum Reverteris");
+            rawMDl.Add("");
+            rawMDl.Add("An Interactive Novel");
+            rawMDl.Add("");
+            rawMDl.Add("By Yerzmyey");
+            rawMDl.Add("");
+            rawMDl.Add("");
+            rawMDl.Add("");
+            rawMDl.Add("");
+            rawMDl.Add("");
+            rawMDl.Add("");
+            rawMDl.Add("");
+            rawMDl.Add("");
+            rawMDl.Add("");
+            rawMDl.Add("");
+            rawMDl.Add("Press New Line");
+            rawMDl.Add("Story by Yerzmyey");
+            rawMDl.Add("");
+            rawMDl.Add("Coding by Sir Morris");
+            rawMDl.Add("");
+            rawMDl.Add("Display driver by Adam Klotblixt");
+            rawMDl.Add("STC player by Andy Rea");
+            rawMDl.Add("");
+            rawMDl.Add("");
+            rawMDl.Add("");
+            rawMDl.Add("");
+            rawMDl.Add("Cursor keys - page / line navigation");
+            rawMDl.Add("New Line - advance past images");
+            rawMDl.Add("A/B/C choose destination");
+            rawMDl.Add("S - toggle silence");
+            rawMDl.Add("");
+            rawMDl.Add("Press \\[1");
+            var rawMD = rawMDl.ToArray();
+
             var charWidthsN = File.ReadAllBytes("textgamefont-widths.bin");
             var charWidthsI = File.ReadAllBytes("textgamefont-i-widths.bin");
 
@@ -130,6 +168,7 @@ namespace testapp1
                 raw = raw.Replace(" *without Judith", "* without Judith");
                 raw = raw.Replace("“You could well be right...” he sighed.", "*“You could well be right...” he sighed.*");
                 raw = raw.Replace("at any momen", "at any momen\x0a\x0a\\[1");
+                raw = raw.Replace("of Andera", "of Abdera");
 
                 var match = chapterMatcher.Match(raw);
                 if (match.Success) {
@@ -173,7 +212,7 @@ namespace testapp1
                 var matches = new Regex(@"\\\[(?<cid>\S)").Matches(chapters[chapterName]);
                 foreach (Match match in matches)
                 {
-                    var cn2idx = "0123456789ABCDEFGHIJKL";
+                    var cn2idx = "0123456789ABCDEFGHIJKLM";
                     var target = match.Groups["cid"].Value;
                     var intidx = cn2idx.IndexOf(target);
                     jumpData.Add(intidx);
@@ -182,6 +221,7 @@ namespace testapp1
                     jumpData.Add(0xff);                    
                 }
                 jumps[chapterName] = jumpData.ToArray();
+
 
                 chapters[chapterName] = Regex.Replace(chapters[chapterName], @"\\\]", "");
 
@@ -236,21 +276,21 @@ namespace testapp1
         {
             LogV($"\n-------------- CHAPTER - {chapterName} --------------\n");
 
-            var cn2idx = "0123456789ABCDEFGHIJKL";
+            var cn2idx = "0123456789ABCDEFGHIJKLM";
             var intidx = cn2idx.IndexOf(chapterName);
             chapterdat.Add($"chp_{intidx}:  ;  {chapterName}");
 
-            var bm2idx = "01589DEFHK";
+            var bm2idx = "01589DEFHKM";
             intidx = bm2idx.IndexOf(chapterName);
             chapterdat.Add($"\tBMAP\t{File.Exists($"bmp/{chapterName}.pbm") ? intidx : -1}");
-            if (chapterName == "K") {
-                jumps[chapterName][0] = 1; // restart
-            }
+        //    if (chapterName == "K") {
+        //        jumps[chapterName][0] = 1; // restart
+        //    }
             chapterdat.Add($"\tJUMP\t${jumps[chapterName][0]:x2}, ${jumps[chapterName][1]:x2}, ${jumps[chapterName][2]:x2}");
 
             var n = 0;
             var lc = 0;
-            var curStash = 0x230;
+            var curStash = 0x240;
             var cursor = curStash;
             var lastBreak = curStash;
 

@@ -41,12 +41,13 @@ cpI = 18
 cpJ = 19
 cpK = 20
 cpL = 21
+cpM = 22
 
 chapterptrs:
 	.word	chp_0,  chp_1,  chp_2,  chp_3,  chp_4,  chp_5
 	.word	chp_6,  chp_7,  chp_8,  chp_9,  chp_10, chp_11
 	.word	chp_12, chp_13, chp_14, chp_15, chp_16, chp_17
-	.word	chp_18, chp_19, chp_20, chp_21
+	.word	chp_18, chp_19, chp_20, chp_21, chp_22
 
     .include "codegen/chapterdat.asm"
 

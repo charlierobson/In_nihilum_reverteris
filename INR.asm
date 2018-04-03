@@ -80,40 +80,21 @@ AA_PS: ; program start
 
         call    initwad
 
-        ld      a,$20                   ; lowdat
+        ld      a,$22                   ; lowdat
         call    wadload
         ld      hl,$8000
         ld      de,LOWDATSTART
         ld      bc,$4000-LOWDATSTART
         ldir
 
-        ld      hl,titletext1
-        call    centreTextOut
-        ld      hl,titletext2
-        call    centreTextOut
-        ld      hl,titletext3
-        call    centreTextOut
-        ld      hl,titletext4
-        call    centreTextOut
-
         ld      hl,berlin
         call    INIT_STC
 
--:      call    waitkeytimeout          ; times out after approx 5 seconds
-        jr      nc,_begin
-        
-        ld      hl,titletext5           ; prompt
-        call    centreTextOut
-        jr      {-}
-
 _begin:
-        ld      hl,slocalcraster
-        ld      (slocalc),hl
-
         ld      a,$ff                   ; music on, show title picture
         ld      (soundEn),a
 
-        ld      a,1                     ; prepare for first chapter
+        ld      a,22                    ; prepare for first chapter
         ld      (chapnum),a
 
 _gochap:
@@ -122,7 +103,7 @@ _gochap:
 
         call    scrollup
 
-        xor     a                       ; disable jumps until they're rendered
+        xor     a                       ; disable jumps until the last line is on screen
         ld      (jmpA),a
         ld      (jmpB),a
         ld      (jmpC),a
@@ -230,12 +211,19 @@ _tjc:   ld      a,(btnC)
         jp      z,_mainloop
 
 _newchapter:
-        call    clearindicator
         ld      (chapnum),a
+        call    clearindicator
         jp      _gochap
 
 
-; z set if last line
+; z set if first line at top of screen
+firstlinetest:
+        ld      a,(startlinenum)
+        or      a
+        ret
+
+
+; z set if last line is at bottom of screen
 lastlinetest:
         ld      a,(startlinenum)
         add     a,SCREENLINES
@@ -390,7 +378,7 @@ _line2:
 chapnum:
         .byte   0
 chappic:
-        .byte   0
+        .byte   $ff
 
 linenum:
         .byte   0
@@ -439,20 +427,25 @@ loadchapter:
         jp      wadLoad
 
 
+;-------------------------------------------------------------------------------
+
+
 showpic:
-        add     a,$16
+        add     a,$17                   ; start of images in wad
         call    wadLoad
 
         ld      hl,$8032                ; image data pointer
-        ld      b,192
+        ld      b,192/4
 
 -:      push    bc                      ; save loop count
 
+        call    WAIT_SCREEN
+
         ld      de,(RASTER_STACK_OSL)   ; copy a line of image into first off-screen scanline
-        ld      bc,32
+        ld      bc,32*4
         ldir
 
-        call    scrollupone
+        call    scrollup4
 
         pop     bc                      ; loop counter
         djnz    {-}
@@ -465,59 +458,48 @@ showpic:
 .module cu
 ;
 flashindicator:
+        push    af
+        push    hl
+        push    de
+        call    firstlinetest
+        ld      hl,(RASTER_STACK)
+        call    nz,_indic
+        call    lastlinetest
+        ld      hl,(RASTER_STACK_OSL-2)
+        call    nz,_indic
+        pop     de
+        pop     hl
+        pop     af
         ret
 
 clearindicator:
+        push    af
+        push    hl
+        push    de
+        xor     a
+        ld      hl,(RASTER_STACK)
+        call    {+}
+        ld      hl,(RASTER_STACK_OSL-2)
+        call    {+}
+        pop     de
+        pop     hl
+        pop     af
+        ret
+
+_indic: xor     a
+        ld      a,(frameCounter)
+        and     32
+        jr      z,{+}
+        ld      a,$2a
++:      ld      de,31
+        add     hl,de
+        ld      (hl),a
         ret
 
 ;-------------------------------------------------------------------------------
 ;
 .module co
 ;
--:      inc     hl
-
-        call    extcharout
-
-textout:
-        ld      a,(hl)
-        and     a
-        jr      nz,{-}
-        ret
-
-
-
-centretextout:
-        ld      a,(hl)                  ; set Y
-        ld      (y),a
-
-        ld      c,0
-        ld      d,widths / 256
-
-        inc     hl
-        push    hl                      ; stash string pointer for rendering later
-        jr      measurestring
-
--:      ld      e,a                     ; get char width and accumulate it
-        ld      a,(de)
-        add     a,c
-        ld      c,a
-        inc     hl
-
-measurestring:
-        ld      a,(hl)
-        cp      0
-        jr      nz,{-}
-
-        dec     c
-        srl     c
-        ld      a,128
-        sub     c
-        ld      (x),a
-
-        pop     hl
-        jp      textout
-
-
 extcharout:
         cp      $20
         jr      nz,_notspc
@@ -615,8 +597,7 @@ charout:
 
         ; calculate screen line offset
         ;
-slocalc = $+1
-        call    slocalcy
+        ld      de,(RASTER_STACK_OSL)
 
         ; calculate glyph pixel offset
         ;
@@ -694,26 +675,6 @@ _shift: srl     a
         djnz    _advance
 
         jr      updatex
-
-
-
-slocalcy:
-        push    hl
-        ld      a,(y)
-        add     a,a
-        add     a,linestarts & 255
-        ld      l,a
-        ld      h,linestarts / 256
-        ld      a,(hl)
-        inc     hl
-        ld      d,(hl)
-        ld      e,a
-        pop     hl
-        ret
-
-slocalcraster:
-        ld      de,(RASTER_STACK_OSL)
-        ret
 
 ;-------------------------------------------------------------------------------
 ;
@@ -860,17 +821,19 @@ wadLoad:
 ;
 .module misc
 ;
-scrollupone:
+scrollup4:
         push    hl
         push    de
         push    bc
 
-        ld      hl,(RASTER_STACK)       ; cache the first on-screen scanline pointer
-        ld      (RASTER_STACK_BUFFER),hl
+        ld      hl,RASTER_STACK         ; cache the first on-screen scanline pointer
+        ld      de,RASTER_STACK_BUFFER
+        ld      bc,4*2
+        ldir
 
-        ld      hl,RASTER_STACK+2
+        ld      hl,RASTER_STACK+(4*2)  ; move the stack, post and buffer up
         ld      de,RASTER_STACK
-        ld      bc,(192+LINEHEIGHTPIX+1)*2
+        ld      bc,(192+LINEHEIGHTPIX+4)*2
         ldir
 
         pop     bc
@@ -1008,17 +971,6 @@ _timeout:
 
 ;-------------------------------------------------------------------------------
 
-titletext1:
-        .byte   5, "In Nihilum Reverteris",0
-titletext2:
-        .byte   8, "An Interactive Novel",0
-titletext3:
-        .byte   10, "By Yerzmyey",0
-titletext4:
-        .byte   12, "H-Prg 2018",0
-titletext5:
-        .byte   16, "Press New Line",0
-
 font:
         .incbin textgamefont.bin
         .incbin textgamefont-i.bin
@@ -1027,7 +979,7 @@ wadfile:
         .byte   $2e,$33,$37,$1b,$3c,$26,$29+$80     ; INR.WAD
 
 wadptrs:
-    .include "codegen/wad.asm"
+        .include "codegen/wad.asm"
 
 ;-------------------------------------------------------------------------------
 
