@@ -80,40 +80,24 @@ AA_PS: ; program start
 
         call    initwad
 
-        ld      a,$20                   ; lowdat
+        ld      a,$22                   ; lowdat
         call    wadload
         ld      hl,$8000
         ld      de,LOWDATSTART
         ld      bc,$4000-LOWDATSTART
         ldir
 
-        ld      hl,titletext1
-        call    centreTextOut
-        ld      hl,titletext2
-        call    centreTextOut
-        ld      hl,titletext3
-        call    centreTextOut
-        ld      hl,titletext4
-        call    centreTextOut
-
         ld      hl,berlin
         call    INIT_STC
 
--:      call    waitkeytimeout          ; times out after approx 5 seconds
-        jr      nc,_begin
-        
-        ld      hl,titletext5           ; prompt
-        call    centreTextOut
-        jr      {-}
-
 _begin:
-        ld      hl,slocalcraster
-        ld      (slocalc),hl
+      ;  ld      hl,slocalcraster
+       ; ld      (slocalc),hl
 
         ld      a,$ff                   ; music on, show title picture
         ld      (soundEn),a
 
-        ld      a,1                     ; prepare for first chapter
+        ld      a,22                    ; prepare for first chapter
         ld      (chapnum),a
 
 _gochap:
@@ -230,12 +214,19 @@ _tjc:   ld      a,(btnC)
         jp      z,_mainloop
 
 _newchapter:
-        call    clearindicator
         ld      (chapnum),a
+        call    clearindicator
         jp      _gochap
 
 
-; z set if last line
+; z set if first line at top of screen
+firstlinetest:
+        ld      a,(startlinenum)
+        or      a
+        ret
+
+
+; z set if last line is at bottom of screen
 lastlinetest:
         ld      a,(startlinenum)
         add     a,SCREENLINES
@@ -390,7 +381,7 @@ _line2:
 chapnum:
         .byte   0
 chappic:
-        .byte   0
+        .byte   $ff
 
 linenum:
         .byte   0
@@ -440,7 +431,7 @@ loadchapter:
 
 
 showpic:
-        add     a,$16
+        add     a,$17                   ; start of images in wad
         call    wadLoad
 
         ld      hl,$8032                ; image data pointer
@@ -465,9 +456,42 @@ showpic:
 .module cu
 ;
 flashindicator:
+        push    af
+        push    hl
+        push    de
+        call    firstlinetest
+        ld      hl,(RASTER_STACK)
+        call    nz,_indic
+        call    lastlinetest
+        ld      hl,(RASTER_STACK_OSL-2)
+        call    nz,_indic
+        pop     de
+        pop     hl
+        pop     af
         ret
 
 clearindicator:
+        push    af
+        push    hl
+        push    de
+        xor     a
+        ld      hl,(RASTER_STACK)
+        call    {+}
+        ld      hl,(RASTER_STACK_OSL-2)
+        call    {+}
+        pop     de
+        pop     hl
+        pop     af
+        ret
+
+_indic: xor     a
+        ld      a,(frameCounter)
+        and     32
+        jr      z,{+}
+        ld      a,$2a
++:      ld      de,31
+        add     hl,de
+        ld      (hl),a
         ret
 
 ;-------------------------------------------------------------------------------

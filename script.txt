@@ -20,6 +20,7 @@ md/I.mdx
 md/J.mdx
 md/K.mdx
 md/L.mdx
+md/M.mdx
 bmp/0START.pbm
 bmp/1.pbm
 bmp/5.pbm
@@ -30,4 +31,5 @@ bmp/E.pbm
 bmp/F.pbm
 bmp/H.pbm
 bmp/K.pbm
+bmp/M.pbm
 lowdata.bin
