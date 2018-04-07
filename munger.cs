@@ -152,12 +152,15 @@ namespace testapp1
             while (line < rawMD.Length) {
                 var raw = rawMD[line];
 
+if(raw.Contains("*")){
+    Console.WriteLine(raw);
+}
                 raw = raw.Replace("<span id=\"anchor\"></span>", "");
                 raw = raw.Replace(@"\!", "!");
+                raw = raw.Replace(@"*    *", "                       # # #\x0a\x0a\\[1");
                 raw = raw.Replace(@"\*", "*");
+                raw = raw.Replace("* * *", "                       # # #");
                 raw = raw.Replace("tooth.* *", "tooth.");
-                raw = raw.Replace("* * *", "                 # # #");
-                raw = raw.Replace("*    *", "#    #");
                 raw = raw.Replace("fickly-fiddle-dee-dee", "fickly-fiddle-dee- dee");
                 raw = raw.Replace("facto *escape", "facto* escape");
                 raw = raw.Replace("*fauna *and", "*fauna* and");
@@ -167,7 +170,6 @@ namespace testapp1
                 raw = raw.Replace("only *one *Testament!", "only *one* Testament!");
                 raw = raw.Replace(" *without Judith", "* without Judith");
                 raw = raw.Replace("“You could well be right...” he sighed.", "*“You could well be right...” he sighed.*");
-                raw = raw.Replace("at any momen", "at any momen\x0a\x0a\\[1");
                 raw = raw.Replace("of Andera", "of Abdera");
 
                 var match = chapterMatcher.Match(raw);
