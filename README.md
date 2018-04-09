@@ -6,7 +6,7 @@
 * Commit in the converted text.
 * [Check the converted text](https://github.com/charlierobson/textgame/blob/master/converted.md)
 * Run converted text through the parser - take the text and generates a file per chapter block
-  * exmeta.py converted.md
+  * mono munger.exe
 * Commit the text blocks.
 * UTF-8 characters found are dumped so that suitable font entries and conversion code can be made.
   * Compare list to Table 1. Update table if required.
@@ -14,7 +14,11 @@
 Todo:  
 * Compile images, music, text sections into WAD
 * Just write a player
-  
+  * Something hires
+  * With proportional font
+  * That scrolls entire hires screens as fast as lores
+  * While playing music
+  * Showing bitmapped images inline with the text
   
 #### Table 1
 | UTF-8 character | Hex code stream |
