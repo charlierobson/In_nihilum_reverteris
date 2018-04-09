@@ -152,9 +152,6 @@ namespace testapp1
             while (line < rawMD.Length) {
                 var raw = rawMD[line];
 
-if(raw.Contains("*")){
-    Console.WriteLine(raw);
-}
                 raw = raw.Replace("<span id=\"anchor\"></span>", "");
                 raw = raw.Replace(@"\!", "!");
                 raw = raw.Replace(@"*    *", "                       # # #\x0a\x0a\\[1");

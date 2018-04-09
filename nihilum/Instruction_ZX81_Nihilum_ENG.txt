@@ -1,0 +1,33 @@
+(C) 2018 by H-PRG.
+
+"In nihilum reverteris" - another text-game / interactive novel by Yerzmyey. 
+Platform: ZX81 with ZXpand interface.
+
+
+*******
+TO USE ZXPAND COMMANDER TO START THE GAME - PLEASE PUT ALL FILES IN THE **ROOT** FOLDER!!!
+*******
+
+Controls: 
+8 and NewLine (ENTER) for PAGE DOWN - next page. Also: to skip the pictures. 
+5 for PAGE UP (previous page).
+6 & 7 (cursors UP/DOWN) scroll the text UP/DOWN.
+A,B,C as "ACTION KEYS" - at the appropriate time to advance to the next chapter.
+S - music ON/OFF. 
+
+Text, music and graphic by Yerzmyey/H-PRG. 
+Code and fonts by SirMorris. 
+Scrolling WRX driver by Adam Kloxblit.
+STC player by Andy Rea.
+English language help - Gasman/H-PRG. 
+
+Scientific consultation (physics and mathematics) - Dr. Engineer Hellboj. 
+Moral support - Piotr Marecki. 
+
+
+***IT'S NOT LITERATURE - IT'S THE DEMOSCENE***
+
+
+Translation into English language has been fully sponsored by Yerzmyey.
+
+This publication has been financed within a program of the Polish Minister of Science and Higher Education under the name "National Program for the Development of Humanities" in 2016-2019 (number 0020/NPRH4/H2b/83/2016).

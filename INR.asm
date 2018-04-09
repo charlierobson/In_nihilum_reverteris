@@ -90,6 +90,12 @@ AA_PS: ; program start
         ld      hl,berlin
         call    INIT_STC
 
+        ld      b,100
+-:      call    WAIT_SCREEN             ; allow time for TV to sync so first part of music is not cut off
+        djnz    {-}
+
+        call    cls
+
 _begin:
         ld      a,$ff                   ; music on, show title picture
         ld      (soundEn),a
