@@ -304,6 +304,7 @@ namespace testapp1
 
             do
             {
+                var brokenByNL = false;
                 var x = 0;
                 while (x < 255)
                 {
@@ -313,9 +314,11 @@ namespace testapp1
                         lastx = x;
                     }
                     if (b == 10) {
+                        brokenByNL = true;
                         break;
                     }
                     if (b == 0) {
+                        brokenByNL = true;
                         break;
                     }
                     x += charWidths[textBytes[cursor] & 0x7f] + 1;
@@ -324,7 +327,7 @@ namespace testapp1
 
                 var pads = 0;
                 var lineBytes = textBytes.Skip(curStash).Take(lastBreak-curStash).ToArray();
-                if (lineBytes.Length > 0) {
+                if (!brokenByNL && lineBytes.Length > 0) {
                     lineString = Encoding.ASCII.GetString(lineBytes, 0, lineBytes.Length);
 
                     // could use word count to pad spaces to justify text?

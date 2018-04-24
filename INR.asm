@@ -355,7 +355,9 @@ _emptyline:
 
 renderline2:
         ld      b,(hl)                  ; line character count
-
+        inc     hl
+        ld      a,(hl)                  ; line character count
+        ld      (widths),a
         inc     hl                      ; line ptr
         ld      a,(hl)
         inc     hl
@@ -513,7 +515,9 @@ extcharout:
         jr      nz,_notspc
 
         ld      a,(x)
-        add     a,SPC_WIDTH
+        ld      b,a
+        ld      a,(widths)
+        add     a,b
         ld      (x),a
         ret
 
