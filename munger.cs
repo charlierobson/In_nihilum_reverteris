@@ -9,6 +9,9 @@ namespace testapp1
 {
     public class Program
     {
+        const int spcwidth = 4;
+        const int linedatbufsize = 0x300;
+
         private const int screenLines = 16;
         private const int lineHeightPix = 192/screenLines;
 
@@ -73,7 +76,7 @@ namespace testapp1
         private byte[] xlat(string x) {
             var bytes = Encoding.ASCII.GetBytes(x);
             List<byte> outbytes = new List<byte>();
-            outbytes.AddRange(new byte[0x240]);
+            outbytes.AddRange(new byte[linedatbufsize]);
 
             var italic = false;
             foreach(var b in bytes) {
@@ -90,6 +93,9 @@ namespace testapp1
             }
             return outbytes.ToArray();
         }
+
+        private int _maxn = 0;
+
 
         private int _maxLines;
         private byte[] charWidths;
@@ -263,7 +269,7 @@ namespace testapp1
             File.WriteAllLines("codegen/chapterdat.asm", chapterdat);
 
             chapterdat.Clear();
-            chapterdat.Add("SPC_WIDTH .equ 4");
+            chapterdat.Add("SPC_WIDTH .equ " + spcwidth);
             chapterdat.Add("TAB_WIDTH .equ 16");
             chapterdat.Add($"LINEHEIGHTPIX .equ {lineHeightPix}");
             chapterdat.Add($"LOWDATSTART .equ $3A00");
@@ -289,9 +295,12 @@ namespace testapp1
 
             var n = 0;
             var lc = 0;
-            var curStash = 0x240;
+            var curStash = linedatbufsize;
             var cursor = curStash;
             var lastBreak = curStash;
+            var lastx = 0;
+
+            var lineString = "";
 
             do
             {
@@ -301,6 +310,7 @@ namespace testapp1
                     byte b = textBytes[cursor];
                     if (b == 32 || b == 10 || b == 0) {
                         lastBreak = cursor;
+                        lastx = x;
                     }
                     if (b == 10) {
                         break;
@@ -312,11 +322,31 @@ namespace testapp1
                     ++cursor;
                 }
 
+                var pads = 0;
+                var lineBytes = textBytes.Skip(curStash).Take(lastBreak-curStash).ToArray();
+                if (lineBytes.Length > 0) {
+                    lineString = Encoding.ASCII.GetString(lineBytes, 0, lineBytes.Length);
+
+                    // could use word count to pad spaces to justify text?
+                    var wordCount = lineString.Trim(new char[]{(char)0x09}).Split().Length;
+                    var padw = 255 - lastx;
+                    if (wordCount > 1)
+                        pads = (int)(padw / (wordCount - 1));
+                }
+
                 // line runs from curstash -> lastBreak
                 textBytes[n++] = (byte)(lastBreak-curStash);
+                textBytes[n++] = (byte)(pads + spcwidth);
                 textBytes[n++] = (byte)(curStash & 255);
                 textBytes[n++] = (byte)(curStash / 256);
+                if (n >= linedatbufsize) {
+                    throw new Exception("not enough data padding");
+                }
+                if (n > _maxn) {
+                    _maxn = n;
+                }
                 lc++;
+
                 curStash = lastBreak + 1;
                 cursor = curStash;
                 lastBreak = cursor;

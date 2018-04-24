@@ -125,6 +125,7 @@ _nextline:
         inc     hl
         inc     hl
         inc     hl
+        inc     hl
         pop     bc
         djnz    _nextline
 
@@ -235,11 +236,11 @@ lastlinetest:
         add     a,SCREENLINES
         ld      l,a             ; hl => line data
         ld      h,0
-        ld      d,$80
-        ld      e,l
         add     hl,hl
-        add     hl,de
+        add     hl,hl
+        set     7,h
         ld      a,(hl)          ; OR together the char count and line pointers
+        inc     hl
         inc     hl
         or      (hl)
         inc     hl
@@ -269,11 +270,10 @@ toplineisblank:
         ld      a,(startlinenum)
         ld      l,a             ; hl => line data
         ld      h,0
-        ld      d,$80
-        ld      e,l
         add     hl,hl
-        add     hl,de
-        ld      a,(hl)          ; OR together the char count and line pointers
+        add     hl,hl
+        set     7,h
+        ld      a,(hl)          ; char count
         or      a
         ret
 
@@ -286,13 +286,13 @@ tryshowline:
         add     a,b             ; offset
         ld      l,a             ; hl => line data
         ld      h,0
-        ld      d,$80
-        ld      e,l
         add     hl,hl
-        add     hl,de
+        add     hl,hl
+        set     7,h
 
         push    hl
         ld      a,(hl)          ; OR together the char count and line pointers
+        inc     hl
         inc     hl
         or      (hl)
         inc     hl
@@ -316,7 +316,9 @@ _templn=$+1
 
 renderline:
         ld      b,(hl)                  ; line character count
-
+        inc     hl                      ; line ptr
+        ld      a,(hl)
+        ld      (widths),a
         inc     hl                      ; line ptr
         ld      a,(hl)
         inc     hl

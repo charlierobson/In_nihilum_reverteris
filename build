@@ -1,4 +1,4 @@
-mkdir codegen
+mkdir -p codegen
 
 mcs munger.cs
 mcs wadder.cs
